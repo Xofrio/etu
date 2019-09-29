@@ -19,11 +19,11 @@ int getValue() {
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf() -> in_avail());
 			cout << endl << "Попробуйте ввести корректное число: ";
 		}
 		else {
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 	}
@@ -35,11 +35,11 @@ int getIndex(int elements_count) {
 		cin >> userNumber;
 		if (cin.fail() || userNumber < 0 || userNumber >= elements_count) {
 			cin.clear();
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf() -> in_avail());
 			cout << endl << "Попробуйте ввести корректный индекс (от 0 до " << elements_count - 1 << "): ";
 		}
 		else {
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf() -> in_avail());
 			return userNumber;
 		}
 	}
@@ -51,11 +51,11 @@ int getMenuOption() {
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf() -> in_avail());
 			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 9): ";
 		}
 		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9) {
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf() -> in_avail());
 			return userNumber;
 		}
 		else
@@ -69,11 +69,11 @@ int getSubMenuOption() {
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf() -> in_avail());
 			cout << endl << "Попробуйте ввести корректную опцию (от 1 до 5): ";
 		}
 		else if (userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5) {
-			cin.ignore(32767, '\n');
+			cin.ignore(cin.rdbuf() -> in_avail());
 			return userNumber;
 		}
 		else
@@ -85,7 +85,7 @@ char getMethod() {
 	while (true) {
 		char method;
 		cin >> method;
-		cin.ignore(32767, '\n');
+		cin.ignore(cin.rdbuf() -> in_avail());
 		if (method == 'B' || method == 'b' || method == 'S' || method == 's' || method == 'C' || method == 'c' || method == 'I' || method == 'i' || method == 'Q' || method == 'q')
 			return method;
 		else
@@ -97,7 +97,7 @@ char getOption() {
 	while (true) {
 		char option;
 		cin >> option;
-		cin.ignore(32767, '\n');
+		cin.ignore(cin.rdbuf() -> in_avail());
 		if (option == 'D' || option == 'd' || option == 'I' || option == 'i' || option == 'F' || option == 'f')
 			return option;
 		else

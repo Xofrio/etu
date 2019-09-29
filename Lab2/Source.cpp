@@ -474,7 +474,6 @@ int main() {
 }
 /*
 So-called problems:
-1. User cin. Should try rdbuf()->in.avail() instead of cin.clear cin.ignore(32767, "\n");
-2. Variant No.5 What does it mean "make it symmetric"? Generate new? Or make a new algorithm that manipulates numbers somehow???????????;
+1. Variant No.5 What does it mean "make it symmetric"? hmm...;
 //Сделайте массив симметричным. Пользователь может менять значения элементов массива, при этом симметричность не должна нарушаться;
 */
