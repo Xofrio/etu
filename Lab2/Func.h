@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <ctime>
 #include <chrono>
 
@@ -60,6 +60,24 @@ int getMenuOption() {
 		}
 		else
 			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 9): ";
+	}
+}
+
+int getSubMenuOption() {
+	while (true) {
+		int userNumber;
+		cin >> userNumber;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(32767, '\n');
+			cout << endl << "Попробуйте ввести корректную опцию (от 1 до 5): ";
+		}
+		else if (userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5) {
+			cin.ignore(32767, '\n');
+			return userNumber;
+		}
+		else
+			cout << endl << "Попробуйте ввести корректную опцию (от 1 до 5): ";
 	}
 }
 
@@ -199,32 +217,68 @@ int forth(int *A, int index, int count) {
 	return count;
 }
 
-int backIndex(int *A, int *B, int index, int count, int &index2) {
+int backIndex(int *A, int &index, int count) {
 	while (A[index] == A[index - 1]) {
-		B[index2] = index;
 		--index;
 		++count;
-		++index2;
 	}
-	B[index2] = index;
 	return count;
 }
 
-int forthIndex(int *A, int *B, int index, int count, int &index2) {
+int forthIndex(int *A, int &index, int count) {
 	while (A[index] == A[index + 1]) {
-		B[index2] = index;
 		++index;
 		++count;
-		++index2;
 	}
-	B[index2] = index;
 	return count;
+}
+
+void fourthVariant(int *A, int count) {
+	int first = A[0], last = A[count - 1];
+	for (int i = 0; i < count; ++i) {
+		if (i == count - 1)
+			A[i] = first + last;
+		else
+			A[i] = A[i] + A[i + 1];
+	}
+	for (int i = 0; i < count; ++i)
+		swap(A[i], A[rand() % count]);
 }
 
 void thirdVariant(int *A, int count, int number) {
 	for (int i = 0; i < count; ++i) {
 		if (i % 2 == 1)
 			A[i] = (A[i] - number) * (rand() % 9 + 1);
+	}
+}
+
+void secondVariant(int *A, int count, int number) {
+	for (int i = 0; i < count; ++i) {
+		if (i % 2 == 0)
+			A[i] = (A[i] - number) * (rand() % 9 + 1);
+	}
+}
+
+void firstVariant(int *A, int *B, int *C, int count, int count2, int &countComparison) {
+	int index = 0;
+	for (int i = 0; i < count2; ++i) {
+		B[i] = A[i];
+	}
+	for (int i = count2; i < count; ++i) {
+		C[index] = A[i];
+		++index;
+	}
+	for (int i = 0; i < count2; ++i) {
+		if (i % 2 != 0)
+			swap(B[i], C[i - 1]);
+	}
+	for (int i = 0; i < count2; ++i) {
+		if (C[i] % 2 != 0)
+			C[i] = C[i] + 1;
+	}
+	for (int i = 0; i < count2; ++i) {
+		if (B[i] > C[i])
+			++countComparison;
 	}
 }
 
@@ -255,15 +309,24 @@ void searchMinMax(int *A, int count, int &min, int &max) {
 void Menu() {
 	cout << "Выберите опцию . . ." << endl;
 	cout << "0. Создать массив" << endl;
-	cout << "1. Сортировать массив" << endl;
-	cout << "2. Показать минимальный и максимальный элементы массива" << endl;
-	cout << "3. Показать количество элементов, равных среднему минимального и максимального элементов" << endl;
+	cout << "1. Отсортировать массив" << endl;
+	cout << "2. Показать минимум и максимум" << endl;
+	cout << "3. Показать количество элементов, равных среднему минимума и максимума" << endl;
 	cout << "4. Показать количество элементов, больших, чем заданное число" << endl;
 	cout << "5. Показать количество элементов, меньших, чем заданное число" << endl;
 	cout << "6. Удалить элемент, вставить элемент или найти значение" << endl;
 	cout << "7. Поменять элементы местами" << endl;
-	cout << "8. Уменьшить каждый нечётный элемент на число, затем умножить этот элемент на случайное число (от 1 до 9)" << endl;
+	cout << "8. Задание по вариантам" << endl;
 	cout << "9. Выйти" << endl;
+	cout << "Опция: ";
+}
+
+void subMenu() {
+	cout << "1. Первый вариант" << endl;
+	cout << "2. Второй вариант" << endl;
+	cout << "3. Третий вариант" << endl;
+	cout << "4. Четвёртый вариант" << endl;
+	cout << "5. Пятый вариант" << endl;
 	cout << "Опция: ";
 }
 
