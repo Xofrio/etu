@@ -1,96 +1,122 @@
-﻿#include "Func.h"
+#include "Func.h"
 
 int main() {
-	char option;
 	setlocale(0, "");
-	cout << "1, 2. Какое число нужно представить в двоичной системе? " << endl << endl;
-	cout << "I(i) - int, S(s) - short int, U(u) - unsigned int, F(f) - float, D(d) - double: ";
-	option = getOption();
-	switch (option) {
-	case 'I': case 'i': {
-		int number;
-		cout << endl << "Введите число от -2147483648 до 2147483647: ";
-		number = getInt();
-		cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-		intInterpretation(number);
-		break;
-	}
-	case 'S': case 's': {
-		short number;
-		cout << endl << "Введите число от -32768 до 32767: ";
-		number = getShort();
-		cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-		shortInterpretation(number);
-		break;
-	}
-	case 'U': case 'u': {
-		unsigned number;
-		cout << endl << "Введите число от 0 до 4294967295: ";
-		number = getUnsigned();
-		cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-		unsignedInterpretation(number);
-		break;
-	}
-	case 'F': case 'f': {
-		float number;
-		cout << endl << "Введите число от 1.175494351e-38 до 3.402823466e+38: ";
-		number = getFloat();
-		cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-		break;
-	}
-	case 'D': case 'd': {
-		double number;
-		cout << endl << "Введите число от -2.2250738585072014e-308 до 1.7976931348623158e+308: ";
-		number = getDouble();
-		cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+	int menuOption;
+	bool condition = 1;
+	char option;
+	while (condition) {
+		Menu();
+		menuOption = getMenuOption();
+		switch (menuOption) {
+		case 0: {
+			cout << "Выберите тип числа, чтобы отобразить его двоичное представление в памяти ЭВМ" << endl;
+			cout << "I(i) - int, S(s) - short int, U(u) - unsigned int, F(f) - float, D(d) - double: ";
+			option = getOption();
+			switch (option) {
+			case 'I': case 'i': {
+				int number = getInt();
+				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+				intInterpretation(number);
+				break;
+			}
+			case 'S': case 's': {
+				short number = getShort();
+				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+				shortInterpretation(number);
+				break;
+			}
+			case 'U': case 'u': {
+				unsigned number = getUnsigned();
+				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+				unsignedInterpretation(number);
+			}
+			case 'F': case 'f': {
+				float number = getFloat();
+				bool digits[32];
+				floatInterpretation(number, digits);
+				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+				floatOutput(digits);
+				break;
+			}
+			case 'D': case 'd': {
+				double number = getDouble();
+				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+				break;
+			}
+			}
+			break;
+		}
+		case 1: {
+			cout << endl << endl << "Выберите тип числа, биты которого нужно инвертировать" << endl;
+			cout << "I(i) - int, S(s) - short int, U(u) - unsigned int, F(f) - float, D(d) - double: ";
+			option = getOption();
+			switch (option) {
+			case 'I': case 'i': {
+				int number = getInt();
+				cout << endl << "Двоичное представление числа " << number << ":" << endl;
+				intInterpretation(number);
+				cout << endl << "Инверcия всех битов:" << endl << endl;
+				intInterpretation(~number);
+				break;
+			}
+			case 'S': case 's': {
+				short number = getShort();
+				cout << endl << "Двоичное представление числа " << number << ":" << endl;
+				shortInterpretation(number);
+				cout << endl << "Инверcия всех битов:" << endl << endl;
+				shortInterpretation(~number);
+				break;
+			}
+			case 'U': case 'u': {
+				unsigned number = getUnsigned();
+				cout << endl << "Двоичное представление числа " << number << ":" << endl;
+				unsignedInterpretation(number);
+				cout << endl << "Инверcия всех битов:" << endl << endl;
+				unsignedInterpretation(~number);
+				break;
+			}
+			case 'F': case 'f': {
+				float number = getFloat();
+				bool digits[32];
+				floatInterpretation(number, digits);
+				cout << endl << "Двоичное представление числа " << number << ":" << endl;
+				floatOutput(digits);
+				for (int i = 0; i < 32; ++i) {
+					if (digits[i] == 0)
+						digits[i] = 1;
+					else
+						digits[i] = 0;
+				}
+				cout << endl << "Инверсия всех битов:" << endl << endl;
+				floatOutput(digits);
+				break;
+			}
+			case 'D': case 'd': {
+				double number = getDouble();
 
-		break;
-	}
-	}
-	cout << endl << endl << "3. Какое число нужно представить в двоичной системе и затем инвертировать?" << endl << endl;
-	cout << "I(i) - int, S(s) - short int, U(u) - unsigned int, F(f) - float, D(d) - double: ";
-	option = getOption();
-	switch (option) {
-	case 'I': case 'i': {
-		int number;
-		cout << endl << "Введите число от -2147483648 до 2147483647: ";
-		number = getInt();
-		cout << endl << "Инвертированное число " << number << ", представленное в двоичной системе (" << ~ number << "):" << endl << endl;
-		intInterpretation(~ number);
-		break;
-	}
-	case 'S': case 's': {
-		short number;
-		cout << endl << "Введите число от -32768 до 32767: ";
-		number = getShort();
-		cout << endl << "Инвертированное число " << number << ", представленное в двоичной системе (" << ~number << "):" << endl << endl;
-		shortInterpretation(~ number);
-		break;
-	}
-	case 'U': case 'u': {
-		unsigned number;
-		cout << endl << "Введите число от 0 до 4294967295: ";
-		number = getUnsigned();
-		cout << endl << "Инвертированное число " << number << ", представленное в двоичной системе (" << ~number << "):" << endl << endl;
-		unsignedInterpretation(~ number);
-		break;
-	}
-	case 'F': case 'f': {
-		float number;
-		cout << endl << "Введите число от 1.175494351e-38 до 3.402823466e+38: ";
+				cout << endl << "Двоичное представление числа " << number << ":" << endl;
 
-		break;
-	}
-	case 'D': case 'd': {
-		double number;
-		cout << endl << "Введите число от -2.2250738585072014e-308 до 1.7976931348623158e+308: ";
+				break;
+			}
+			}
+			break;
+		}
+		case 2: {
+			cout << endl;
+			condition = 0;
+			break;
+		}
+		}
 
-		break;
 	}
-	}
-	cout << endl << endl;
 	system("pause");
 	return 0;
 }
-/*float, double. При выводе необходимо визуально обозначить знаковый разряд мантиссы, знаковый разряд порядка (если есть),мантиссу и порядок;
-setprecision, чтобы установить сколько знаков вы хотите вывести. */
+/*Problems:
+1). double. При выводе необходимо визуально обозначить знаковый разряд мантиссы,
+знаковый разряд порядка (если есть),мантиссу и порядок;
+2) exponential input;
+3) if in float/double input, should limit 'em somehow;
+4) Should try to make more variants.
+*/
