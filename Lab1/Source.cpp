@@ -27,9 +27,10 @@ int main() {
 				break;
 			}
 			case 'U': case 'u': {
-				unsigned number = getUnsigned();
+				unsigned long number = getUnsigned();
 				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
 				unsignedInterpretation(number);
+				break;
 			}
 			case 'F': case 'f': {
 				float number = getFloat();
@@ -41,7 +42,12 @@ int main() {
 			}
 			case 'D': case 'd': {
 				double number = getDouble();
+				bool *digits = 0;
+				int position = 64;
+				digits = new bool[position];
 				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+				doubleInterpretation(number, digits, position);
+				doubleOutput(digits);
 				break;
 			}
 			}
@@ -69,7 +75,7 @@ int main() {
 				break;
 			}
 			case 'U': case 'u': {
-				unsigned number = getUnsigned();
+				unsigned long number = getUnsigned();
 				cout << endl << "Двоичное представление числа " << number << ":" << endl;
 				unsignedInterpretation(number);
 				cout << endl << "Инверcия всех битов:" << endl << endl;
@@ -94,10 +100,20 @@ int main() {
 			}
 			case 'D': case 'd': {
 				double number = getDouble();
-
-				cout << endl << "Двоичное представление числа " << number << ":" << endl;
-
-				break;
+				bool *digits = 0;
+				int position = 64;
+				digits = new bool[position];
+				doubleInterpretation(number, digits, position);
+				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
+				doubleOutput(digits);
+				for (int i = 0; i < 64; ++i) {
+					if (digits[i] == 0)
+						digits[i] = 1;
+					else
+						digits[i] = 0;
+				}
+				cout << endl << "Инверсия всех битов:" << endl << endl;
+				doubleOutput(digits);
 			}
 			}
 			break;
@@ -114,9 +130,6 @@ int main() {
 	return 0;
 }
 /*Problems:
-1). double. При выводе необходимо визуально обозначить знаковый разряд мантиссы,
-знаковый разряд порядка (если есть),мантиссу и порядок;
-2) exponential input;
-3) if in float/double input, should limit 'em somehow;
-4) Should try to make more variants.
+1) if in float/double input, and, of course, UNSIGNED(!!!!!!!)should limit 'em somehow;
+2) Should try to make more variants.
 */
