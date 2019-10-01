@@ -38,23 +38,18 @@ int main() {
 				method = getMethod();
 				switch (method) {
 				case 'B': case 'b': bubbleSorting(arrayOfNumbers, elementsCount);
-					system("cls");
 					cout << endl << "Отсортированный массив (метод сортировки - Bubble):" << endl << endl;
 					break;
 				case 'S': case 's': cocktailSorting(arrayOfNumbers, elementsCount);
-					system("cls");
 					cout << endl << "Отсортированный массив (метод сортировки - Shaker):" << endl << endl;
 					break;
 				case 'C': case 'c': combSorting(arrayOfNumbers, elementsCount);
-					system("cls");
 					cout << endl << "Отсортированный массив (метод сортировки - Comb):" << endl << endl;
 					break;
 				case 'I': case 'i': insertionSorting(arrayOfNumbers, elementsCount);
-					system("cls");
 					cout << endl << "Отсортированный массив (метод сортировки - Insert):" << endl << endl;
 					break;
 				case 'Q': case 'q': quickSorting(arrayOfNumbers, 0, elementsCount - 1);
-					system("cls");
 					cout << endl << "Отсортированный массив (метод сортировки - Quick):" << endl << endl;
 					break;
 				}
@@ -453,7 +448,15 @@ int main() {
 						break;
 					}
 					case 5: {
-						//kek
+						short symmetry = fifthVariant(arrayOfNumbers, elementsCount);
+						if (symmetry == 2)
+							cout << endl << "Массив уже симметричен" << endl << endl;
+						else if (symmetry == 1) {
+							cout << endl << "Получился симметричный массив:" << endl << endl;
+							showArray(arrayOfNumbers, elementsCount);
+						}
+						else
+							cout << endl << "Не удалось получить симметричный массив." << endl << endl;
 						break;
 					}
 					}
@@ -472,8 +475,3 @@ int main() {
 	system("pause");
 	return 0;
 }
-/*
-So-called problems:
-1. Variant No.5 What does it mean "make it symmetric"? hmm...;
-//Сделайте массив симметричным. Пользователь может менять значения элементов массива, при этом симметричность не должна нарушаться;
-*/

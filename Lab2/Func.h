@@ -233,6 +233,109 @@ int forthIndex(int *A, int &index, int count) {
 	return count;
 }
 
+short fifthVariant(int *A, int count) {
+	int left = 0, right = count - 1;
+	int *B = new int[count];
+	for (int i = 0; i < count; ++i)
+		B[i] = A[i];
+	bool minIsNotFound = 1, maxIsNotFound = 1, symmetryNotAchieved = 1, symmetry = 0;
+	while (symmetryNotAchieved) {
+		int index1, index2;
+		while (minIsNotFound) {
+			bool cycleMinFail = 0, cycleMaxFail = 0;
+			int minimum = 100;
+			for (int i = left; i < right + 1; ++i) {
+				if (B[i] <= minimum) {
+					minimum = B[i];
+					index1 = i;
+				}
+			}
+			swap(B[left], B[index1]);
+			++left;
+			minimum = 100;
+			for (int i = right; i >= left; --i) {
+				if (B[i] <= minimum) {
+					minimum = B[i];
+					index2 = i;
+				}
+			}
+			swap(B[right], B[index2]);
+			--left;
+			if (B[left] == B[right]) {
+				if (right * 2 == count || (right - 1) * 2 + 1 == count) {
+					symmetry = 1;
+					symmetryNotAchieved = 0;
+				}
+				++left;
+				--right;
+			}
+			else {
+				swap(B[index2], B[right]);
+				swap(B[index1], B[left]);
+				cycleMinFail = 1;
+				while (maxIsNotFound) {
+					int maximum = -1;
+					for (int i = left; i < right + 1; ++i) {
+						if (B[i] >= maximum) {
+							maximum = B[i];
+							index1 = i;
+						}
+					}
+					swap(B[left], B[index1]);
+					++left;
+					maximum = -1;
+					for (int i = right; i >= left; --i) {
+						if (B[i] >= maximum) {
+							maximum = B[i];
+							index2 = i;
+						}
+					}
+					swap(B[right], B[index2]);
+					--left;
+					if (B[left] == B[right]) {
+						if (right * 2 == count || (right - 1) * 2 + 1 == count) {
+							symmetry = 1;
+							symmetryNotAchieved = 0;
+						}
+						++left;
+						--right;
+					}
+					else {
+						swap(B[index2], B[right]);
+						swap(B[index1], B[left]);
+						cycleMaxFail = 1;
+						maxIsNotFound = 0;
+					}
+				}
+			}
+			if (cycleMinFail == 1 && cycleMaxFail == 1)
+				minIsNotFound = 0;
+		}
+		symmetryNotAchieved = 0;
+	}
+	if (symmetry == 1) {
+		int comparison = 0;
+		for (int i = 0; i < count; ++i) {
+			if (A[i] == B[i])
+				++comparison;
+		}
+		if (comparison == count) {
+			delete[] B;
+			return 2;
+		}
+		else
+			for (int i = 0; i < count; ++i) {
+				A[i] = B[i];
+			}
+		delete[] B;
+		return 1;
+	}
+	else {
+		delete[] B;
+		return 0;
+	}
+}
+
 void fourthVariant(int *A, int count) {
 	int first = A[0], last = A[count - 1];
 	for (int i = 0; i < count; ++i) {
@@ -284,7 +387,7 @@ void firstVariant(int *A, int *B, int *C, int count, int count2, int &countCompa
 
 void generateArray(int *A, int count) {
 	for (int i = 0; i < count; ++i)
-		A[i] = rand() % 100;
+		A[i] = rand() % 3 + 1; //To demonstrate var. no. 5; was rand() % 100 ([0..99])
 }
 
 void showArray(int *A, int count) {
