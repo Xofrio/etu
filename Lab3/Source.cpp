@@ -49,7 +49,7 @@ int main() {
 			else if (square == 0 || rows == 1)
 				cout << "Необходимо создать квадратную матрицу порядка N, где N>=2" << endl << endl;
 			else {
-				orthonormal(arrayOfNumbers, rows);
+				orthogonal(arrayOfNumbers, rows);
 				cout << endl;
 			}
 			break;

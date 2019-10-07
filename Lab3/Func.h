@@ -61,7 +61,7 @@ bool getSubMenuOption() {
 	}
 }
 
-void orthonormal(double **A, int order) {
+void orthogonal(double **A, int order) {
 	int scalarPairs = 0, scalarSelf = 0;
 	for (int i = 0; i < order - 1; ++i) {
 		for (int k = i + 1; k < order; ++k) {
