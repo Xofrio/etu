@@ -138,41 +138,38 @@ int main() {
 				cout << endl;
 				swapMenu();
 				subMenuOption = getSubMenuOption();
+				system("cls");
 				switch (subMenuOption) {
 				case 0: {
-					cout << endl << "Изачальная матрица:" << endl << endl;
+					cout << "Изначальная матрица:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 0, 0);
 					swapClockwise(arrayOfNumbers, rows);
-					cout << endl << "Матрица, квадранты которой поменялись местами по часовой стрелке:" << endl << endl;
+					cout << "Матрица, квадранты которой поменялись местами по часовой стрелке:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 1, 0);
-					cout << endl;
 					break;
 				}
 				case 1: {
-					cout << endl << "Изачальная матрица:" << endl << endl;
+					cout << "Изначальная матрица:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 0, 1);
-					//swap x-x
-					cout << endl << "Матрица, квадранты которой поменялись местами крест-накрест:" << endl << endl;
+					swapCross(arrayOfNumbers, rows);
+					cout << "Матрица, квадранты которой поменялись местами крест-накрест:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 1, 1);
-					cout << endl;
 					break;
 				}
 				case 2: {
-					cout << endl << "Изачальная матрица:" << endl << endl;
+					cout << "Изначальная матрица:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 0, 2);
-					//swap updown
-					cout << endl << "Матрица, квадранты которой поменялись местами кверху дном:" << endl << endl;
+					swapUpsideDown(arrayOfNumbers, rows);
+					cout << "Матрица, квадранты которой поменялись местами кверху дном:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 1, 2);
-					cout << endl;
 					break;
 				}
 				case 3: {
-					cout << endl << "Изачальная матрица:" << endl << endl;
+					cout << "Изначальная матрица:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 0, 3);
-					//swap left-right
-					cout << endl << "Матрица, квадранты которой поменялись местами левой и правой стороной:" << endl << endl;
+					swapFromSideToSide(arrayOfNumbers, rows);
+					cout << "Матрица, квадранты которой поменялись местами левой и правой стороной:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 1, 3);
-					cout << endl;
 					break;
 				}
 				}
@@ -180,6 +177,37 @@ int main() {
 			break;
 		}
 		case 10: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка N, где N>=2" << endl << endl;
+			else {
+				cout << endl << "Необходимо создать вторую матрицу того же порядка, что и существующая (" << rows << ")." << endl << endl;
+				int **arrayOfNumbers2 = 0;
+				arrayMenu();
+				manual = getArrayMenuOption();
+				switch (manual) {
+				case 0: {
+					inputArray(arrayOfNumbers2, rows, columns);
+					break;
+				}
+				case 1: {
+					generateArray(arrayOfNumbers2, rows, columns);
+					break;
+				}
+				}
+				cout << endl << "Первая матрица:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				cout << "Вторая матрица:" << endl << endl;
+				showArray(arrayOfNumbers2, rows, columns);
+				newArray(arrayOfNumbers, arrayOfNumbers2, rows);
+				cout << "Матрица, полученная путём прибавления к элементам каждого столбца первой матрицы произведения элементов соответствующих строк второй матрицы:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				deleteArray(arrayOfNumbers2, rows, columns);
+			}
+			break;
+			}
+		case 11: {
 			cout << endl;
 			condition = 0;
 			break;
@@ -191,5 +219,7 @@ int main() {
 	return 0;
 }
 /* 1. Input from file
-   2. More variants
+   2. Shoulda make everythin' double + fix showArray function so it will show up double values properly (upper indexes gap must be wider) or not..?
+   3. Det and rank!!!
+   4. 3 variants to go.
 */
