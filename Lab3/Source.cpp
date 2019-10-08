@@ -161,7 +161,7 @@ int main() {
 					cout << endl << "Изачальная матрица:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 0, 2);
 					//swap updown
-					cout << endl << "Матрица, квадранты которой поменялись местами по часовой стрелке:" << endl << endl;
+					cout << endl << "Матрица, квадранты которой поменялись местами кверху дном:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 1, 2);
 					cout << endl;
 					break;
@@ -170,7 +170,7 @@ int main() {
 					cout << endl << "Изачальная матрица:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 0, 3);
 					//swap left-right
-					cout << endl << "Матрица, квадранты которой поменялись местами по часовой стрелке:" << endl << endl;
+					cout << endl << "Матрица, квадранты которой поменялись местами левой и правой стороной:" << endl << endl;
 					showFancyArray(arrayOfNumbers, rows, 1, 3);
 					cout << endl;
 					break;
