@@ -19,7 +19,7 @@ int getValue() {
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
-			cin.ignore(cin.rdbuf() -> in_avail());
+			cin.ignore(cin.rdbuf()->in_avail());
 			cout << endl << "Попробуйте ввести корректное число: ";
 		}
 		else {
@@ -35,11 +35,11 @@ int getIndex(int elements_count) {
 		cin >> userNumber;
 		if (cin.fail() || userNumber < 0 || userNumber >= elements_count) {
 			cin.clear();
-			cin.ignore(cin.rdbuf() -> in_avail());
+			cin.ignore(cin.rdbuf()->in_avail());
 			cout << endl << "Попробуйте ввести корректный индекс (от 0 до " << elements_count - 1 << "): ";
 		}
 		else {
-			cin.ignore(cin.rdbuf() -> in_avail());
+			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 	}
@@ -51,11 +51,11 @@ int getMenuOption() {
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
-			cin.ignore(cin.rdbuf() -> in_avail());
+			cin.ignore(cin.rdbuf()->in_avail());
 			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 9): ";
 		}
 		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9) {
-			cin.ignore(cin.rdbuf() -> in_avail());
+			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 		else
@@ -69,11 +69,11 @@ int getSubMenuOption() {
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
-			cin.ignore(cin.rdbuf() -> in_avail());
+			cin.ignore(cin.rdbuf()->in_avail());
 			cout << endl << "Попробуйте ввести корректную опцию (от 1 до 5): ";
 		}
 		else if (userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5) {
-			cin.ignore(cin.rdbuf() -> in_avail());
+			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 		else
@@ -85,7 +85,7 @@ char getMethod() {
 	while (true) {
 		char method;
 		cin >> method;
-		cin.ignore(cin.rdbuf() -> in_avail());
+		cin.ignore(cin.rdbuf()->in_avail());
 		if (method == 'B' || method == 'b' || method == 'S' || method == 's' || method == 'C' || method == 'c' || method == 'I' || method == 'i' || method == 'Q' || method == 'q')
 			return method;
 		else
@@ -97,7 +97,7 @@ char getOption() {
 	while (true) {
 		char option;
 		cin >> option;
-		cin.ignore(cin.rdbuf() -> in_avail());
+		cin.ignore(cin.rdbuf()->in_avail());
 		if (option == 'D' || option == 'd' || option == 'I' || option == 'i' || option == 'F' || option == 'f')
 			return option;
 		else
@@ -387,7 +387,7 @@ void firstVariant(int *A, int *B, int *C, int count, int count2, int &countCompa
 
 void generateArray(int *A, int count) {
 	for (int i = 0; i < count; ++i)
-		A[i] = rand() % 3 + 1; //To demonstrate var. no. 5; was rand() % 100 ([0..99])
+		A[i] = rand() % 4 + 1; //To demonstrate var. no. 5; was rand() % 100 ([0..99])
 }
 
 void showArray(int *A, int count) {
@@ -407,30 +407,6 @@ void searchMinMax(int *A, int count, int &min, int &max) {
 		if (A[i] > max)
 			max = A[i];
 	}
-}
-
-void Menu() {
-	cout << "Выберите опцию . . ." << endl;
-	cout << "0. Создать массив" << endl;
-	cout << "1. Отсортировать массив" << endl;
-	cout << "2. Показать минимум и максимум" << endl;
-	cout << "3. Показать количество элементов, равных среднему минимума и максимума" << endl;
-	cout << "4. Показать количество элементов, больших, чем заданное число" << endl;
-	cout << "5. Показать количество элементов, меньших, чем заданное число" << endl;
-	cout << "6. Удалить элемент, вставить элемент или найти значение" << endl;
-	cout << "7. Поменять элементы местами" << endl;
-	cout << "8. Задание по вариантам" << endl;
-	cout << "9. Выйти" << endl;
-	cout << "Опция: ";
-}
-
-void subMenu() {
-	cout << "1. Первый вариант" << endl;
-	cout << "2. Второй вариант" << endl;
-	cout << "3. Третий вариант" << endl;
-	cout << "4. Четвёртый вариант" << endl;
-	cout << "5. Пятый вариант" << endl;
-	cout << "Опция: ";
 }
 
 #endif

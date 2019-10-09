@@ -7,7 +7,18 @@ int main() {
 	char method;
 	bool condition = 1, sorted = 0, created = 0;
 	while (condition) {
-		Menu();
+		cout << "Выберите опцию . . ." << endl;
+		cout << "0. Создать массив" << endl;
+		cout << "1. Отсортировать массив" << endl;
+		cout << "2. Показать минимум и максимум" << endl;
+		cout << "3. Показать количество элементов, равных среднему минимума и максимума" << endl;
+		cout << "4. Показать количество элементов, больших, чем заданное число" << endl;
+		cout << "5. Показать количество элементов, меньших, чем заданное число" << endl;
+		cout << "6. Удалить элемент, вставить элемент или найти значение" << endl;
+		cout << "7. Поменять элементы местами" << endl;
+		cout << "8. Задание по вариантам" << endl;
+		cout << "9. Выйти" << endl;
+		cout << "Опция: ";
 		menuOption = getMenuOption();
 		switch (menuOption) {
 		case 0: {
@@ -25,10 +36,10 @@ int main() {
 					++comparison;
 			}
 			if (comparison == elementsCount - 1)
-					sorted = 1;
+				sorted = 1;
 			comparison = 0;
 			break;
-			}
+		}
 		case 1: {
 			if (created == 0 || elementsCount == 0) {
 				cout << endl << "Нет массива." << endl << endl;
@@ -65,7 +76,7 @@ int main() {
 			else if (sorted == 0) {
 				int min = 2147483647, max = ~min;
 				searchMinMax(arrayOfNumbers, elementsCount, min, max);
-				cout << endl <<"Минимум: " << min << " Максимум: " << max << endl << endl;
+				cout << endl << "Минимум: " << min << " Максимум: " << max << endl << endl;
 			}
 			else {
 				cout << endl << "Минимум: " << arrayOfNumbers[0] << " Максимум: " << arrayOfNumbers[elementsCount - 1] << endl << endl;
@@ -213,23 +224,23 @@ int main() {
 				method = getOption();
 				switch (method) {
 				case 'D': case 'd': {
-						cout << endl << "Введите номер элемента, который требуется удалить: ";
-						userNumber = getIndex(elementsCount);
-						int *arrayOfNumbers2 = new int[elementsCount - 1];
-						auto begin = chrono::steady_clock::now();
-						for (int i = 0; i < userNumber; ++i)
-							arrayOfNumbers2[i] = arrayOfNumbers[i];
-						for (int i = userNumber; i < elementsCount - 1; ++i)
-							arrayOfNumbers2[i] = arrayOfNumbers[i + 1];
-						auto end = chrono::steady_clock::now();
-						--elementsCount;
-						for (int i = 0; i < elementsCount; ++i)
-							arrayOfNumbers[i] = arrayOfNumbers2[i];
-						cout << endl << "Изменённый массив:" << endl << endl;
-						showArray(arrayOfNumbers, elementsCount);
-						cout << endl << "Время, затраченное на удаление: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl << endl;
-						delete[] arrayOfNumbers2;
-						break;
+					cout << endl << "Введите номер элемента, который требуется удалить: ";
+					userNumber = getIndex(elementsCount);
+					int *arrayOfNumbers2 = new int[elementsCount - 1];
+					auto begin = chrono::steady_clock::now();
+					for (int i = 0; i < userNumber; ++i)
+						arrayOfNumbers2[i] = arrayOfNumbers[i];
+					for (int i = userNumber; i < elementsCount - 1; ++i)
+						arrayOfNumbers2[i] = arrayOfNumbers[i + 1];
+					auto end = chrono::steady_clock::now();
+					--elementsCount;
+					for (int i = 0; i < elementsCount; ++i)
+						arrayOfNumbers[i] = arrayOfNumbers2[i];
+					cout << endl << "Изменённый массив:" << endl << endl;
+					showArray(arrayOfNumbers, elementsCount);
+					cout << endl << "Время, затраченное на удаление: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl << endl;
+					delete[] arrayOfNumbers2;
+					break;
 				}
 				case 'I': case 'i': {
 					cout << endl << "Введите номер элемента, на место которого нужно вставить новый элемент: ";
@@ -258,216 +269,221 @@ int main() {
 					break;
 				}
 				case 'F': case 'f': {
-						int *arrayOfNumbers2 = new int[elementsCount];
-						for (int i = 0; i < elementsCount; ++i)
-							arrayOfNumbers2[i] = 0;
-						cout << endl << "Введите искомое число: ";
-						userNumber = getValue();
-						if (sorted == 0) {
-							int count = 0, index2 = 0;
-							auto begin = chrono::steady_clock::now();
-							for (int i = 0; i < elementsCount; ++i) {
-								if (arrayOfNumbers[i] == userNumber) {
-									++count;
-									arrayOfNumbers2[index2] = i;
-									++index2;
-								}
+					int *arrayOfNumbers2 = new int[elementsCount];
+					for (int i = 0; i < elementsCount; ++i)
+						arrayOfNumbers2[i] = 0;
+					cout << endl << "Введите искомое число: ";
+					userNumber = getValue();
+					if (sorted == 0) {
+						int count = 0, index2 = 0;
+						auto begin = chrono::steady_clock::now();
+						for (int i = 0; i < elementsCount; ++i) {
+							if (arrayOfNumbers[i] == userNumber) {
+								++count;
+								arrayOfNumbers2[index2] = i;
+								++index2;
 							}
-							auto end = chrono::steady_clock::now();
-							if (count == 0)
-								cout << endl << "Нет таких элементов." << endl << endl;
-							else if (count == 1)
-								cout << endl << "Искомое число находится под индексом: " << arrayOfNumbers2[0] << endl << endl;
-							else {
-								cout << endl << "В массиве несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
-								cout << endl << "Они находятся под индексами: " << endl;
-								showArray(arrayOfNumbers2, count);
-								delete[] arrayOfNumbers2;
-								cout << endl;
-							}
-							cout << endl << "Время, затраченное на поиск: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl;
 						}
+						auto end = chrono::steady_clock::now();
+						if (count == 0)
+							cout << endl << "Нет таких элементов." << endl << endl;
+						else if (count == 1)
+							cout << endl << "Искомое число находится под индексом: " << arrayOfNumbers2[0] << endl << endl;
 						else {
-							auto begin = chrono::steady_clock::now();
-							desiredIndex = search(arrayOfNumbers, 0, elementsCount - 1, userNumber);
-							auto end = chrono::steady_clock::now();
-							if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex - 1]) {
-								cout << endl << "Искомое число находится под индексом: " << desiredIndex << endl << endl;
-							}
-							else if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex - 1]) {
-								int count = 0, indexLeft = desiredIndex;
-								count = forthIndex(arrayOfNumbers, desiredIndex, count);
-								++count;
-								cout << endl << "В массиве несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
-								cout << endl << "Они находятся под индексами с " << indexLeft << " по " << desiredIndex << endl << endl;
-							}
-							else if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex - 1]) {
-								int count = 0, indexRight = desiredIndex;
-								count = backIndex(arrayOfNumbers, desiredIndex, count);
-								++count;
-								cout << endl << "В массиве обнаружено несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
-								cout << endl << "Они находятся под индексами с " << desiredIndex << " по " << indexRight << endl << endl;
-							}
-							else if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex - 1]) {
-								int count = 0, desiredIndex2 = desiredIndex, indexLeft = 0, indexRight = 0;
-								count = backIndex(arrayOfNumbers, desiredIndex, count);
-								indexLeft = desiredIndex;
-								count = forthIndex(arrayOfNumbers, desiredIndex2, count);
-								indexRight = desiredIndex2;
-								++count;
-								cout << endl << "В массиве обнаружено несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
-								cout << endl << "Они находятся под индексами с " << indexLeft << " по " << indexRight << endl << endl;
-							}
-							else
-								cout << endl << "Такого числа в массиве нет." << endl << endl;
-							cout << endl << "Время, затраченное на поиск: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl;
+							cout << endl << "В массиве несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
+							cout << endl << "Они находятся под индексами: " << endl;
+							showArray(arrayOfNumbers2, count);
+							delete[] arrayOfNumbers2;
+							cout << endl;
 						}
-					break;
+						cout << endl << "Время, затраченное на поиск: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl;
 					}
+					else {
+						auto begin = chrono::steady_clock::now();
+						desiredIndex = search(arrayOfNumbers, 0, elementsCount - 1, userNumber);
+						auto end = chrono::steady_clock::now();
+						if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex - 1]) {
+							cout << endl << "Искомое число находится под индексом: " << desiredIndex << endl << endl;
+						}
+						else if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex - 1]) {
+							int count = 0, indexLeft = desiredIndex;
+							count = forthIndex(arrayOfNumbers, desiredIndex, count);
+							++count;
+							cout << endl << "В массиве несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
+							cout << endl << "Они находятся под индексами с " << indexLeft << " по " << desiredIndex << endl << endl;
+						}
+						else if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] != arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex - 1]) {
+							int count = 0, indexRight = desiredIndex;
+							count = backIndex(arrayOfNumbers, desiredIndex, count);
+							++count;
+							cout << endl << "В массиве обнаружено несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
+							cout << endl << "Они находятся под индексами с " << desiredIndex << " по " << indexRight << endl << endl;
+						}
+						else if (desiredIndex >= 0 && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex + 1] && arrayOfNumbers[desiredIndex] == arrayOfNumbers[desiredIndex - 1]) {
+							int count = 0, desiredIndex2 = desiredIndex, indexLeft = 0, indexRight = 0;
+							count = backIndex(arrayOfNumbers, desiredIndex, count);
+							indexLeft = desiredIndex;
+							count = forthIndex(arrayOfNumbers, desiredIndex2, count);
+							indexRight = desiredIndex2;
+							++count;
+							cout << endl << "В массиве обнаружено несколько элементов со значением " << userNumber << ", их количество равно: " << count << endl;
+							cout << endl << "Они находятся под индексами с " << indexLeft << " по " << indexRight << endl << endl;
+						}
+						else
+							cout << endl << "Такого числа в массиве нет." << endl << endl;
+						cout << endl << "Время, затраченное на поиск: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl;
+					}
+					break;
+				}
 				}
 			}
 			break;
 		}
-			case 7: {
-				if (created == 0 || elementsCount == 0) {
-					cout << endl << "Нет массива." << endl << endl;
+		case 7: {
+			if (created == 0 || elementsCount == 0) {
+				cout << endl << "Нет массива." << endl << endl;
+			}
+			else if (elementsCount == 1) {
+				cout << endl << "В массиве всего 1 элемент, замена бессмысленна." << endl << endl;
+			}
+			else {
+				cout << endl << "Введите номера элементов, которые следует поменять местами." << endl;
+				while (true) {
+					cout << endl << "Введите номер первого элемента: ";
+					userNumber = getIndex(elementsCount);
+					cout << endl << "Введите номер второго элемента: ";
+					userNumber2 = getIndex(elementsCount);
+					if (userNumber == userNumber2)
+						cout << endl << "Следует ввести два различных индекса. Попробуйте ещё раз." << endl << endl;
+					else
+						break;
 				}
-				else if (elementsCount == 1) {
-					cout << endl << "В массиве всего 1 элемент, замена бессмысленна." << endl << endl;
+				auto begin = chrono::steady_clock::now();
+				swap(&arrayOfNumbers[userNumber], &arrayOfNumbers[userNumber2]);
+				auto end = chrono::steady_clock::now();
+				cout << endl << "Изменённый массив:" << endl << endl;
+				showArray(arrayOfNumbers, elementsCount);
+				cout << endl << "Время, затраченное на обмен элементов массива: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl << endl;
+			}
+			break;
+		}
+		case 8: {
+			if (created == 0 || elementsCount == 0) {
+				cout << endl << "Нет массива." << endl << endl;
+			}
+			else {
+				cout << endl << "Выберите опцию . . ." << endl;
+				cout << "1. Первый вариант" << endl;
+				cout << "2. Второй вариант" << endl;
+				cout << "3. Третий вариант" << endl;
+				cout << "4. Четвёртый вариант" << endl;
+				cout << "5. Пятый вариант" << endl;
+				cout << "Опция: ";
+				menuOption = getSubMenuOption();
+				switch (menuOption) {
+				case 1: {
+					int *arrayOfNumbers2 = 0, *arrayOfNumbers3 = 0, elementsCount2, elementsCount3, countComparison = 0;
+					elementsCount2 = elementsCount / 2;
+					if (elementsCount2 * 2 == elementsCount)
+						elementsCount3 = elementsCount / 2;
+					else
+						elementsCount3 = elementsCount / 2 + 1;
+					arrayOfNumbers2 = new int[elementsCount2];
+					arrayOfNumbers3 = new int[elementsCount3];
+					firstVariant(arrayOfNumbers, arrayOfNumbers2, arrayOfNumbers3, elementsCount, elementsCount2, countComparison);
+					cout << endl << "Первый новый массив: " << endl << endl;
+					showArray(arrayOfNumbers2, elementsCount2);
+					cout << "Второй новый массив: " << endl << endl;
+					showArray(arrayOfNumbers3, elementsCount3);
+					if (countComparison == 0)
+						cout << "Нет элементов, которые больше в первом новом массиве, чем во втором новом массиве (попарное сравнение)." << endl << endl;
+					else
+						cout << "Количество элементов, которые больше в первом новом массиве, чем во втором новом массиве (попарное сравнение): " << countComparison << endl << endl;
+					break;
 				}
-				else {
-					cout << endl << "Введите номера элементов, которые следует поменять местами." << endl;
-					while (true) {
-						cout << endl << "Введите номер первого элемента: ";
-						userNumber = getIndex(elementsCount);
-						cout << endl << "Введите номер второго элемента: ";
-						userNumber2 = getIndex(elementsCount);
-						if (userNumber == userNumber2)
-							cout << endl << "Следует ввести два различных индекса. Попробуйте ещё раз." << endl << endl;
-						else
-							break;
-					}
-					auto begin = chrono::steady_clock::now();
-					swap(&arrayOfNumbers[userNumber], &arrayOfNumbers[userNumber2]);
-					auto end = chrono::steady_clock::now();
-					cout << endl << "Изменённый массив:" << endl << endl;
+				case 2: {
+					cout << endl << "Введите число, на которое уменьшится каждый чётный элемент: ";
+					userNumber = getValue();
+					secondVariant(arrayOfNumbers, elementsCount, userNumber);
+					cout << endl << "Массив, где каждый чётный элемент уменьшен на " << userNumber << " и умножен на случайное число от 1 до 9:" << endl << endl;
 					showArray(arrayOfNumbers, elementsCount);
-					cout << endl << "Время, затраченное на обмен элементов массива: " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() << " наносекунд" << endl << endl;
-				}
-				break;
-			}
-			case 8: {
-				if (created == 0 || elementsCount == 0) {
-					cout << endl << "Нет массива." << endl << endl;
-				}
-				else {
-					cout << endl;
-					subMenu();
-					menuOption = getSubMenuOption();
-					switch (menuOption) {
-					case 1: {
-						int *arrayOfNumbers2 = 0, *arrayOfNumbers3 = 0, elementsCount2, elementsCount3, countComparison = 0;
-						elementsCount2 = elementsCount / 2;
-						if (elementsCount2 * 2 == elementsCount)
-							elementsCount3 = elementsCount / 2;
-						else
-							elementsCount3 = elementsCount / 2 + 1;
-						arrayOfNumbers2 = new int[elementsCount2];
-						arrayOfNumbers3 = new int[elementsCount3];
-						firstVariant(arrayOfNumbers, arrayOfNumbers2, arrayOfNumbers3, elementsCount, elementsCount2, countComparison);
-						cout << endl << "Первый новый массив: " << endl << endl;
-						showArray(arrayOfNumbers2, elementsCount2);
-						cout << "Второй новый массив: " << endl << endl;
-						showArray(arrayOfNumbers3, elementsCount3);
-						if (countComparison == 0)
-							cout << "Нет элементов, которые больше в первом новом массиве, чем во втором новом массиве (попарное сравнение)." << endl << endl;
-						else
-							cout << "Количество элементов, которые больше в первом новом массиве, чем во втором новом массиве (попарное сравнение): " << countComparison << endl << endl;
-						break;
-					}
-					case 2: {
-						cout << endl << "Введите число, на которое уменьшится каждый чётный элемент: ";
-						userNumber = getValue();
-						secondVariant(arrayOfNumbers, elementsCount, userNumber);
-						cout << endl << "Массив, где каждый чётный элемент уменьшен на " << userNumber << " и умножен на случайное число от 1 до 9:" << endl << endl;
-						showArray(arrayOfNumbers, elementsCount);
-						int odd = 0, even = 0;
-						for (int i = 0; i < elementsCount; ++i) {
-							if (i % 2 == 0) {
-								if (arrayOfNumbers[i] % 2 == 0)
-									++even;
-							}
-							else if (i % 2 == 1) {
-								if (arrayOfNumbers[i] % 2 == 1)
-									++odd;
-							}
+					int odd = 0, even = 0;
+					for (int i = 0; i < elementsCount; ++i) {
+						if (i % 2 == 0) {
+							if (arrayOfNumbers[i] % 2 == 0)
+								++even;
 						}
-						if (even == 0)
-							cout << "Нет чётных элементов, имеющих чётные значения." << endl;
-						else
-							cout << endl << "Количество чётных элементов, имеющих чётные значения: " << even << endl;
-						if (odd == 0)
-							cout << "Нет нечётных элементов, имеющих нечётные значения." << endl << endl;
-						else
-							cout << "Количество нечётных элементов, имеющих нечётные значения: " << odd << endl << endl;
-						break;
-					}
-					case 3: {
-						cout << endl << "Введите число, на которое уменьшится каждый нечётный элемент: ";
-						userNumber = getValue();
-						thirdVariant(arrayOfNumbers, elementsCount, userNumber);
-						cout << endl << "Массив, где каждый нечётный элемент уменьшен на " << userNumber << " и умножен на случайное число от 1 до 9:" << endl << endl;
-						showArray(arrayOfNumbers, elementsCount);
-						int cnt2, cnt3, cnt4, cnt5, cnt6, cnt7, cnt8, cnt9;
-						cnt2 = cnt3 = cnt4 = cnt5 = cnt6 = cnt7 = cnt8 = cnt9 = 0;
-						for (int i = 0; i < elementsCount; ++i) {
-							if (arrayOfNumbers[i] % 2 == 0) ++cnt2;
-							if (arrayOfNumbers[i] % 3 == 0) ++cnt3;
-							if (arrayOfNumbers[i] % 4 == 0) ++cnt4;
-							if (arrayOfNumbers[i] % 5 == 0) ++cnt5;
-							if (arrayOfNumbers[i] % 6 == 0) ++cnt6;
-							if (arrayOfNumbers[i] % 7 == 0) ++cnt7;
-							if (arrayOfNumbers[i] % 8 == 0) ++cnt8;
-							if (arrayOfNumbers[i] % 9 == 0) ++cnt9;
+						else if (i % 2 == 1) {
+							if (arrayOfNumbers[i] % 2 == 1)
+								++odd;
 						}
-						cout << endl << "Количество элементов, делящихся на 1: " << elementsCount << endl;
-						cout << "Количество элементов, делящихся на 2: " << cnt2 << endl;
-						cout << "Количество элементов, делящихся на 3: " << cnt3 << endl;
-						cout << "Количество элементов, делящихся на 4: " << cnt4 << endl;
-						cout << "Количество элементов, делящихся на 5: " << cnt5 << endl;
-						cout << "Количество элементов, делящихся на 6: " << cnt6 << endl;
-						cout << "Количество элементов, делящихся на 7: " << cnt7 << endl;
-						cout << "Количество элементов, делящихся на 8: " << cnt8 << endl;
-						cout << "Количество элементов, делящихся на 9: " << cnt9 << endl << endl;
-						break;
 					}
-					case 4: {
-						fourthVariant(arrayOfNumbers, elementsCount);
-						cout << endl << "Массив, в котором значение текущего элемента было изменено на сумму текущего и следующего (последний элемент равен сумме последнего и первого), а также сделана 'обратная сортировка':" << endl;
-						showArray(arrayOfNumbers, elementsCount);
-						break;
-					}
-					case 5: {
-						short symmetry = fifthVariant(arrayOfNumbers, elementsCount);
-						if (symmetry == 2)
-							cout << endl << "Массив уже симметричен" << endl << endl;
-						else if (symmetry == 1) {
-							cout << endl << "Получился симметричный массив:" << endl << endl;
-							showArray(arrayOfNumbers, elementsCount);
-						}
-						else
-							cout << endl << "Не удалось получить симметричный массив." << endl << endl;
-						break;
-					}
-					}
+					if (even == 0)
+						cout << "Нет чётных элементов, имеющих чётные значения." << endl;
+					else
+						cout << endl << "Количество чётных элементов, имеющих чётные значения: " << even << endl;
+					if (odd == 0)
+						cout << "Нет нечётных элементов, имеющих нечётные значения." << endl << endl;
+					else
+						cout << "Количество нечётных элементов, имеющих нечётные значения: " << odd << endl << endl;
+					break;
 				}
-				break;
+				case 3: {
+					cout << endl << "Введите число, на которое уменьшится каждый нечётный элемент: ";
+					userNumber = getValue();
+					thirdVariant(arrayOfNumbers, elementsCount, userNumber);
+					cout << endl << "Массив, где каждый нечётный элемент уменьшен на " << userNumber << " и умножен на случайное число от 1 до 9:" << endl << endl;
+					showArray(arrayOfNumbers, elementsCount);
+					int cnt2, cnt3, cnt4, cnt5, cnt6, cnt7, cnt8, cnt9;
+					cnt2 = cnt3 = cnt4 = cnt5 = cnt6 = cnt7 = cnt8 = cnt9 = 0;
+					for (int i = 0; i < elementsCount; ++i) {
+						if (arrayOfNumbers[i] % 2 == 0) ++cnt2;
+						if (arrayOfNumbers[i] % 3 == 0) ++cnt3;
+						if (arrayOfNumbers[i] % 4 == 0) ++cnt4;
+						if (arrayOfNumbers[i] % 5 == 0) ++cnt5;
+						if (arrayOfNumbers[i] % 6 == 0) ++cnt6;
+						if (arrayOfNumbers[i] % 7 == 0) ++cnt7;
+						if (arrayOfNumbers[i] % 8 == 0) ++cnt8;
+						if (arrayOfNumbers[i] % 9 == 0) ++cnt9;
+					}
+					cout << endl << "Количество элементов, делящихся на 1: " << elementsCount << endl;
+					cout << "Количество элементов, делящихся на 2: " << cnt2 << endl;
+					cout << "Количество элементов, делящихся на 3: " << cnt3 << endl;
+					cout << "Количество элементов, делящихся на 4: " << cnt4 << endl;
+					cout << "Количество элементов, делящихся на 5: " << cnt5 << endl;
+					cout << "Количество элементов, делящихся на 6: " << cnt6 << endl;
+					cout << "Количество элементов, делящихся на 7: " << cnt7 << endl;
+					cout << "Количество элементов, делящихся на 8: " << cnt8 << endl;
+					cout << "Количество элементов, делящихся на 9: " << cnt9 << endl << endl;
+					break;
+				}
+				case 4: {
+					fourthVariant(arrayOfNumbers, elementsCount);
+					cout << endl << "Массив, в котором значение текущего элемента было изменено на сумму текущего и следующего (последний элемент равен сумме последнего и первого), а также сделана 'обратная сортировка':" << endl;
+					showArray(arrayOfNumbers, elementsCount);
+					break;
+				}
+				case 5: {
+					short symmetry = fifthVariant(arrayOfNumbers, elementsCount);
+					if (symmetry == 2)
+						cout << endl << "Массив уже симметричен" << endl << endl;
+					else if (symmetry == 1) {
+						cout << endl << "Получился симметричный массив:" << endl << endl;
+						showArray(arrayOfNumbers, elementsCount);
+					}
+					else
+						cout << endl << "Не удалось получить симметричный массив." << endl << endl;
+					break;
+				}
+				}
 			}
-			case 9: {
-				cout << endl;
-				condition = 0;
-				break;
-			}
+			break;
+		}
+		case 9: {
+			cout << endl;
+			condition = 0;
+			break;
+		}
 		}
 	}
 	delete[] arrayOfNumbers;
