@@ -32,18 +32,18 @@ int getMenuOption() {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 11): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 12): ";
 		}
-		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11) {
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12) {
 			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 		else
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 11): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 12): ";
 	}
 }
 
-bool getArrayMenuOption() {
+int getMiniMenuOption() {
 	while (true) {
 		int userNumber;
 		cin >> userNumber;
@@ -79,7 +79,7 @@ int getSubMenuOption() {
 	}
 }
 
-void orthogonal(int **A, int order) {
+void orthogonal(long double **A, int order) {
 	int scalarPairs = 0, scalarSelf = 0;
 	for (int i = 0; i < order - 1; ++i) {
 		for (int k = i + 1; k < order; ++k) {
@@ -103,7 +103,7 @@ void orthogonal(int **A, int order) {
 		cout << endl << "Матрица не ортонормированная" << endl;
 }
 
-void diagonalComposition(int **A, int order) {
+void diagonalComposition(long double **A, int order) {
 	double composition = 1;
 	int mid, countZero = 0;
 	if (order % 2 != 0)
@@ -163,8 +163,9 @@ void quickSortingForTwoArrays(int *A, int *B, int start, int end) {
 		quickSortingForTwoArrays(A, B, i, end);
 }
 
-void sortArray(int **A, int columns, int start, int end) {
-	int k = start, i = end, j = 0, tmp, separator = A[(start + end) / 2][j];
+void sortArray(long double **A, int columns, int start, int end) {
+	int k = start, i = end, j = 0;
+	long double separator = A[(start + end) / 2][j], tmp;
 	while (k <= i) {
 		while (A[k][j] > separator)
 			++k;
@@ -186,9 +187,10 @@ void sortArray(int **A, int columns, int start, int end) {
 		sortArray(A, columns, k, end);
 }
 
-void magicSquare(int **A, int order) {
-	int sum1 = 0, pairsCount = 0, sum2 = 0;
+void magicSquare(long double **A, int order) {
+	int pairsCount = 0;
 	bool rowsCondition = 0, columnsCondition = 0, mainDiagonalCondition = 0, secondaryDiagonalCondition = 0;
+	long double sum1 = 0, sum2 = 0;
 	for (int j = 0, i = 0; j < order; ++j)
 		sum1 = sum1 + A[i][j];
 	for (int i = 1; i < order; ++i) {
@@ -233,8 +235,9 @@ void magicSquare(int **A, int order) {
 		cout << endl << "Матрица не является магическим квадратом." << endl;
 }
 
-void minimalElement(int **A, int order) {
-	int minimum = 2147483647, minCount = 0;
+void minimalElement(long double **A, int order) {
+	int minCount = 0;
+	long double minimum = 9223372036854775807;
 	for (int i = order - 1; i >= 1; --i) {
 		for (int j = order - 1; j >= 1; --j)
 			if (i + j >= order && A[i][j] <= minimum)
@@ -271,7 +274,7 @@ void minimalElement(int **A, int order) {
 	delete[] C;
 }
 
-void mainDiagonalSymmetry(int **A, int order) {
+void mainDiagonalSymmetry(long double **A, int order) {
 	int pairs = 0;
 	for (int i = 0; i < order / 2; ++i) {
 		for (int j = 0; j < order / 2; ++j) {
@@ -285,7 +288,7 @@ void mainDiagonalSymmetry(int **A, int order) {
 		cout << endl << "Матрица не симметрична относительно главной диагонали." << endl;
 }
 
-void secondaryDiagonalSymmetry(int **A, int order) {
+void secondaryDiagonalSymmetry(long double **A, int order) {
 	int pairs = 0;
 	for (int i = order - 1; i >= order / 2; --i) {
 		for (int j = 0; j < order / 2; ++j) {
@@ -299,8 +302,8 @@ void secondaryDiagonalSymmetry(int **A, int order) {
 		cout << endl << "Матрица не симметрична относительно побочной диагонали." << endl;
 }
 
-void rowsSwap(int **A, int order) {
-	int tmp;
+void rowsSwap(long double **A, int order) {
+	long double tmp;
 	for (int i = 0; i < order / 2; ++i) {
 		for (int j = 0; j < order; ++j) {
 			tmp = A[i][j];
@@ -310,11 +313,11 @@ void rowsSwap(int **A, int order) {
 	}
 }
 
-void swapClockwise(int **A, int order) {
-	int **B = 0;
-	B = new int *[order / 2];
+void swapClockwise(long double **A, int order) {
+	long double **B = 0;
+	B = new long double *[order / 2];
 	for (int i = 0; i < order / 2; ++i)
-		B[i] = new int[order / 2];
+		B[i] = new long double[order / 2];
 	for (int i = 0; i < order / 2; ++i) {
 		for (int j = 0; j < order / 2; ++j)
 			B[i][j] = A[i][j];
@@ -340,18 +343,18 @@ void swapClockwise(int **A, int order) {
 	delete[] B;
 }
 
-void swapCross(int **A, int order) {
-	int **B = 0, **C = 0;
-	B = new int *[order / 2];
+void swapCross(long double **A, int order) {
+	long double **B = 0, **C = 0;
+	B = new long double *[order / 2];
 	for (int i = 0; i < order / 2; ++i)
-		B[i] = new int[order / 2];
+		B[i] = new long double[order / 2];
 	for (int i = 0; i < order / 2; ++i) {
 		for (int j = 0; j < order / 2; ++j)
 			B[i][j] = A[i][j];
 	}
-	C = new int *[order / 2];
+	C = new long double *[order / 2];
 	for (int i = 0; i < order / 2; ++i)
-		C[i] = new int[order / 2];
+		C[i] = new long double[order / 2];
 	for (int i = order / 2, k = 0; i < order; ++i, ++k) {
 		for (int j = 0; j < order / 2; ++j)
 			C[k][j] = A[i][j];
@@ -380,18 +383,18 @@ void swapCross(int **A, int order) {
 	delete[] C;
 }
 
-void swapUpsideDown(int **A, int order) {
-	int **B = 0, **C = 0;
-	B = new int *[order / 2];
+void swapUpsideDown(long double **A, int order) {
+	long double **B = 0, **C = 0;
+	B = new long double *[order / 2];
 	for (int i = 0; i < order / 2; ++i)
-		B[i] = new int[order / 2];
+		B[i] = new long double[order / 2];
 	for (int i = 0; i < order / 2; ++i) {
 		for (int j = 0; j < order / 2; ++j)
 			B[i][j] = A[i][j];
 	}
-	C = new int *[order / 2];
+	C = new long double *[order / 2];
 	for (int i = 0; i < order / 2; ++i)
-		C[i] = new int[order / 2];
+		C[i] = new long double[order / 2];
 	for (int i = 0; i < order / 2; ++i) {
 		for (int j = order / 2, k = 0; j < order; ++j, ++k)
 			C[i][k] = A[i][j];
@@ -420,18 +423,18 @@ void swapUpsideDown(int **A, int order) {
 	delete[] C;
 }
 
-void swapFromSideToSide(int **A, int order) {
-	int **B = 0, **C = 0;
-	B = new int *[order / 2];
+void swapFromSideToSide(long double **A, int order) {
+	long double **B = 0, **C = 0;
+	B = new long double *[order / 2];
 	for (int i = 0; i < order / 2; ++i)
-		B[i] = new int[order / 2];
+		B[i] = new long double[order / 2];
 	for (int i = 0; i < order / 2; ++i) {
 		for (int j = 0; j < order / 2; ++j)
 			B[i][j] = A[i][j];
 	}
-	C = new int *[order / 2];
+	C = new long double *[order / 2];
 	for (int i = 0; i < order / 2; ++i)
-		C[i] = new int[order / 2];
+		C[i] = new long double[order / 2];
 	for (int i = order / 2, k = 0; i < order; ++i, ++k) {
 		for (int j = 0; j < order / 2; ++j)
 			C[k][j] = A[i][j];
@@ -460,9 +463,9 @@ void swapFromSideToSide(int **A, int order) {
 	delete[] C;
 }
 
-void newArray(int **A, int **B, int order) {
+void newArray(long double **A, long double **B, int order) {
 	for (int j = 0; j < order; ++j) {
-		int composition = 1;
+		long double composition = 1;
 		for (int i = 0; i < order; ++i)
 			composition = composition * B[j][i];
 		for (int i = 0; i < order; ++i)
@@ -470,20 +473,32 @@ void newArray(int **A, int **B, int order) {
 	}
 }
 
-void generateArray(int **&A, int rows, int columns) {
-	A = new int *[rows];
+void snakeCircle(long double **A, int order) {
+	for (int i = 0; i < order; ++i)
+		for (int j = 0; j < order; ++j) {
+			if (j % 2 == 1)
+				A[i][j] = 8 - i + j * 8;
+			else
+				A[i][j] = i + 1 + j * 8;
+		}
+}
+
+void memoryForArray(long double **&A, int rows, int columns) {
+	A = new long double *[rows];
 	for (int i = 0; i < rows; ++i)
-		A[i] = new int[columns];
+		A[i] = new long double[columns];
+}
+
+void generateArray(long double **&A, int rows, int columns) {
+	memoryForArray(A, rows, columns);
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < columns; ++j)
-			A[i][j] = rand() % 50;
+			A[i][j] = rand() % 100;
 	}
 }
 
-void inputArray(int **&A, int rows, int columns) {
-	A = new int *[rows];
-	for (int i = 0; i < rows; ++i)
-		A[i] = new int[columns];
+void inputArray(long double **&A, int rows, int columns) {
+	memoryForArray(A, rows, columns);
 	for (int i = 0; i < rows; ++i) {
 		for (int j = 0; j < columns; ++j) {
 			cout << "Введите значение элемента с индексами [" << i + 1 << "][" << j + 1 << "]: ";
@@ -493,25 +508,39 @@ void inputArray(int **&A, int rows, int columns) {
 	cout << endl;
 }
 
-void showArray(int **A, int rows, int columns) {
-	cout << '\t';
+void showArray(long double **A, int rows, int columns) {
+	cout.width (10);
+	cout.fill(' ');
 	SetConsoleTextAttribute(textColour, 5);
-	for (int i = 0; i < columns; ++i)
-		cout << i + 1 << '\t';
+	for (int i = 0; i < columns; ++i) {
+		if (i >= 9)
+			cout.width(16);
+		else
+			cout.width(15);
+		cout.fill(' ');
+		cout << i + 1;
+	}
 	SetConsoleTextAttribute(textColour, 7);
 	cout << endl << endl;
 	for (int i = 0; i < rows; ++i) {
 		SetConsoleTextAttribute(textColour, 5);
-		cout << i + 1 << '\t';
+		cout << i + 1;
 		SetConsoleTextAttribute(textColour, 7);
-		for (int j = 0; j < columns; ++j)
-			cout << A[i][j] << '\t';
+		for (int j = 0; j < columns; ++j) {
+			if (i >= 9 && j == 0)
+				cout.width(14);
+			else
+				cout.width(15);
+			cout.fill(' ');
+			cout << A[i][j];
+		}
 		cout << endl << endl;
 	}
 }
 
-void showFancyArray(int **A, int order, bool condition, int method) {
-	cout << '\t';
+void showFancyArray(long double **A, int order, bool condition, int method) {
+	cout.width(10);
+	cout.fill(' ');
 	int part1 = 0, part2 = 0, part3 = 0, part4 = 0;
 	if (condition == 0) {
 		part1 = 3;
@@ -544,13 +573,19 @@ void showFancyArray(int **A, int order, bool condition, int method) {
 		part4 = 9;
 	}
 	SetConsoleTextAttribute(textColour, 5);
-	for (int i = 0; i < order; ++i)
-		cout << i + 1 << '\t';
+	for (int i = 0; i < order; ++i) {
+		if (i >= 9)
+			cout.width(16);
+		else
+			cout.width(15);
+		cout.fill(' ');
+		cout << i + 1;
+	}
 	SetConsoleTextAttribute(textColour, 7);
 	cout << endl << endl;
 	for (int i = 0; i < order; ++i) {
 		SetConsoleTextAttribute(textColour, 5);
-		cout << i + 1 << '\t';
+		cout << i + 1;
 		SetConsoleTextAttribute(textColour, 7);
 		for (int j = 0; j < order; ++j) {
 			if (i >= 0 && i < order / 2 && j >= 0 && j < order / 2)
@@ -561,14 +596,21 @@ void showFancyArray(int **A, int order, bool condition, int method) {
 				SetConsoleTextAttribute(textColour, part3);
 			else if (i >= order / 2 && i < order && j >= order / 2 && j < order)
 				SetConsoleTextAttribute(textColour, part4);
-			cout << A[i][j] << '\t';
+			{
+				if (i >= 9 && j == 0)
+					cout.width(14);
+				else
+					cout.width(15);
+				cout.fill(' ');
+				cout << A[i][j];
+			}
 		}
 		SetConsoleTextAttribute(textColour, 7);
 		cout << endl << endl;
 	}
 }
 
-void deleteArray(int **A, int rows, int columns) {
+void deleteArray(long double **A, int rows, int columns) {
 	for (int i = 0; i < rows; ++i)
 		delete[] A[i];
 	delete[] A;
@@ -588,7 +630,8 @@ void Menu() {
 	cout << "8. Поменять строки по принципу: первая с последней, вторая с предпоследней и т.д." << endl;
 	cout << "9. Поменять местами квадранты" << endl;
 	cout << "10. Получить новую матрицу прибавлением к элементам каждого столбца первой матрицы произведения элементов соответствующих строк второй матрицы" << endl;
-	cout << "11. Выйти" << endl;
+	cout << "11. Заполнить новую матрицу 'змейкой'" << endl;
+	cout << "12. Выйти" << endl;
 	cout << "Опция: ";
 }
 
@@ -596,15 +639,6 @@ void arrayMenu() {
 	cout << "Выберите опцию . . ." << endl;
 	cout << "0. Заполнить матрицу вручную" << endl;
 	cout << "1. Заполнить матрицу автоматически" << endl;
-	cout << "Опция: ";
-}
-
-void swapMenu() {
-	cout << "Выберите опцию . . ." << endl;
-	cout << "0. Поменять квадранты местами по часовой стрелке" << endl;
-	cout << "1. Поменять квадранты местами крест-накрест" << endl;
-	cout << "2. Поменять квадранты местами вверх дном" << endl;
-	cout << "3. Поменять квадранты местами левой и правой стороной" << endl;
 	cout << "Опция: ";
 }
 

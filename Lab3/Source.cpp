@@ -3,8 +3,9 @@
 int main() {
 	setlocale(0, "");
 	srand((unsigned)time(NULL));
-	int **arrayOfNumbers = 0, menuOption, subMenuOption, rows = 1, columns = 1;
-	bool condition = 1, created = 0, square, manual, prerecordedA = 0, prerecordedB = 0; //prerecorded is located here for secondaryDiagonal search if v.no.5 is executed, so v.no.6 is not full, till v.no.5 is done
+	int menuOption, subMenuOption, rows = 1, columns = 1, miniMenuOption;
+	long double **arrayOfNumbers = 0;
+	bool condition = 1, created = 0, square, prerecordedA = 0, prerecordedB = 0; //prerecorded is located here for secondaryDiagonal search if v.no.5 is executed, so v.no.6 is not full, till v.no.5 is done
 	generateArray(arrayOfNumbers, rows, columns);
 	while (condition) {
 		Menu();
@@ -14,7 +15,7 @@ int main() {
 			deleteArray(arrayOfNumbers, rows, columns);
 			system("cls");
 			arrayMenu();
-			manual = getArrayMenuOption();
+			miniMenuOption = getMiniMenuOption();
 			cout << endl << "Введите количество строк: ";
 			rows = getRowsOrColumns();
 			cout << "Введите количество столбцов: ";
@@ -25,7 +26,7 @@ int main() {
 				square = 0;
 			created = 1;
 			cout << endl;
-			switch (manual) {
+			switch (miniMenuOption) {
 			case 0: {
 				inputArray(arrayOfNumbers, rows, columns);
 				showArray(arrayOfNumbers, rows, columns);
@@ -135,8 +136,12 @@ int main() {
 			else if (square == 0 || rows == 1 || rows % 2 == 1)
 				cout << endl << "Необходимо создать квадратную матрицу порядка , где N>=2 и N % 2 = 0" << endl << endl;
 			else {
-				cout << endl;
-				swapMenu();
+				cout << endl << "Выберите опцию . . ." << endl;
+				cout << "0. Поменять квадранты местами по часовой стрелке" << endl;
+				cout << "1. Поменять квадранты местами крест-накрест" << endl;
+				cout << "2. Поменять квадранты местами вверх дном" << endl;
+				cout << "3. Поменять квадранты местами левой и правой стороной" << endl;
+				cout << "Опция: ";
 				subMenuOption = getSubMenuOption();
 				system("cls");
 				switch (subMenuOption) {
@@ -183,10 +188,11 @@ int main() {
 				cout << endl << "Необходимо создать квадратную матрицу порядка N, где N>=2" << endl << endl;
 			else {
 				cout << endl << "Необходимо создать вторую матрицу того же порядка, что и существующая (" << rows << ")." << endl << endl;
-				int **arrayOfNumbers2 = 0;
+				long double **arrayOfNumbers2 = 0;
 				arrayMenu();
-				manual = getArrayMenuOption();
-				switch (manual) {
+				miniMenuOption = -1;
+				miniMenuOption = getMiniMenuOption();
+				switch (miniMenuOption) {
 				case 0: {
 					inputArray(arrayOfNumbers2, rows, columns);
 					break;
@@ -206,8 +212,36 @@ int main() {
 				deleteArray(arrayOfNumbers2, rows, columns);
 			}
 			break;
-			}
+		}
 		case 11: {
+			deleteArray(arrayOfNumbers, rows, columns);
+			cout << endl << "Выберите опцию . . ." << endl;
+			cout << "0. Змейка двигается по кругу" << endl;
+			cout << "1. Змейка двигается сверху вниз, затем снизу вверх и т.д." << endl;
+			cout << "Опция: ";
+			miniMenuOption = -1;
+			miniMenuOption = getMiniMenuOption();
+			switch (miniMenuOption) {
+			case 0: {
+				rows = 7, columns = 7;
+				memoryForArray(arrayOfNumbers, rows, columns);
+
+				cout << endl << "Получившаяся матрица:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				break;
+			}
+			case 1: {
+				rows = 8, columns = 8;
+				memoryForArray(arrayOfNumbers, rows, columns);
+				snakeCircle(arrayOfNumbers, rows);
+				cout << endl << "Получившаяся матрица:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				break;
+			}
+			}
+			break;
+		}
+		case 12: {
 			cout << endl;
 			condition = 0;
 			break;
@@ -219,7 +253,6 @@ int main() {
 	return 0;
 }
 /* 1. Input from file
-   2. Shoulda make everythin' double + fix showArray function so it will show up double values properly (upper indexes gap must be wider) or not..?
-   3. Det and rank!!!
-   4. 3 variants to go.
+   2. Det and rank!!!
+   3. 2 variants + 1/2 + 1/2 to go.
 */
