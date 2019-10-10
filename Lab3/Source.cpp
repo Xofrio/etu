@@ -242,7 +242,7 @@ int main() {
 			deleteArray(arrayOfNumbers, rows, columns);
 			rows = columns = -1;
 			cout << endl << "Выберите опцию . . ." << endl;
-			cout << "0. Змейка двигается по кругу по часовой стрелке" << endl;
+			cout << "0. Змейка двигается по спирали по часовой стрелке" << endl;
 			cout << "1. Змейка двигается сверху вниз, затем снизу вверх и т.д." << endl;
 			cout << "Опция: ";
 			miniMenuOption = -1;
@@ -257,8 +257,8 @@ int main() {
 				}
 				columns = rows;
 				memoryForArray(arrayOfNumbers, rows, columns);
-				snakeCircle(arrayOfNumbers, rows);
-				cout << endl << "Матрица, заполненная 'змейкой', двигающейся по кругу по часовой стрелке:" << endl << endl;
+				serpentSpiral(arrayOfNumbers, rows);
+				cout << endl << "Матрица, заполненная 'змейкой', двигающейся по спирали по часовой стрелке:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
 				prerecordedA = 1;
 				created = 1;
@@ -275,7 +275,7 @@ int main() {
 						cout << endl << "Необходимо, чтобы количество строк или столбцов было больше 1. Попробуйте ещё раз." << endl;
 				}
 				memoryForArray(arrayOfNumbers, rows, columns);
-				snakeDownUp(arrayOfNumbers, rows, columns);
+				serpentDownUp(arrayOfNumbers, rows, columns);
 				cout << endl << "Матрица, заполненная 'змейкой', двигающейся сверху вниз, снизу вверх и т.д.:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
 				prerecordedB = 1;
@@ -313,5 +313,5 @@ int main() {
 /* 1. Input from file
    2. Det and rank!!!
    3. 1 variant remaining
-   4. SnakeCircle for order % = 2 == 0 and non-quadratic array, hmm
+   4. serpentSpiral for order % = 2 == 0 and non-quadratic array, hmm
 */

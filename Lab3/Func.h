@@ -497,7 +497,7 @@ void newArray(long double **A, long double **B, int order) {
 	}
 }
 
-void snakeDownUp(long double **A, int rows, int columns) {
+void serpentDownUp(long double **A, int rows, int columns) {
 	int i = 0, j = 0, coils = 0;
 	for (coils; coils < columns; ++coils) {
 		if (coils % 2 == 0) {
@@ -517,7 +517,7 @@ void snakeDownUp(long double **A, int rows, int columns) {
 	}
 }
 
-void snakeCircle(long double **A, int order) {
+void serpentSpiral(long double **A, int order) {
 	int i = 0, j = 0;
 	for (int coils = 0; coils < order / 2; ++coils) {
 		for (i, j; j < order - i; ++j) {
