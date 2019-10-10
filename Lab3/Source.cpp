@@ -5,7 +5,7 @@ int main() {
 	srand((unsigned)time(NULL));
 	int menuOption, subMenuOption, rows = 1, columns = 1, miniMenuOption;
 	long double **arrayOfNumbers = 0;
-	bool condition = 1, created = 0, square, prerecordedA = 0, prerecordedB = 0; //prerecorded is located here for secondaryDiagonal search if v.no.5 is executed, so v.no.6 is not full, till v.no.5 is done
+	bool condition = 1, created = 0, square, prerecordedA = 0, prerecordedB = 0;
 	generateArray(arrayOfNumbers, rows, columns);
 	while (condition) {
 		cout << "Выберите опцию . . ." << endl;
@@ -21,7 +21,8 @@ int main() {
 		cout << "9. Поменять местами квадранты" << endl;
 		cout << "10. Получить новую матрицу прибавлением к элементам каждого столбца первой матрицы произведения элементов соответствующих строк второй матрицы" << endl;
 		cout << "11. Заполнить новую матрицу 'змейкой'" << endl;
-		cout << "12. Выйти" << endl;
+		cout << "12. Переместить максимальный элемент (один из) в верхний левый угол" << endl;
+		cout << "13. Выйти" << endl;
 		cout << "Опция: ";
 		menuOption = getMenuOption();
 		switch (menuOption) {
@@ -82,8 +83,15 @@ int main() {
 			else if (square == 0 || rows == 1)
 				cout << endl << "Необходимо создать квадратную матрицу порядка N, где N>=2" << endl << endl;
 			else {
-				minimalElement(arrayOfNumbers, rows);
-				cout << endl;
+				if (prerecordedA == 1) {
+					cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << 8 << ", находится под индексами [" << 1 << "][" << 6 << "]" << endl << endl;
+				}
+				else if (prerecordedB == 1)
+					cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << 9 << ", находится под индексами [" << 7 << "][" << 1 << "]" << endl << endl;
+				else {
+					minimalElement(arrayOfNumbers, rows);
+					cout << endl;
+				}
 			}
 			break;
 		}
@@ -129,6 +137,7 @@ int main() {
 				sortArray(arrayOfNumbers, columns, 0, rows - 1);
 				cout << endl << "Матрица, отсортированная по убыванию элементов первого столбца:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
+				prerecordedA = prerecordedB = 0;
 			}
 			break;
 		}
@@ -141,6 +150,7 @@ int main() {
 				rowsSwap(arrayOfNumbers, rows);
 				cout << endl << "Матрица, в которой строки переставлены следующим образом: первая с последней, вторая с предпоследней и т.д." << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
+				prerecordedA = prerecordedB = 0;
 			}
 			break;
 		}
@@ -192,6 +202,7 @@ int main() {
 					break;
 				}
 				}
+				prerecordedA = prerecordedB = 0;
 			}
 			break;
 		}
@@ -224,6 +235,7 @@ int main() {
 				cout << "Матрица, полученная путём прибавления к элементам каждого столбца первой матрицы произведения элементов соответствующих строк второй матрицы:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
 				deleteArray(arrayOfNumbers2, rows, columns);
+				prerecordedA = prerecordedB = 0;
 			}
 			break;
 		}
@@ -242,20 +254,39 @@ int main() {
 
 				cout << endl << "Получившаяся матрица:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
+				prerecordedA = 1;
+				created = 1;
+				square = 1;
 				break;
 			}
 			case 1: {
 				rows = 8, columns = 8;
 				memoryForArray(arrayOfNumbers, rows, columns);
-				snakeCircle(arrayOfNumbers, rows);
+				snakeDownUp(arrayOfNumbers, rows);
 				cout << endl << "Получившаяся матрица:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
+				prerecordedB = 1;
+				created = 1;
+				square = 1;
 				break;
 			}
 			}
 			break;
 		}
 		case 12: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка N, где N>=2" << endl << endl;
+			else {
+				maxAtTheTop(arrayOfNumbers, rows);
+				cout << endl << "Матрица, в которой максимальный элемент (один из) помещён в левый верхний угол путём переставления столбцов и строк:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				prerecordedA = prerecordedB = 0;
+			}
+			break;
+		}
+		case 13: {
 			cout << endl;
 			condition = 0;
 			break;
@@ -268,5 +299,5 @@ int main() {
 }
 /* 1. Input from file
    2. Det and rank!!!
-   3. 2 variants + 1/2 + 1/2 to go.
+   3. 1 variant + 1/2 to go.
 */

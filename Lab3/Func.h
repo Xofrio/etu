@@ -34,7 +34,7 @@ int getMenuOption() {
 			cin.ignore(cin.rdbuf()->in_avail());
 			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 12): ";
 		}
-		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12) {
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12 || userNumber == 13) {
 			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
@@ -187,6 +187,30 @@ void sortArray(long double **A, int columns, int start, int end) {
 		sortArray(A, columns, k, end);
 }
 
+void maxAtTheTop(long double **A, int order) {
+	long double tmp, max = long double(~9223372036854775807);
+	int maxI, maxJ;
+	for (int i = 0; i < order; ++i) {
+		for (int j = 0; j < order; ++j) {
+			if (A[i][j] >= max) {
+				max = A[i][j];
+				maxI = i;
+				maxJ = j;
+			}
+		}
+	}
+	for (int j = maxJ, i = 0; i < order; ++i) {
+		tmp = A[i][j];
+		A[i][j] = A[i][0];
+		A[i][0] = tmp;
+	}
+	for (int i = maxI, j = 0; j < order; ++j) {
+		tmp = A[i][j];
+		A[i][j] = A[0][j];
+		A[0][j] = tmp;
+	}
+}
+
 void magicSquare(long double **A, int order) {
 	int pairsCount = 0;
 	bool rowsCondition = 0, columnsCondition = 0, mainDiagonalCondition = 0, secondaryDiagonalCondition = 0;
@@ -237,7 +261,7 @@ void magicSquare(long double **A, int order) {
 
 void minimalElement(long double **A, int order) {
 	int minCount = 0;
-	long double minimum = 9223372036854775807;
+	long double minimum = long double(9223372036854775807);
 	for (int i = order - 1; i >= 1; --i) {
 		for (int j = order - 1; j >= 1; --j)
 			if (i + j >= order && A[i][j] <= minimum)
@@ -473,14 +497,24 @@ void newArray(long double **A, long double **B, int order) {
 	}
 }
 
-void snakeCircle(long double **A, int order) {
-	for (int i = 0; i < order; ++i)
-		for (int j = 0; j < order; ++j) {
-			if (j % 2 == 1)
-				A[i][j] = 8 - i + j * 8;
-			else
-				A[i][j] = i + 1 + j * 8;
+void snakeDownUp(long double **A, int order) {
+	int i = 0, j = 0, coils = 0;
+	for (coils; coils < order; ++coils) {
+		if (coils % 2 == 0) {
+			for (i, j; i < order; ++i) {
+				A[i][j] = i + 1 + j * order;
+			}
+			++j;
+			--i;
 		}
+		else {
+			for (i, j; i >= 0; --i) {
+				A[i][j] = order - i + j * order;
+			}
+			++j;
+			++i;
+		}
+	}
 }
 
 void memoryForArray(long double **&A, int rows, int columns) {
@@ -509,14 +543,10 @@ void inputArray(long double **&A, int rows, int columns) {
 }
 
 void showArray(long double **A, int rows, int columns) {
-	cout.width (10);
-	cout.fill(' ');
+	cout << " ";
 	SetConsoleTextAttribute(textColour, 5);
 	for (int i = 0; i < columns; ++i) {
-		if (i >= 9)
-			cout.width(16);
-		else
-			cout.width(15);
+		cout.width(15);
 		cout.fill(' ');
 		cout << i + 1;
 	}
@@ -539,8 +569,7 @@ void showArray(long double **A, int rows, int columns) {
 }
 
 void showFancyArray(long double **A, int order, bool condition, int method) {
-	cout.width(10);
-	cout.fill(' ');
+	cout << " ";
 	int part1 = 0, part2 = 0, part3 = 0, part4 = 0;
 	if (condition == 0) {
 		part1 = 3;
@@ -574,10 +603,7 @@ void showFancyArray(long double **A, int order, bool condition, int method) {
 	}
 	SetConsoleTextAttribute(textColour, 5);
 	for (int i = 0; i < order; ++i) {
-		if (i >= 9)
-			cout.width(16);
-		else
-			cout.width(15);
+		cout.width(15);
 		cout.fill(' ');
 		cout << i + 1;
 	}
