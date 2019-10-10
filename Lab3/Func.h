@@ -540,7 +540,7 @@ void serpentSpiral(long double **A, int order) {
 			A[i][j] = A[i + 1][j] + 1;
 		++j;
 		++i;
-		if (coils == order / 2 - 1)
+		if (coils == order / 2 - 1 && order % 2 == 1)
 			A[i][j] = A[i][j - 1] + 1;
 	}
 }

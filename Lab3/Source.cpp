@@ -249,11 +249,11 @@ int main() {
 			miniMenuOption = getMiniMenuOption();
 			switch (miniMenuOption) {
 			case 0: {
-				while (rows % 2 != 1 || rows <= 1) {
+				while (rows <= 1) {
 					cout << endl << "Введите размерность матрицы: ";
 					rows = getRowsOrColumns();
 					if (rows <= 1 || rows % 2 == 0)
-						cout << endl << "Необходимо, чтобы размерность матрицы была нечётной и больше 1. Попробуйте ещё раз." << endl;
+						cout << endl << "Необходимо, чтобы размерность матрицы была больше 1. Попробуйте ещё раз." << endl;
 				}
 				columns = rows;
 				memoryForArray(arrayOfNumbers, rows, columns);
@@ -313,5 +313,5 @@ int main() {
 /* 1. Input from file
    2. Det and rank!!!
    3. 1 variant remaining
-   4. serpentSpiral for order % = 2 == 0 and non-quadratic array, hmm
+   4. serpentSpiral for non-quadratic array, hmm
 */
