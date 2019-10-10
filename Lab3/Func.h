@@ -497,23 +497,51 @@ void newArray(long double **A, long double **B, int order) {
 	}
 }
 
-void snakeDownUp(long double **A, int order) {
+void snakeDownUp(long double **A, int rows, int columns) {
 	int i = 0, j = 0, coils = 0;
-	for (coils; coils < order; ++coils) {
+	for (coils; coils < columns; ++coils) {
 		if (coils % 2 == 0) {
-			for (i, j; i < order; ++i) {
-				A[i][j] = i + 1 + j * order;
+			for (i, j; i < rows; ++i) {
+				A[i][j] = i + 1 + j * rows;
 			}
 			++j;
 			--i;
 		}
 		else {
 			for (i, j; i >= 0; --i) {
-				A[i][j] = order - i + j * order;
+				A[i][j] = rows - i + j * rows;
 			}
 			++j;
 			++i;
 		}
+	}
+}
+
+void snakeCircle(long double **A, int order) {
+	int i = 0, j = 0;
+	for (int coils = 0; coils < order / 2; ++coils) {
+		for (i, j; j < order - i; ++j) {
+			if (j == 0)
+				A[i][j] = 1;
+			else
+				A[i][j] = A[i][j - 1] + 1;
+		}
+		--j;
+		++i;
+		for (i, j; i < j + 1; ++i)
+			A[i][j] = A[i - 1][j] + 1;
+		--i;
+		--j;
+		for (i, j; j >= order - i - 1; --j)
+			A[i][j] = A[i][j + 1] + 1;
+		++j;
+		--i;
+		for (i, j; i >= j + 1; --i)
+			A[i][j] = A[i + 1][j] + 1;
+		++j;
+		++i;
+		if (coils == order / 2 - 1)
+			A[i][j] = A[i][j - 1] + 1;
 	}
 }
 
