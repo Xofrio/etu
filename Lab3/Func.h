@@ -557,8 +557,10 @@ void showArray(long double **A, int rows, int columns) {
 		cout << i + 1;
 		SetConsoleTextAttribute(textColour, 7);
 		for (int j = 0; j < columns; ++j) {
-			if (i >= 9 && j == 0)
+			if (i >= 9 && i < 99 && j == 0)
 				cout.width(14);
+			else if (i >= 99 && j == 0)
+				cout.width(13);
 			else
 				cout.width(15);
 			cout.fill(' ');
@@ -623,8 +625,10 @@ void showFancyArray(long double **A, int order, bool condition, int method) {
 			else if (i >= order / 2 && i < order && j >= order / 2 && j < order)
 				SetConsoleTextAttribute(textColour, part4);
 			{
-				if (i >= 9 && j == 0)
+				if (i >= 9 && i < 99 && j == 0)
 					cout.width(14);
+				else if (i >= 99 && j == 0)
+					cout.width(13);
 				else
 					cout.width(15);
 				cout.fill(' ');
