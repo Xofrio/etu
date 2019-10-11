@@ -169,7 +169,10 @@ int main() {
 				showArray(arrayOfNumbers, rows, columns);
 				prerecordedA = 1;
 				created = 1;
-				square = 1;
+				if (rows == columns)
+					square = 1;
+				else
+					square = 0;
 				break;
 			}
 			case 1: {
@@ -188,7 +191,10 @@ int main() {
 				showArray(arrayOfNumbers, rows, columns);
 				prerecordedB = 1;
 				created = 1;
-				square = 1;
+				if (rows == columns)
+					square = 1;
+				else
+					square = 0;
 				break;
 			}
 			}
@@ -324,6 +330,6 @@ int main() {
 	return 0;
 }
 /* 1. Input from file
-   2. Det and rank!!!
+   2. Det and rank!
    3. Maybe I can optimise something, but not now.
 */

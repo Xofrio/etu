@@ -188,7 +188,7 @@ void sortArray(long double **A, int columns, int start, int end) {
 }
 
 void maxAtTheTop(long double **A, int order) {
-	long double tmp, max = long double(~9223372036854775807);
+	long double tmp, max = A[0][0];
 	int maxI, maxJ;
 	for (int i = 0; i < order; ++i) {
 		for (int j = 0; j < order; ++j) {
@@ -261,7 +261,7 @@ void magicSquare(long double **A, int order) {
 
 void minimalElement(long double **A, int order) {
 	int minCount = 0;
-	long double minimum = long double(9223372036854775807);
+	long double minimum = A[order - 1][order - 1] ;
 	for (int i = order - 1; i >= 1; --i) {
 		for (int j = order - 1; j >= 1; --j)
 			if (i + j >= order && A[i][j] <= minimum)
@@ -286,7 +286,7 @@ void minimalElement(long double **A, int order) {
 		}
 	}
 	if (minCount == 1)
-		cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << minimum << ", находится под индексами [" << B[0] << "][" << C[0] << "]" << endl << endl;
+		cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << minimum << ", находится под индексами [" << B[0] << "][" << C[0] << "]" << endl;
 	else {
 		quickSortingForTwoArrays(B, C, 0, k - 1);
 		cout << endl << "Минимальный элемент под побочной диагональю имеет значение: " << minimum << endl;
@@ -519,7 +519,7 @@ void serpentDownUp(long double **A, int rows, int columns) {
 
 void serpentSpiral(long double **A, int rows, int columns) {
 	int i = 0, j = 0, n = rows, t = columns;
-	if (columns <= rows) {
+	if (columns == rows) {
 		for (int coils = 0; coils < rows / 2; ++coils) {
 			for (i, j; j < columns - i; ++j) {
 				if (j == 0)
@@ -536,7 +536,8 @@ void serpentSpiral(long double **A, int rows, int columns) {
 			else {
 				for (i, j; i < n; ++i)
 					A[i][j] = A[i - 1][j] + 1;
-				--n;
+				if (rows % 2 == 1 && coils == rows / 2)
+					break;
 			}
 			--i;
 			--j;
@@ -545,18 +546,58 @@ void serpentSpiral(long double **A, int rows, int columns) {
 					A[i][j] = A[i][j + 1] + 1;
 			}
 			else {
-				for (i, j; j >= columns - i; --j)
+				for (i, j; j > columns - t - 1; --j)
 					A[i][j] = A[i][j + 1] + 1;
 			}
 			++j;
 			--i;
-			for (i, j; i >= j + 1; --i)
-				A[i][j] = A[i + 1][j] + 1;
+			if (columns == rows) {
+				for (i, j; i >= j + 1; --i)
+					A[i][j] = A[i + 1][j] + 1;
+			}
+			else {
+				for (i, j; i > rows - n; --i) {
+					A[i][j] = A[i + 1][j] + 1;
+				}
+				--n;
+				--t;
+			}
 			++j;
 			++i;
 			if (coils == rows / 2 - 1 && rows % 2 == 1 && columns == rows)
 				A[i][j] = A[i][j - 1] + 1;
 		}
+	}
+	else if (columns < rows) {
+		for (int coils = 0; coils < columns / 2 + 1; ++coils) {
+			for (i, j; j < t; ++j) {
+				if (j == 0)
+					A[i][j] = 1;
+				else
+					A[i][j] = A[i][j - 1] + 1;
+			}
+			--j;
+			++i;
+			for (i, j; i < n; ++i)
+				A[i][j] = A[i - 1][j] + 1;
+			if (columns % 2 == 1 && coils == columns / 2)
+				break;
+			--i;
+			--j;
+			for (i, j; j > columns - t - 1; --j)
+				A[i][j] = A[i][j + 1] + 1;
+			++j;
+			--i;
+			for (i, j; i > rows - n; --i)
+				A[i][j] = A[i + 1][j] + 1;
+			--n;
+			--t;
+			++j;
+			++i;
+			if (columns % 2 == 0 && coils == columns / 2 - 1)
+				break;
+		}
+
 	}
 	else {
 		if (rows % 2 == 1) {
