@@ -34,7 +34,7 @@ int getMenuOption() {
 			cin.ignore(cin.rdbuf()->in_avail());
 			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 12): ";
 		}
-		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12 || userNumber == 13) {
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12 || userNumber == 13 || userNumber == 14) {
 			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
@@ -517,31 +517,171 @@ void serpentDownUp(long double **A, int rows, int columns) {
 	}
 }
 
-void serpentSpiral(long double **A, int order) {
-	int i = 0, j = 0;
-	for (int coils = 0; coils < order / 2; ++coils) {
-		for (i, j; j < order - i; ++j) {
-			if (j == 0)
-				A[i][j] = 1;
-			else
+void serpentSpiral(long double **A, int rows, int columns) {
+	int i = 0, j = 0, n = rows, t = columns;
+	if (columns <= rows) {
+		for (int coils = 0; coils < rows / 2; ++coils) {
+			for (i, j; j < columns - i; ++j) {
+				if (j == 0)
+					A[i][j] = 1;
+				else
+					A[i][j] = A[i][j - 1] + 1;
+			}
+			--j;
+			++i;
+			if (columns == rows) {
+				for (i, j; i < j + 1; ++i)
+					A[i][j] = A[i - 1][j] + 1;
+			}
+			else {
+				for (i, j; i < n; ++i)
+					A[i][j] = A[i - 1][j] + 1;
+				--n;
+			}
+			--i;
+			--j;
+			if (columns == rows) {
+				for (i, j; j >= columns - i - 1; --j)
+					A[i][j] = A[i][j + 1] + 1;
+			}
+			else {
+				for (i, j; j >= columns - i; --j)
+					A[i][j] = A[i][j + 1] + 1;
+			}
+			++j;
+			--i;
+			for (i, j; i >= j + 1; --i)
+				A[i][j] = A[i + 1][j] + 1;
+			++j;
+			++i;
+			if (coils == rows / 2 - 1 && rows % 2 == 1 && columns == rows)
 				A[i][j] = A[i][j - 1] + 1;
 		}
-		--j;
-		++i;
-		for (i, j; i < j + 1; ++i)
-			A[i][j] = A[i - 1][j] + 1;
-		--i;
-		--j;
-		for (i, j; j >= order - i - 1; --j)
-			A[i][j] = A[i][j + 1] + 1;
-		++j;
-		--i;
-		for (i, j; i >= j + 1; --i)
-			A[i][j] = A[i + 1][j] + 1;
-		++j;
-		++i;
-		if (coils == order / 2 - 1 && order % 2 == 1)
-			A[i][j] = A[i][j - 1] + 1;
+	}
+	else {
+		if (rows % 2 == 1) {
+			for (int coils = 0; coils < rows / 2 + 1; ++coils) {
+				for (i, j; j < columns - i; ++j) {
+					if (j == 0)
+						A[i][j] = 1;
+					else
+						A[i][j] = A[i][j - 1] + 1;
+				}
+				if (coils == rows / 2)
+					break;
+				--j;
+				++i;
+				for (i, j; i < n; ++i)
+					A[i][j] = A[i - 1][j] + 1;
+				--i;
+				--j;
+				for (i, j; j >= columns - t; --j)
+					A[i][j] = A[i][j + 1] + 1;
+				++j;
+				--i;
+				--t;
+				for (i, j; i > rows - n; --i)
+					A[i][j] = A[i + 1][j] + 1;
+				--n;
+				++j;
+				++i;
+			}
+		}
+		else {
+			for (int coils = 0; coils < rows / 2; ++coils) {
+				for (i, j; j < columns - i; ++j) {
+					if (j == 0)
+						A[i][j] = 1;
+					else
+						A[i][j] = A[i][j - 1] + 1;
+				}
+				--j;
+				++i;
+				for (i, j; i < n; ++i)
+					A[i][j] = A[i - 1][j] + 1;
+				--i;
+				--j;
+				for (i, j; j >= columns - t; --j)
+					A[i][j] = A[i][j + 1] + 1;
+				++j;
+				--i;
+				--t;
+				for (i, j; i > rows - n; --i)
+					A[i][j] = A[i + 1][j] + 1;
+				--n;
+				++j;
+				++i;
+			}
+		}
+	}
+}
+
+long double maxRow(long double **A, int i, int columns)
+{
+	long double max = A[i][0];
+	for (int j = 1; j < columns; ++j) {
+		if (A[i][j] > max)
+			max = A[i][j];
+	}
+	return max;
+}
+
+long double minRow(long double **A, int i, int columns)
+{
+	long double min = A[i][0];
+	for (int j = 1; j < columns; ++j) {
+		if (A[i][j] < min)
+			min = A[i][j];
+	}
+	return min;
+}
+
+long double maxColumn(long double **A, int j, int rows)
+{
+	long double max = A[0][j];
+	for (int i = 1; i < rows; ++i) {
+		if (A[i][j] > max)
+			max = A[i][j];
+	}
+	return max;
+}
+
+long double minColumn(long double **A, int j, int rows)
+{
+	long double min = A[0][j];
+	for (int i = 1; i < rows; ++i) {
+		if (A[i][j] < min)
+			min = A[i][j];
+	}
+	return min;
+}
+
+bool saddlePointYN(long double **A, int i, int j, int rows, int columns) {
+	return ((A[i][j] == maxRow(A, i, columns)) && (A[i][j] == minColumn(A, j, rows))) || ((A[i][j] == minRow(A, i, columns)) && (A[i][j] == maxColumn(A, j, rows)));
+}
+
+void saddlePoint(long double **A, int rows, int columns) {
+	int count = 0;
+	cout << endl;
+	for (int i = 0; i < rows; ++i) {
+		for (int j = 0; j < columns; ++j) {
+			if (saddlePointYN(A, i, j, rows, columns)) {
+				++count;
+			}
+		}
+	}
+	if (count == 0)
+		cout << "Седловых точек не обнаружено." << endl << endl;
+	else {
+		cout << "Седловые точки находятся под индексами:" << endl << endl;
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				if (saddlePointYN(A, i, j, rows, columns)) {
+					cout << "[" << i + 1 << "][" << j + 1 << "]" << endl;
+				}
+			}
+		}
+		cout << endl << "Количество седловых точек: " << count << endl << endl;
 	}
 }
 

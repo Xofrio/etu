@@ -10,19 +10,20 @@ int main() {
 	while (condition) {
 		cout << "Выберите опцию . . ." << endl;
 		cout << "0. Создать матрицу" << endl;
-		cout << "1. Определить, является ли матрица ортонормированной" << endl;
-		cout << "2. Найти произведение ненулевых диагональных элементов" << endl;
-		cout << "3. Найти минимальный элемент под побочной диагональю" << endl;
-		cout << "4. Определить, является ли матрица магическим квадратом" << endl;
-		cout << "5. Определить, является ли матрица симметричной относительно главной диагонали" << endl;
-		cout << "6. Определить, является ли матрица симметричной относительно побочной диагонали" << endl;
-		cout << "7. Отсортировать матрицу по убыванию элементов первого столбца" << endl;
+		cout << "1. Упорядочить матрицу по убыванию элементов первого столбца" << endl;
+		cout << "2. Определить, является ли матрица магическим квадратом" << endl;
+		cout << "3. Определить, является ли матрица ортонормированной" << endl;
+		cout << "4. Поменять местами квадранты" << endl;
+		cout << "5. Создать матрицу, заполнив её 'змейкой'" << endl;
+		cout << "6. Найти минимальный элемент под побочной диагональю" << endl;
+		cout << "7. Найти седловые точки" << endl;
 		cout << "8. Поменять строки по принципу: первая с последней, вторая с предпоследней и т.д." << endl;
-		cout << "9. Поменять местами квадранты" << endl;
-		cout << "10. Получить новую матрицу прибавлением к элементам каждого столбца первой матрицы произведения элементов соответствующих строк второй матрицы" << endl;
-		cout << "11. Создать матрицу, заполнив её 'змейкой'" << endl;
-		cout << "12. Переместить максимальный элемент (один из) в верхний левый угол" << endl;
-		cout << "13. Выйти" << endl;
+		cout << "9. Получить новую матрицу прибавлением к элементам каждого столбца первой матрицы произведения элементов соответствующих строк второй матрицы" << endl;
+		cout << "10. Переместить максимальный элемент (один из) в верхний левый угол" << endl;
+		cout << "11. Определить, является ли матрица симметричной относительно главной диагонали" << endl;
+		cout << "12. Определить, является ли матрица симметричной относительно побочной диагонали" << endl;
+		cout << "13. Найти произведение ненулевых диагональных элементов" << endl;
+		cout << "14. Выйти" << endl;
 		cout << "Опция: ";
 		menuOption = getMenuOption();
 		switch (menuOption) {
@@ -58,43 +59,17 @@ int main() {
 		case 1: {
 			if (created == 0)
 				cout << endl << "Нет матрицы." << endl << endl;
-			else if (square == 0 || rows == 1)
-				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else if (rows == 1 && columns == 1 || rows == 1)
+				cout << endl << "Матрица уже упорядочена по убыванию элементов первого столбца, т.к. он 1 в этой матрице." << endl << endl;
 			else {
-				orthogonal(arrayOfNumbers, rows);
-				cout << endl;
+				sortArray(arrayOfNumbers, columns, 0, rows - 1);
+				cout << endl << "Матрица, упорядоченная по убыванию элементов первого столбца:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				prerecordedA = prerecordedB = 0;
 			}
 			break;
 		}
 		case 2: {
-			if (created == 0)
-				cout << endl << "Нет матрицы." << endl << endl;
-			else if (square == 0 || rows == 1)
-				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
-			else {
-				diagonalComposition(arrayOfNumbers, rows);
-				cout << endl;
-			}
-			break;
-		}
-		case 3: {
-			if (created == 0)
-				cout << endl << "Нет матрицы." << endl << endl;
-			else if (square == 0 || rows == 1)
-				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
-			else {
-				if (prerecordedA == 1)
-					cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << arrayOfNumbers[1][columns - 1] << ", находится под индексами [" << 2 << "][" << columns << "]" << endl << endl;
-				else if (prerecordedB == 1)
-					cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << arrayOfNumbers[rows - 1][1] << ", находится под индексами [" << rows << "][" << 2 << "]" << endl << endl;
-				else {
-					minimalElement(arrayOfNumbers, rows);
-					cout << endl;
-				}
-			}
-			break;
-		}
-		case 4: {
 			if (created == 0)
 				cout << endl << "Нет матрицы." << endl << endl;
 			else if (square == 0 || rows == 1)
@@ -105,55 +80,18 @@ int main() {
 			}
 			break;
 		}
-		case 5: {
+		case 3: {
 			if (created == 0)
 				cout << endl << "Нет матрицы." << endl << endl;
 			else if (square == 0 || rows == 1)
 				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
 			else {
-				mainDiagonalSymmetry(arrayOfNumbers, rows);
+				orthogonal(arrayOfNumbers, rows);
 				cout << endl;
 			}
 			break;
 		}
-		case 6: {
-			if (created == 0)
-				cout << endl << "Нет матрицы." << endl << endl;
-			else if (square == 0 || rows == 1)
-				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
-			else {
-				secondaryDiagonalSymmetry(arrayOfNumbers, rows);
-				cout << endl;
-			}
-			break;
-		}
-		case 7: {
-			if (created == 0)
-				cout << endl << "Нет матрицы." << endl << endl;
-			else if (rows == 1 && columns == 1 || rows == 1)
-				cout << endl << "Матрица уже отсортирована по убыванию элементов первого столбца, т.к. он 1 в этой матрице." << endl << endl;
-			else {
-				sortArray(arrayOfNumbers, columns, 0, rows - 1);
-				cout << endl << "Матрица, отсортированная по убыванию элементов первого столбца:" << endl << endl;
-				showArray(arrayOfNumbers, rows, columns);
-				prerecordedA = prerecordedB = 0;
-			}
-			break;
-		}
-		case 8: {
-			if (created == 0)
-				cout << endl << "Нет матрицы." << endl << endl;
-			else if (square == 0 || rows == 1)
-				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
-			else {
-				rowsSwap(arrayOfNumbers, rows);
-				cout << endl << "Матрица, в которой строки переставлены следующим образом: первая с последней, вторая с предпоследней и т.д." << endl << endl;
-				showArray(arrayOfNumbers, rows, columns);
-				prerecordedA = prerecordedB = 0;
-			}
-			break;
-		}
-		case 9: {
+		case 4: {
 			if (created == 0)
 				cout << endl << "Нет матрицы." << endl << endl;
 			else if (square == 0 || rows == 1 || rows % 2 == 1)
@@ -205,7 +143,95 @@ int main() {
 			}
 			break;
 		}
-		case 10: {
+		case 5: {
+			deleteArray(arrayOfNumbers, rows, columns);
+			rows = columns = -1;
+			cout << endl << "Выберите опцию . . ." << endl;
+			cout << "0. Змейка двигается по спирали по часовой стрелке" << endl;
+			cout << "1. Змейка двигается сверху вниз, затем снизу вверх и т.д." << endl;
+			cout << "Опция: ";
+			miniMenuOption = -1;
+			miniMenuOption = getMiniMenuOption();
+			switch (miniMenuOption) {
+			case 0: {
+				while (rows <= 1 || columns <= 1) {
+					cout << endl << "Введите количество строк: ";
+					rows = getRowsOrColumns();
+					cout << "Введите количество столбцов: ";
+					columns = getRowsOrColumns();
+					if (rows <= 1 || columns <= 1)
+						cout << endl << "Необходимо, чтобы количество строк и столбцов было больше 1. Попробуйте ещё раз." << endl;
+				}
+				memoryForArray(arrayOfNumbers, rows, columns);
+				serpentSpiral(arrayOfNumbers, rows, columns);
+				cout << endl << "Матрица, заполненная 'змейкой', двигающейся по спирали по часовой стрелке:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				prerecordedA = 1;
+				created = 1;
+				square = 1;
+				break;
+			}
+			case 1: {
+				while (rows <= 1 || columns <= 1) {
+					cout << endl << "Введите количество строк: ";
+					rows = getRowsOrColumns();
+					cout << "Введите количество столбцов: ";
+					columns = getRowsOrColumns();
+					if (rows <= 1 || columns <= 1)
+						cout << endl << "Необходимо, чтобы количество строк и столбцов было больше 1. Попробуйте ещё раз." << endl;
+				}
+				memoryForArray(arrayOfNumbers, rows, columns);
+				serpentDownUp(arrayOfNumbers, rows, columns);
+				cout << endl << "Матрица, заполненная 'змейкой', двигающейся сверху вниз, снизу вверх и т.д.:" << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				prerecordedB = 1;
+				created = 1;
+				square = 1;
+				break;
+			}
+			}
+			break;
+		}
+		case 6: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else {
+				if (prerecordedA == 1)
+					cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << arrayOfNumbers[1][columns - 1] << ", находится под индексами [" << 2 << "][" << columns << "]" << endl << endl;
+				else if (prerecordedB == 1)
+					cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << arrayOfNumbers[rows - 1][1] << ", находится под индексами [" << rows << "][" << 2 << "]" << endl << endl;
+				else {
+					minimalElement(arrayOfNumbers, rows);
+					cout << endl;
+				}
+			}
+			break;
+		}
+		case 7: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (rows == 1 && columns == 1)
+				cout << endl << "Необходимо создать матрицу больше, чем 1x1" << endl << endl;
+			else
+				saddlePoint(arrayOfNumbers, rows, columns);
+			break;
+		}
+		case 8: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else {
+				rowsSwap(arrayOfNumbers, rows);
+				cout << endl << "Матрица, в которой строки переставлены следующим образом: первая с последней, вторая с предпоследней и т.д." << endl << endl;
+				showArray(arrayOfNumbers, rows, columns);
+				prerecordedA = prerecordedB = 0;
+			}
+			break;
+		}
+		case 9: {
 			if (created == 0)
 				cout << endl << "Нет матрицы." << endl << endl;
 			else if (square == 0 || rows == 1)
@@ -238,55 +264,7 @@ int main() {
 			}
 			break;
 		}
-		case 11: {
-			deleteArray(arrayOfNumbers, rows, columns);
-			rows = columns = -1;
-			cout << endl << "Выберите опцию . . ." << endl;
-			cout << "0. Змейка двигается по спирали по часовой стрелке" << endl;
-			cout << "1. Змейка двигается сверху вниз, затем снизу вверх и т.д." << endl;
-			cout << "Опция: ";
-			miniMenuOption = -1;
-			miniMenuOption = getMiniMenuOption();
-			switch (miniMenuOption) {
-			case 0: {
-				while (rows <= 1) {
-					cout << endl << "Введите размерность матрицы: ";
-					rows = getRowsOrColumns();
-					if (rows <= 1 || rows % 2 == 0)
-						cout << endl << "Необходимо, чтобы размерность матрицы была больше 1. Попробуйте ещё раз." << endl;
-				}
-				columns = rows;
-				memoryForArray(arrayOfNumbers, rows, columns);
-				serpentSpiral(arrayOfNumbers, rows);
-				cout << endl << "Матрица, заполненная 'змейкой', двигающейся по спирали по часовой стрелке:" << endl << endl;
-				showArray(arrayOfNumbers, rows, columns);
-				prerecordedA = 1;
-				created = 1;
-				square = 1;
-				break;
-			}
-			case 1: {
-				while (rows <= 1 || columns <= 1) {
-					cout << endl << "Введите количество строк: ";
-					rows = getRowsOrColumns();
-					cout << "Введите количество столбцов: ";
-					columns = getRowsOrColumns();
-					if (rows <= 1 || columns <= 1)
-						cout << endl << "Необходимо, чтобы количество строк или столбцов было больше 1. Попробуйте ещё раз." << endl;
-				}
-				memoryForArray(arrayOfNumbers, rows, columns);
-				serpentDownUp(arrayOfNumbers, rows, columns);
-				cout << endl << "Матрица, заполненная 'змейкой', двигающейся сверху вниз, снизу вверх и т.д.:" << endl << endl;
-				showArray(arrayOfNumbers, rows, columns);
-				prerecordedB = 1;
-				created = 1;
-				square = 1;
-				break;
-			}
-			}
-			break;
-		}
-		case 12: {
+		case 10: {
 			if (created == 0)
 				cout << endl << "Нет матрицы." << endl << endl;
 			else if (square == 0 || rows == 1)
@@ -299,7 +277,40 @@ int main() {
 			}
 			break;
 		}
+		case 11: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else {
+				mainDiagonalSymmetry(arrayOfNumbers, rows);
+				cout << endl;
+			}
+			break;
+		}
+		case 12: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else {
+				secondaryDiagonalSymmetry(arrayOfNumbers, rows);
+				cout << endl;
+			}
+			break;
+		}
 		case 13: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else {
+				diagonalComposition(arrayOfNumbers, rows);
+				cout << endl;
+			}
+			break;
+		}
+		case 14: {
 			cout << endl;
 			condition = 0;
 			break;
@@ -312,6 +323,5 @@ int main() {
 }
 /* 1. Input from file
    2. Det and rank!!!
-   3. 1 variant remaining
-   4. serpentSpiral for non-quadratic array, hmm
+   3. Maybe I can optimise something, but not now.
 */
