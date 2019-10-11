@@ -32,14 +32,14 @@ int getMenuOption() {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 12): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 14): ";
 		}
 		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12 || userNumber == 13 || userNumber == 14) {
 			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 		else
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 12): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 14): ";
 	}
 }
 
@@ -289,8 +289,8 @@ void minimalElement(long double **A, int order) {
 		cout << endl << "Минимальный элемент под побочной диагональю имеет значение " << minimum << ", находится под индексами [" << B[0] << "][" << C[0] << "]" << endl << endl;
 	else {
 		quickSortingForTwoArrays(B, C, 0, k - 1);
-		cout << endl << "Минимальный элемент под побочной диагональю имеет значение" << minimum << endl;
-		cout << "Таких элементов несколько, они находятся под индексами:" << endl << endl;
+		cout << endl << "Минимальный элемент под побочной диагональю имеет значение: " << minimum << endl;
+		cout << endl << "Таких элементов " << minCount << ", они находятся под индексами:" << endl << endl;
 		for (int i = 0; i < k; ++i)
 			cout << "[" << B[i] << "][" << C[i] << "]" << endl;
 	}
