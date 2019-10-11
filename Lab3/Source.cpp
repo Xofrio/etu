@@ -154,13 +154,14 @@ int main() {
 			miniMenuOption = getMiniMenuOption();
 			switch (miniMenuOption) {
 			case 0: {
+				system("cls");
 				while (rows <= 1 || columns <= 1) {
-					cout << endl << "Введите количество строк: ";
+					cout << "Введите количество строк: ";
 					rows = getRowsOrColumns();
 					cout << "Введите количество столбцов: ";
 					columns = getRowsOrColumns();
 					if (rows <= 1 || columns <= 1)
-						cout << endl << "Необходимо, чтобы количество строк и столбцов было больше 1. Попробуйте ещё раз." << endl;
+						cout << endl << "Необходимо, чтобы количество строк и столбцов было больше 1. Попробуйте ещё раз." << endl << endl;
 				}
 				memoryForArray(arrayOfNumbers, rows, columns);
 				serpentSpiral(arrayOfNumbers, rows, columns);
@@ -172,13 +173,14 @@ int main() {
 				break;
 			}
 			case 1: {
+				system("cls");
 				while (rows <= 1 || columns <= 1) {
-					cout << endl << "Введите количество строк: ";
+					cout << "Введите количество строк: ";
 					rows = getRowsOrColumns();
 					cout << "Введите количество столбцов: ";
 					columns = getRowsOrColumns();
 					if (rows <= 1 || columns <= 1)
-						cout << endl << "Необходимо, чтобы количество строк и столбцов было больше 1. Попробуйте ещё раз." << endl;
+						cout << endl << "Необходимо, чтобы количество строк и столбцов было больше 1. Попробуйте ещё раз." << endl << endl;
 				}
 				memoryForArray(arrayOfNumbers, rows, columns);
 				serpentDownUp(arrayOfNumbers, rows, columns);
