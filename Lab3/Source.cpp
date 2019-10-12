@@ -357,6 +357,4 @@ int main() {
 	system("pause");
 	return 0;
 }
-/* 1. What's matrix rank? Shoulda search it.
-   2. Maybe I can optimise something, but not now.
-*/
+/* 1. What's matrix rank? Shoulda search it.*/
