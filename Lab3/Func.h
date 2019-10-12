@@ -34,7 +34,7 @@ int getMenuOption() {
 			cin.ignore(cin.rdbuf()->in_avail());
 			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 14): ";
 		}
-		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12 || userNumber == 13 || userNumber == 14) {
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12 || userNumber == 13 || userNumber == 14 || userNumber == 15) {
 			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
@@ -261,7 +261,7 @@ void magicSquare(long double **A, int order) {
 
 void minimalElement(long double **A, int order) {
 	int minCount = 0;
-	long double minimum = A[order - 1][order - 1] ;
+	long double minimum = A[order - 1][order - 1];
 	for (int i = order - 1; i >= 1; --i) {
 		for (int j = order - 1; j >= 1; --j)
 			if (i + j >= order && A[i][j] <= minimum)
@@ -854,6 +854,61 @@ void deleteArray(long double **A, int rows, int columns) {
 		delete[] A[i];
 	delete[] A;
 	A = 0;
+}
+
+long double **minor(long double **A, int i, int j, int order) {
+	long double **B = 0;
+	memoryForArray(B, order, order);
+	if (j == 0) {
+		++i;
+		++j;
+		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+			for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
+				B[k][n] = A[p][t];
+		}
+		return B;
+	}
+	else if (j == order) {
+		j = 0;
+		++i;
+		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+			for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
+				B[k][n] = A[p][t];
+		}
+		return B;
+	}
+	else {
+		++i;
+		int count = j;
+		j = 0;
+		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+			for (int n = 0, t = j; n < order - 1, t < order - 1; ++n, ++t)
+				B[k][n] = A[p][t];
+		}
+		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+			for (int n = count, t = count + 1; n < order, t < order + 1; ++n, ++t) {
+				B[k][n] = A[p][t];
+			}
+		}
+		return B;
+	}
+}
+
+long double determineTheDeterminant(long double **A, int order) {
+	long double det = 0;
+	if (order == 2) {
+		det = det + A[0][0] * A[1][1] - A[0][1] * A[1][0];
+		return det;
+	}
+	else {
+		for (int i = 0, j = 0; j < order; ++j) {
+			if ((i + 1 + j + 1) % 2 == 0)
+				det = det + A[i][j] * determineTheDeterminant(minor(A, i, j, order - 1), order - 1);
+			else
+				det = det - A[i][j] * determineTheDeterminant(minor(A, i, j, order - 1), order - 1);
+		}
+	return det;
+	}
 }
 
 void arrayMenu() {

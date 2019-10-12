@@ -4,7 +4,7 @@ int main() {
 	setlocale(0, "");
 	srand((unsigned)time(NULL));
 	int menuOption, subMenuOption, rows = 1, columns = 1, miniMenuOption;
-	long double **arrayOfNumbers = 0;
+	long double **arrayOfNumbers = 0, determinant;
 	bool condition = 1, created = 0, square, prerecordedA = 0, prerecordedB = 0;
 	generateArray(arrayOfNumbers, rows, columns);
 	while (condition) {
@@ -23,7 +23,8 @@ int main() {
 		cout << "11. Определить, является ли матрица симметричной относительно главной диагонали" << endl;
 		cout << "12. Определить, является ли матрица симметричной относительно побочной диагонали" << endl;
 		cout << "13. Найти произведение ненулевых диагональных элементов" << endl;
-		cout << "14. Выйти" << endl;
+		cout << "14. Найти определитель матрицы" << endl;
+		cout << "15. Выйти" << endl;
 		cout << "Опция: ";
 		menuOption = getMenuOption();
 		switch (menuOption) {
@@ -319,6 +320,18 @@ int main() {
 			break;
 		}
 		case 14: {
+			if (created == 0)
+				cout << endl << "Нет матрицы." << endl << endl;
+			else if (square == 0 || rows == 1)
+				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else {
+				determinant = determineTheDeterminant(arrayOfNumbers, rows);
+				cout << endl << "Определитель матрицы: " << determinant << endl;
+				cout << endl;
+			}
+			break;
+		}
+		case 15: {
 			cout << endl;
 			condition = 0;
 			break;
@@ -330,6 +343,6 @@ int main() {
 	return 0;
 }
 /* 1. Input from file
-   2. Det and rank!
+   2. What's matrix rank? Shoulda search it.
    3. Maybe I can optimise something, but not now.
 */
