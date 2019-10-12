@@ -932,7 +932,7 @@ long double determineTheDeterminant(long double **A, int order) {
 
 void inputArrayFromFile(long double **&A, int &rows, int &columns, bool &square, bool &created) {
 	int count = 0;
-	ifstream in("C:\\array.txt");
+	ifstream in("array.txt"); //C:\\
 	if (in.is_open()) {
 		long double temp;
 		while (!in.eof()) {
