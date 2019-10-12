@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <ctime>
 #include <Windows.h>
 
@@ -58,6 +59,24 @@ int getMiniMenuOption() {
 		}
 		else
 			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 1): ";
+	}
+}
+
+short getArrayMenuOption() {
+	while (true) {
+		short userNumber;
+		cin >> userNumber;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(cin.rdbuf()->in_avail());
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 2): ";
+		}
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2) {
+			cin.ignore(cin.rdbuf()->in_avail());
+			return userNumber;
+		}
+		else
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 2): ";
 	}
 }
 
@@ -911,10 +930,63 @@ long double determineTheDeterminant(long double **A, int order) {
 	}
 }
 
+void inputArrayFromFile(long double **&A, int &rows, int &columns, bool &square, bool &created) {
+	int count = 0;
+	ifstream in("C:\\array.txt");
+	if (in.is_open()) {
+		long double temp;
+		while (!in.eof()) {
+			in >> temp;
+			++count;
+		}
+		in.seekg(0, ios::beg);
+		in.clear();
+		int count_space = 0;
+		char symbol;
+		while (!in.eof()) {
+			in.get(symbol);
+			if (symbol == ' ')
+				++count_space;
+			if (symbol == '\n')
+				break;
+		}
+		in.seekg(0, ios::beg);
+		in.clear();
+		rows = count / (count_space + 1);
+		columns = count_space + 1;
+		if (rows == columns)
+			square = 1;
+		else
+			square = 0;
+		memoryForArray(A, rows, columns);
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j)
+				in >> A[i][j];
+		}
+		created = 1;
+		in.close();
+	}
+	else {
+		cout << "Файл не найден." << endl << endl;
+	}
+}
+
+void rowsColumnsMenu(int &rows, int &columns, bool &square) {
+	cout << endl << "Введите количество строк: ";
+	rows = getRowsOrColumns();
+	cout << "Введите количество столбцов: ";
+	columns = getRowsOrColumns();
+	if (rows == columns)
+		square = 1;
+	else
+		square = 0;
+}
+
 void arrayMenu() {
 	cout << "Выберите опцию . . ." << endl;
 	cout << "0. Заполнить матрицу вручную" << endl;
 	cout << "1. Заполнить матрицу автоматически" << endl;
+	cout << "2. Считать матрицу из файла" << endl;
 	cout << "Опция: ";
 }
 

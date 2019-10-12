@@ -3,7 +3,7 @@
 int main() {
 	setlocale(0, "");
 	srand((unsigned)time(NULL));
-	int menuOption, subMenuOption, rows = 1, columns = 1, miniMenuOption;
+	int menuOption, subMenuOption, arrayOption, rows = 1, columns = 1, rows1 = -1, columns1, miniMenuOption;
 	long double **arrayOfNumbers = 0, determinant;
 	bool condition = 1, created = 0, square, prerecordedA = 0, prerecordedB = 0;
 	generateArray(arrayOfNumbers, rows, columns);
@@ -32,26 +32,31 @@ int main() {
 			deleteArray(arrayOfNumbers, rows, columns);
 			system("cls");
 			arrayMenu();
-			miniMenuOption = getMiniMenuOption();
-			cout << endl << "Введите количество строк: ";
-			rows = getRowsOrColumns();
-			cout << "Введите количество столбцов: ";
-			columns = getRowsOrColumns();
-			if (rows == columns)
-				square = 1;
-			else
-				square = 0;
-			created = 1;
+			arrayOption = getArrayMenuOption();
 			cout << endl;
-			switch (miniMenuOption) {
+			switch (arrayOption) {
 			case 0: {
+				rowsColumnsMenu(rows, columns, square);
 				inputArray(arrayOfNumbers, rows, columns);
 				showArray(arrayOfNumbers, rows, columns);
+				created = 1;
 				break;
 			}
 			case 1: {
+				rowsColumnsMenu(rows, columns, square);
 				generateArray(arrayOfNumbers, rows, columns);
 				showArray(arrayOfNumbers, rows, columns);
+				created = 1;
+				break;
+			}
+			case 2: {
+				inputArrayFromFile(arrayOfNumbers, rows, columns, square, created);
+				if (created == 0) {
+					rows = columns = 1;
+					generateArray(arrayOfNumbers, rows, columns);
+				}
+				else
+					showArray(arrayOfNumbers, rows, columns);
 				break;
 			}
 			}
@@ -249,9 +254,9 @@ int main() {
 				cout << endl << "Необходимо создать вторую матрицу того же порядка, что и существующая (" << rows << ")." << endl << endl;
 				long double **arrayOfNumbers2 = 0;
 				arrayMenu();
-				miniMenuOption = -1;
-				miniMenuOption = getMiniMenuOption();
-				switch (miniMenuOption) {
+				arrayOption = -1;
+				arrayOption = getArrayMenuOption();
+				switch (arrayOption) {
 				case 0: {
 					inputArray(arrayOfNumbers2, rows, columns);
 					break;
@@ -260,6 +265,16 @@ int main() {
 					generateArray(arrayOfNumbers2, rows, columns);
 					break;
 				}
+				case 2: {
+					inputArrayFromFile(arrayOfNumbers2, rows1, columns1, square, created);
+					break;
+				}
+				}
+				if (rows1 != rows && arrayOption == 2) {
+					cout << endl << "В файле найдена неподходящая матрица." << endl << endl;
+					created = 1;
+					square = 1;
+					break;
 				}
 				cout << endl << "Первая матрица:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
@@ -268,8 +283,8 @@ int main() {
 				newArray(arrayOfNumbers, arrayOfNumbers2, rows);
 				cout << "Матрица, полученная путём прибавления к элементам каждого столбца первой матрицы произведения элементов соответствующих строк второй матрицы:" << endl << endl;
 				showArray(arrayOfNumbers, rows, columns);
-				deleteArray(arrayOfNumbers2, rows, columns);
 				prerecordedA = prerecordedB = 0;
+				deleteArray(arrayOfNumbers2, rows, columns);
 			}
 			break;
 		}
@@ -342,7 +357,6 @@ int main() {
 	system("pause");
 	return 0;
 }
-/* 1. Input from file
-   2. What's matrix rank? Shoulda search it.
-   3. Maybe I can optimise something, but not now.
+/* 1. What's matrix rank? Shoulda search it.
+   2. Maybe I can optimise something, but not now.
 */
