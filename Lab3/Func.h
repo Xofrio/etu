@@ -878,38 +878,125 @@ void deleteArray(long double **A, int rows, int columns) {
 long double **minor(long double **A, int i, int j, int order) {
 	long double **B = 0;
 	memoryForArray(B, order, order);
-	if (j == 0) {
-		++i;
-		++j;
-		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
-			for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
-				B[k][n] = A[p][t];
+	if (i == 0) {
+		if (j == 0) {
+			++i;
+			++j;
+			for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			return B;
 		}
-		return B;
+		else if (j == order) {
+			j = 0;
+			++i;
+			for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			return B;
+		}
+		else {
+			++i;
+			int posj = j;
+			j = 0;
+			for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+				for (int n = 0, t = j; n < order - 1, t < order - 1; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
+				for (int n = posj, t = posj + 1; n < order, t < order + 1; ++n, ++t) {
+					B[k][n] = A[p][t];
+				}
+			}
+			return B;
+		}
 	}
-	else if (j == order) {
-		j = 0;
-		++i;
-		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
-			for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
-				B[k][n] = A[p][t];
+	else if (i == order) {
+		i = 0;
+		if (j == 0) {
+			++j;
+			for (int k = 0, p = i; k < order, p < order; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			return B;
 		}
-		return B;
+		else if (j == order) {
+			j = 0;
+			for (int k = 0, p = i; k < order, p < order; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			return B;
+		}
+		else {
+			int posj = j;
+			j = 0;
+			for (int k = 0, p = i; k < order, p < order; ++k, ++p) {
+				for (int n = 0, t = j; n < order - 1, t < order - 1; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			for (int k = 0, p = i; k < order, p < order; ++k, ++p) {
+				for (int n = posj, t = posj + 1; n < order, t < order + 1; ++n, ++t) {
+					B[k][n] = A[p][t];
+				}
+			}
+			return B;
+		}
 	}
 	else {
-		++i;
-		int count = j;
-		j = 0;
-		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
-			for (int n = 0, t = j; n < order - 1, t < order - 1; ++n, ++t)
-				B[k][n] = A[p][t];
-		}
-		for (int k = 0, p = i; k < order, p < order + 1; ++k, ++p) {
-			for (int n = count, t = count + 1; n < order, t < order + 1; ++n, ++t) {
-				B[k][n] = A[p][t];
+		int posi = i;
+		i = 0;
+		if (j == 0) {
+			++j;
+			for (int k = 0, p = i; k < posi, p < posi; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
+					B[k][n] = A[p][t];
 			}
+			for (int k = posi, p = posi + 1; k < order, p < order + 1; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order + 1; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			return B;
 		}
-		return B;
+		else if (j == order) {
+			j = 0;
+			for (int k = 0, p = i; k < posi, p < posi; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			for (int k = posi, p = posi + 1; k < order, p < order + 1; ++k, ++p) {
+				for (int n = 0, t = j; n < order, t < order; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			return B;
+		}
+		else {
+			int posj = j;
+			j = 0;
+			for (int k = 0, p = i; k < posi, p < posi; ++k, ++p) {
+				for (int n = 0, t = j; n < posj, t < posj; ++n, ++t)
+					B[k][n] = A[p][t];
+			}
+			for (int k = posi, p = posi + 1; k < order, p < order + 1; ++k, ++p) {
+				for (int n = 0, t = j; n < posj, t < posj; ++n, ++t) {
+					B[k][n] = A[p][t];
+				}
+			}
+			for (int k = 0, p = i; k < posi, p < posi; ++k, ++p) {
+				for (int n = posj, t = posj + 1; n < order, t < order + 1; ++n, ++t) {
+					B[k][n] = A[p][t];
+				}
+			}
+			for (int k = posi, p = posi + 1; k < order, p < order + 1; ++k, ++p) {
+				for (int n = posj, t = posj + 1; n < order, t < order + 1; ++n, ++t) {
+					B[k][n] = A[p][t];
+				}
+			}
+			return B;
+		}
 	}
 }
 
@@ -930,9 +1017,41 @@ long double determineTheDeterminant(long double **A, int order) {
 	}
 }
 
+void rankOfMatrix(long double **A, int rows, int columns, long double determinant) {
+	int rank, countZero = 0;
+	for (int i = 0; i < rows; ++i) {
+		for (int j = 0; j < columns; ++j) {
+			if (A[i][j] == 0)
+				++countZero;
+		}
+	}
+	if (countZero == rows * columns)
+		rank = 0;
+	else if (determinant != 0)
+		rank = rows;
+	else {
+		for (int k = 1; k < rows; ++k) {
+		countZero = 0;
+			for (int i = 0; i < rows; ++i) {
+				for (int j = 0; j < columns; ++j) {
+					if (determineTheDeterminant(minor(A, i, j, rows - k), rows - k) == 0)
+						++countZero;
+				}
+			}
+			if (countZero == rows * columns)
+				rank = rows - k;
+			else {
+				rank = rows - k;
+				break;
+			}
+		}
+	}
+	cout << endl << "Ранг матрицы: " << rank << endl << endl;
+}
+
 void inputArrayFromFile(long double **&A, int &rows, int &columns, bool &square, bool &created) {
 	int count = 0;
-	ifstream in("array.txt"); //C:\\
+	ifstream in("array.txt");
 	if (in.is_open()) {
 		long double temp;
 		while (!in.eof()) {
@@ -967,7 +1086,7 @@ void inputArrayFromFile(long double **&A, int &rows, int &columns, bool &square,
 		in.close();
 	}
 	else {
-		cout << "Файл не найден." << endl << endl;
+		cout << "Файл с именем 'array.txt' не найден." << endl << endl;
 	}
 }
 
@@ -980,6 +1099,7 @@ void rowsColumnsMenu(int &rows, int &columns, bool &square) {
 		square = 1;
 	else
 		square = 0;
+	cout << endl;
 }
 
 void arrayMenu() {

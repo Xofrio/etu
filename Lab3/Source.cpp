@@ -23,7 +23,7 @@ int main() {
 		cout << "11. Определить, является ли матрица симметричной относительно главной диагонали" << endl;
 		cout << "12. Определить, является ли матрица симметричной относительно побочной диагонали" << endl;
 		cout << "13. Найти произведение ненулевых диагональных элементов" << endl;
-		cout << "14. Найти определитель матрицы" << endl;
+		cout << "14. Найти определитель и ранг матрицы" << endl;
 		cout << "15. Выйти" << endl;
 		cout << "Опция: ";
 		menuOption = getMenuOption();
@@ -33,7 +33,6 @@ int main() {
 			system("cls");
 			arrayMenu();
 			arrayOption = getArrayMenuOption();
-			cout << endl;
 			switch (arrayOption) {
 			case 0: {
 				rowsColumnsMenu(rows, columns, square);
@@ -55,8 +54,10 @@ int main() {
 					rows = columns = 1;
 					generateArray(arrayOfNumbers, rows, columns);
 				}
-				else
+				else {
+					cout << endl;
 					showArray(arrayOfNumbers, rows, columns);
+				}
 				break;
 			}
 			}
@@ -342,7 +343,7 @@ int main() {
 			else {
 				determinant = determineTheDeterminant(arrayOfNumbers, rows);
 				cout << endl << "Определитель матрицы: " << determinant << endl;
-				cout << endl;
+				rankOfMatrix(arrayOfNumbers, rows, columns, determinant);
 			}
 			break;
 		}
@@ -357,4 +358,4 @@ int main() {
 	system("pause");
 	return 0;
 }
-/* 1. What's matrix rank? Shoulda search it.*/
+/* 1. Need to make rankOfMatrix function complete. Cuz it's not.*/
