@@ -1,5 +1,7 @@
 #include <iostream>
 #include <Windows.h>
+#undef min
+#undef max
 
 using namespace std;
 
@@ -9,14 +11,14 @@ using namespace std;
 HANDLE textColour = GetStdHandle(STD_OUTPUT_HANDLE);
 
 int getInt() {
-	cout << endl << "Введите число от -2147483648 до 2147483647: ";
+	cout << endl << "Введите число от " << numeric_limits<int>::min() << " до " << numeric_limits<int>::max() << ": ";
 	while (true) {
 		int userNumber;
 		cin >> userNumber;
-		if (cin.fail() || userNumber < ~2147483647 || userNumber > 2147483647) {
+		if (cin.fail() || userNumber < numeric_limits<int>::min() || userNumber > numeric_limits<int>::max()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректное число (от -2147483648 до 2147483647): ";
+			cout << endl << "Попробуйте ввести корректное число (от " << numeric_limits<int>::min() << " до " << numeric_limits<int>::max() << "): ";
 		}
 		else {
 			cin.ignore(cin.rdbuf()->in_avail());
@@ -26,14 +28,14 @@ int getInt() {
 }
 
 short getShort() {
-	cout << endl << "Введите число от -32768 до 32767: ";
+	cout << endl << "Введите число от " << numeric_limits<short>::min() << " до " << numeric_limits<short>::max() << ": ";
 	while (true) {
 		short userNumber;
 		cin >> userNumber;
-		if (cin.fail() || userNumber < -32768 || userNumber > 32767) {
+		if (cin.fail() || userNumber < numeric_limits<short>::min() || userNumber > numeric_limits<short>::max()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректное число (от -32768 до 32767): ";
+			cout << endl << "Попробуйте ввести корректное число (от " << numeric_limits<short>::min() << " до " << numeric_limits<short>::max() << "): ";
 		}
 		else {
 			cin.ignore(cin.rdbuf()->in_avail());
@@ -42,16 +44,15 @@ short getShort() {
 	}
 }
 
-unsigned long getUnsigned() {
-	cout << endl << "Введите число от 0 до 4294967295: ";
+unsigned getUnsigned() {
+	cout << endl << "Введите число от " << numeric_limits<unsigned>::min() << " до " << numeric_limits<unsigned>::max() << ": ";
 	while (true) {
-		unsigned long userNumber;
+		unsigned userNumber;
 		cin >> userNumber;
-		if (cin.fail() || (int)userNumber < 0 || userNumber > ~(unsigned)0) {
-			cout << userNumber << endl;
+		if (cin.fail() || (int)userNumber < 0 || userNumber > numeric_limits<unsigned>::max()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректное число (от 0 до 4294967295): ";
+			cout << endl << "Попробуйте ввести корректное число (от " << numeric_limits<unsigned>::min() << " до " << numeric_limits<unsigned>::max() << "): ";
 		}
 		else {
 			cin.ignore(cin.rdbuf()->in_avail());
@@ -61,14 +62,14 @@ unsigned long getUnsigned() {
 }
 
 float getFloat() {
-	cout << endl << "Введите число от -2147483648 до 2147483647: ";
+	cout << endl << "Введите число от " << numeric_limits<float>::min() << " до " << numeric_limits<float>::max() << ": ";
 	while (true) {
 		float userNumber;
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректное число (от -2147483648 до 2147483647): ";
+			cout << endl << "Попробуйте ввести корректное число (от " << numeric_limits<float>::min() << " до " << numeric_limits<float>::max() << "): ";
 		}
 		else {
 			cin.ignore(cin.rdbuf()->in_avail());
@@ -78,14 +79,14 @@ float getFloat() {
 }
 
 double getDouble() {
-	cout << endl << "Введите число от -9223372036854775808 до 9223372036854775807: ";
+	cout << endl << "Введите число от " << numeric_limits<double>::min() << " до " << numeric_limits<double>::max() << ": ";
 	while (true) {
 		double userNumber;
 		cin >> userNumber;
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректное число (от -9223372036854775808 до 9223372036854775807): ";
+			cout << endl << "Попробуйте ввести корректное число (от " << numeric_limits<double>::min() << " до " << numeric_limits<double>::max() << "): ";
 		}
 		else {
 			cin.ignore(cin.rdbuf()->in_avail());
@@ -125,6 +126,7 @@ int getMenuOption() {
 }
 
 void inversion(bool *A, int count) {
+	cout << endl << "Инверcия всех битов:" << endl << endl;
 	for (int i = count; i >= 0; --i)
 		A[i] == 0 ? A[i] = 1 : A[i] = 0;
 }
@@ -231,10 +233,7 @@ void doubleArray(double number, bool *A, int position) {
 	for (int i = sizeof(unionedDouble) - 1; i >= 0; --i) {
 		digit = unionedDouble.secondPart[i];
 		for (int j = 0; j < 8; ++j) {
-			if (digit & (128 >> j))
-				A[position - 64] = 1;
-			else
-				A[position - 64] = 0;
+			digit & (128 >> j) ? A[position - 64] = 1 : A[position - 64] = 0;
 			position++;
 		}
 	}

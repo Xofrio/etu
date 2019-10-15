@@ -4,7 +4,7 @@ int main() {
 	setlocale(0, "");
 	int menuOption, numberI;
 	short numberS;
-	unsigned long numberU;
+	unsigned numberU;
 	float numberF;
 	double numberD;
 	bool condition = 1, *digits = 0, created = 0;
@@ -74,34 +74,28 @@ int main() {
 			}
 			else {
 				switch (option) {
-				cout << endl << "Инверcия всех битов:" << endl << endl;
 				case 'I': case 'i': {
 					inversion(digits, 31);
-					cout << endl;
 					Output(option, digits);
 					break;
 				}
 				case 'S': case 's': {
 					inversion(digits, 15);
-					cout << endl;
 					Output(option, digits);
 					break;
 				}
 				case 'U': case 'u': {
 					inversion(digits, 31);
-					cout << endl;
 					Output(option, digits);
 					break;
 				}
 				case 'F': case 'f': {
 					inversion(digits, 31);
-					cout << endl;
 					Output(option, digits);
 					break;
 				}
 				case 'D': case 'd': {
 					inversion(digits, 63);
-					cout << endl;
 					Output(option, digits);
 					break;
 				}
@@ -122,6 +116,6 @@ int main() {
 	return 0;
 }
 /*Problems:
-1) if in float/double input, and, of course, UNSIGNED(!!!!!!!)should limit 'em somehow;
+1) if in float/double input.
 2) Should try to make more variants.
 */
