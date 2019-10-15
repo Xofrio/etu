@@ -114,25 +114,154 @@ int getMenuOption() {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 2): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 4): ";
 		}
-		else if (userNumber == 0 || userNumber == 1 || userNumber == 2) {
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4) {
 			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 		else
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 2): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 4): ";
 	}
+}
+
+short getPositionNumber(char type, short needed) {
+	if (needed == 1) {
+		cout << endl << "Введите номер нужного бита: ";
+		while (true) {
+			short userNumber;
+			cin >> userNumber;
+			if (type == 'I' || type == 'i' || type == 'U' || type == 'u' || type == 'F' || type == 'f') {
+				if (cin.fail() || userNumber < 0 || userNumber > 31) {
+					cin.clear();
+					cin.ignore(cin.rdbuf()->in_avail());
+					cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 31): ";
+				}
+				else {
+					cin.ignore(cin.rdbuf()->in_avail());
+					return userNumber;
+				}
+			}
+			else if (type == 'S' || type == 's') {
+				if (cin.fail() || userNumber < 0 || userNumber > 15) {
+					cin.clear();
+					cin.ignore(cin.rdbuf()->in_avail());
+					cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 15): ";
+				}
+				else {
+					cin.ignore(cin.rdbuf()->in_avail());
+					return userNumber;
+				}
+			}
+			else {
+				if (cin.fail() || userNumber < 0 || userNumber > 63) {
+					cin.clear();
+					cin.ignore(cin.rdbuf()->in_avail());
+					cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 63): ";
+				}
+				else {
+					cin.ignore(cin.rdbuf()->in_avail());
+					return userNumber;
+				}
+			}
+		}
+	}
+	else {
+		for (int i = 1; i < needed + 1; ++i) {
+			cout << endl << "Введите номер " << i << " бита: ";
+			while (true) {
+				short userNumber;
+				cin >> userNumber;
+				if (type == 'I' || type == 'i' || type == 'U' || type == 'u' || type == 'F' || type == 'f') {
+					if (cin.fail() || userNumber < 0 || userNumber > 31) {
+						cin.clear();
+						cin.ignore(cin.rdbuf()->in_avail());
+						cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 31): ";
+					}
+					else {
+						cin.ignore(cin.rdbuf()->in_avail());
+						return userNumber;
+					}
+				}
+				else if (type == 'S' || type == 's') {
+					if (cin.fail() || userNumber < 0 || userNumber > 15) {
+						cin.clear();
+						cin.ignore(cin.rdbuf()->in_avail());
+						cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 15): ";
+					}
+					else {
+						cin.ignore(cin.rdbuf()->in_avail());
+						return userNumber;
+					}
+				}
+				else {
+					if (cin.fail() || userNumber < 0 || userNumber > 63) {
+						cin.clear();
+						cin.ignore(cin.rdbuf()->in_avail());
+						cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 63): ";
+					}
+					else {
+						cin.ignore(cin.rdbuf()->in_avail());
+						return userNumber;
+					}
+				}
+			}
+		}
+	}
+}
+
+bool getByteValue() {
+	cout << endl << "Введите значение бита (либо 0, либо 1): ";
+	while (true) {
+		bool userNumber;
+		cin >> userNumber;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(cin.rdbuf()->in_avail());
+			cout << endl << "Попробуйте ввести корректное значение бита (от 0 до 1): ";
+		}
+		else if (userNumber == 0 || userNumber == 1) {
+			cin.ignore(cin.rdbuf()->in_avail());
+			return userNumber;
+		}
+	}
+}
+
+void change(bool *A, char type, short needed) {
+	short position;
+	bool value;
+	position = getPositionNumber(type, needed);
+	value = getByteValue();
+	A[position] = value;
+}
+
+void swap(bool *A, char type, short needed) {
+	short position1, position2;
+	while (true) {
+		position1 = getPositionNumber(type, needed);
+		position2 = getPositionNumber(type, needed);
+		if (position1 == position2)
+			cout << endl << "Необходимо ввести разные позиции битов." << endl << endl;
+		else {
+			bool tmp;
+			tmp = A[position1];
+			A[position1] = A[position2];
+			A[position2] = tmp;
+			break;
+		}
+	}
+
 }
 
 void inversion(bool *A, int count) {
 	cout << endl << "Инверcия всех битов:" << endl << endl;
-	for (int i = count; i >= 0; --i)
+	for (int i = count - 1; i >= 0; --i)
 		A[i] == 0 ? A[i] = 1 : A[i] = 0;
 }
 
-void Output(char type, bool *A){
-	if (type == 'I' || type == 'i') {
+void output(char type, bool *A){
+	cout << endl;
+	if (type == 'I' || type == 'i' || type == 'U' || type == 'u') {
 		for (int i = 31; i >= 0; --i) {
 			if ((31 - i) % 8 == 0 && i != 31)
 				cout << " ";
@@ -149,17 +278,6 @@ void Output(char type, bool *A){
 				cout << " ";
 			cout << A[i];
 			if (i == 15) {
-				cout << " ";
-				SetConsoleTextAttribute(textColour, 10);
-			}
-		}
-	}
-	else if (type == 'U' || type == 'u') {
-		for (int n = 31; n >= 0; --n) {
-			if ((31 - n) % 8 == 0 && n != 31)
-				cout << " ";
-			cout << A[n];
-			if (n == 31) {
 				cout << " ";
 				SetConsoleTextAttribute(textColour, 10);
 			}
@@ -200,21 +318,18 @@ void Output(char type, bool *A){
 }
 
 void intArray(int number, bool *digits) {
-	for (int i = 31; i >= 0; --i) {
+	for (int i = 31; i >= 0; --i)
 		digits[i] = number & ((bool)1 << i);
-	}
 }
 
 void shortArray(short number, bool *digits) {
-	for (int i = 15; i >= 0; --i) {
+	for (int i = 15; i >= 0; --i)
 		digits[i] = number & ((bool)1 << i);
-	}
 }
 
 void unsignedArray(unsigned long number, bool *digits) {
-	for (int i = 31; i >= 0; --i) {
+	for (int i = 31; i >= 0; --i)
 		digits[i] = number & ((bool)1 << i);
-	}
 }
 
 void floatArray(float number, bool *digits) {

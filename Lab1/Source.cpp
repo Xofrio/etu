@@ -2,7 +2,7 @@
 
 int main() {
 	setlocale(0, "");
-	int menuOption, numberI;
+	int menuOption, numberI, count;
 	short numberS;
 	unsigned numberU;
 	float numberF;
@@ -13,7 +13,9 @@ int main() {
 		cout << "Выберите опцию . . ." << endl;
 		cout << "0. Отобразить двоичное представление числа в памяти ЭВМ" << endl;
 		cout << "1. Инвертировать все биты числа" << endl;
-		cout << "2. Выйти" << endl;
+		cout << "2. Поменять значение произвольного бита" << endl;
+		cout << "3. Поменять местами значения двух битов" << endl;
+		cout << "4. Выйти" << endl;
 		cout << "Опция: ";
 		menuOption = getMenuOption();
 		switch (menuOption) {
@@ -26,90 +28,84 @@ int main() {
 			switch (option) {
 			case 'I': case 'i': {
 				numberI = getInt();
-				digits = new bool[32];
-				cout << endl << "Двоичное представление числа " << numberI << ":" << endl << endl;
+				count = 32;
+				digits = new bool[count];
+				cout << endl << "Двоичное представление числа " << numberI << ":" << endl;
 				intArray(numberI, digits);
-				Output(option, digits);
+				output(option, digits);
 				break;
 			}
 			case 'S': case 's': {
 				numberS = getShort();
-				digits = new bool[16];
-				cout << endl << "Двоичное представление числа " << numberS << ":" << endl << endl;
+				count = 16;
+				digits = new bool[count];
+				cout << endl << "Двоичное представление числа " << numberS << ":" << endl;
 				shortArray(numberS, digits);
-				Output(option, digits);
+				output(option, digits);
 				break;
 			}
 			case 'U': case 'u': {
 				numberU = getUnsigned();
 				digits = new bool[32];
-				cout << endl << "Двоичное представление числа " << numberU << ":" << endl << endl;
+				cout << endl << "Двоичное представление числа " << numberU << ":" << endl;
 				unsignedArray(numberU, digits);
-				Output(option, digits);
+				output(option, digits);
 				break;
 			}
 			case 'F': case 'f': {
 				numberF = getFloat();
-				digits = new bool[32];
+				count = 32;
+				digits = new bool[count];
 				floatArray(numberF, digits);
-				cout << endl << "Двоичное представление числа " << numberF << ":" << endl << endl;
-				Output(option, digits);
+				cout << endl << "Двоичное представление числа " << numberF << ":" << endl;
+				output(option, digits);
 				break;
 			}
 			case 'D': case 'd': {
 				numberD = getDouble();
-				digits = new bool[64];
-				cout << endl << "Двоичное представление числа " << numberD << ":" << endl << endl;
+				count = 64;
+				digits = new bool[count];
+				cout << endl << "Двоичное представление числа " << numberD << ":" << endl;
 				doubleArray(numberD, digits, 64);
-				Output(option, digits);
+				output(option, digits);
 				break;
 			}
 			}
 			break;
 		}
 		case 1: {
-			if (created == 0) {
+			if (created == 0)
 				cout << endl << "Сначала необходимо ввести число." << endl << endl;
-				break;
-			}
 			else {
-				switch (option) {
-				case 'I': case 'i': {
-					inversion(digits, 31);
-					Output(option, digits);
-					break;
-				}
-				case 'S': case 's': {
-					inversion(digits, 15);
-					Output(option, digits);
-					break;
-				}
-				case 'U': case 'u': {
-					inversion(digits, 31);
-					Output(option, digits);
-					break;
-				}
-				case 'F': case 'f': {
-					inversion(digits, 31);
-					Output(option, digits);
-					break;
-				}
-				case 'D': case 'd': {
-					inversion(digits, 63);
-					Output(option, digits);
-					break;
-				}
-				}
+				inversion(digits, count);
+				output(option, digits);
 			}
 			break;
 		}
 		case 2: {
+			if (created == 0)
+				cout << endl << "Сначала необходимо ввести число." << endl << endl;
+			else {
+				change(digits, option, 1);
+				output(option, digits);
+			}
+			break;
+		}
+		case 3: {
+			if (created == 0)
+				cout << endl << "Сначала необходимо ввести число." << endl << endl;
+			else {
+				swap(digits, option, 2);
+				output(option, digits);
+			}
+			break;
+		}
+		case 4: {
 			cout << endl;
 			condition = 0;
 			break;
 		}
 		}
-
 	}
 	delete[] digits;
 	system("pause");
