@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <vector>
 #include <Windows.h>
 
 using namespace std;
@@ -1017,33 +1018,24 @@ long double determineTheDeterminant(long double **A, int order) {
 	}
 }
 
-void rankOfMatrix(long double **A, int rows, int columns, long double determinant) {
-	int rank, countZero = 0;
-	for (int i = 0; i < rows; ++i) {
-		for (int j = 0; j < columns; ++j) {
-			if (A[i][j] == 0)
-				++countZero;
-		}
-	}
-	if (countZero == rows * columns)
-		rank = 0;
-	else if (determinant != 0)
-		rank = rows;
-	else {
-		for (int k = 1; k < rows; ++k) {
-		countZero = 0;
-			for (int i = 0; i < rows; ++i) {
-				for (int j = 0; j < columns; ++j) {
-					if (determineTheDeterminant(minor(A, i, j, rows - k), rows - k) == 0)
-						++countZero;
-				}
-			}
-			if (countZero == rows * columns)
-				rank = rows - k;
-			else {
-				rank = rows - k;
+void rankOfMatrix(long double **A, int rows, int columns){
+	int rank = rows <= columns ? columns : rows;
+	vector<char> line_used(rows);
+	for (int i = 0; i < columns; ++i) {
+		int j;
+		for (j = 0; j < rows; ++j)
+			if (!line_used[j] && A[j][i] != 0)
 				break;
-			}
+		if (j == rows)
+			--rank;
+		else {
+			line_used[j] = true;
+			for (int p = i + 1; p < columns; ++p)
+				A[j][p] /= A[j][i];
+			for (int k = 0; k < rows; ++k)
+				if (k != j && A[j][i] != 0)
+					for (int p = i + 1; p < columns; ++p)
+						A[k][p] -= A[j][p] * A[k][i];
 		}
 	}
 	cout << endl << "Ранг матрицы: " << rank << endl << endl;

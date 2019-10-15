@@ -338,12 +338,18 @@ int main() {
 		case 14: {
 			if (created == 0)
 				cout << endl << "Нет матрицы." << endl << endl;
-			else if (square == 0 || rows == 1)
-				cout << endl << "Необходимо создать квадратную матрицу порядка большего, либо равного 2" << endl << endl;
+			else if (square == 0) {
+				cout << endl << "Определитель матрицы не может быть найден, поскольку матрица не квадратная." << endl;
+				rankOfMatrix(arrayOfNumbers, rows, columns);
+			}
+			else if (rows == 1){
+				cout << endl << "Определитель матрицы: " << arrayOfNumbers[0][0] << endl;
+				rankOfMatrix(arrayOfNumbers, rows, columns);
+			}
 			else {
 				determinant = determineTheDeterminant(arrayOfNumbers, rows);
 				cout << endl << "Определитель матрицы: " << determinant << endl;
-				rankOfMatrix(arrayOfNumbers, rows, columns, determinant);
+				rankOfMatrix(arrayOfNumbers, rows, columns);
 			}
 			break;
 		}
@@ -358,4 +364,3 @@ int main() {
 	system("pause");
 	return 0;
 }
-/* 1. Need to make rankOfMatrix function complete. Cuz it's not.*/
