@@ -2,119 +2,110 @@
 
 int main() {
 	setlocale(0, "");
-	int menuOption;
-	bool condition = 1;
+	int menuOption, numberI;
+	short numberS;
+	unsigned long numberU;
+	float numberF;
+	double numberD;
+	bool condition = 1, *digits = 0, created = 0;
 	char option;
 	while (condition) {
-		Menu();
+		cout << "Выберите опцию . . ." << endl;
+		cout << "0. Отобразить двоичное представление числа в памяти ЭВМ" << endl;
+		cout << "1. Инвертировать все биты числа" << endl;
+		cout << "2. Выйти" << endl;
+		cout << "Опция: ";
 		menuOption = getMenuOption();
 		switch (menuOption) {
 		case 0: {
+			system("cls");
+			created = 1;
 			cout << "Выберите тип числа, чтобы отобразить его двоичное представление в памяти ЭВМ" << endl;
-			cout << "I(i) - int, S(s) - short int, U(u) - unsigned int, F(f) - float, D(d) - double: ";
+			cout << "I(i) - int, S(s) - short, U(u) - unsigned, F(f) - float, D(d) - double: ";
 			option = getOption();
 			switch (option) {
 			case 'I': case 'i': {
-				int number = getInt();
-				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-				intInterpretation(number);
+				numberI = getInt();
+				digits = new bool[32];
+				cout << endl << "Двоичное представление числа " << numberI << ":" << endl << endl;
+				intArray(numberI, digits);
+				Output(option, digits);
 				break;
 			}
 			case 'S': case 's': {
-				short number = getShort();
-				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-				shortInterpretation(number);
+				numberS = getShort();
+				digits = new bool[16];
+				cout << endl << "Двоичное представление числа " << numberS << ":" << endl << endl;
+				shortArray(numberS, digits);
+				Output(option, digits);
 				break;
 			}
 			case 'U': case 'u': {
-				unsigned long number = getUnsigned();
-				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-				unsignedInterpretation(number);
+				numberU = getUnsigned();
+				digits = new bool[32];
+				cout << endl << "Двоичное представление числа " << numberU << ":" << endl << endl;
+				unsignedArray(numberU, digits);
+				Output(option, digits);
 				break;
 			}
 			case 'F': case 'f': {
-				float number = getFloat();
-				bool digits[32];
-				floatInterpretation(number, digits);
-				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-				floatOutput(digits);
+				numberF = getFloat();
+				digits = new bool[32];
+				floatArray(numberF, digits);
+				cout << endl << "Двоичное представление числа " << numberF << ":" << endl << endl;
+				Output(option, digits);
 				break;
 			}
 			case 'D': case 'd': {
-				double number = getDouble();
-				bool *digits = 0;
-				int position = 64;
-				digits = new bool[position];
-				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-				doubleInterpretation(number, digits, position);
-				doubleOutput(digits);
+				numberD = getDouble();
+				digits = new bool[64];
+				cout << endl << "Двоичное представление числа " << numberD << ":" << endl << endl;
+				doubleArray(numberD, digits, 64);
+				Output(option, digits);
 				break;
 			}
 			}
 			break;
 		}
 		case 1: {
-			cout << endl << endl << "Выберите тип числа, биты которого нужно инвертировать" << endl;
-			cout << "I(i) - int, S(s) - short int, U(u) - unsigned int, F(f) - float, D(d) - double: ";
-			option = getOption();
-			switch (option) {
-			case 'I': case 'i': {
-				int number = getInt();
-				cout << endl << "Двоичное представление числа " << number << ":" << endl;
-				intInterpretation(number);
-				cout << endl << "Инверcия всех битов:" << endl << endl;
-				intInterpretation(~number);
+			if (created == 0) {
+				cout << endl << "Сначала необходимо ввести число." << endl << endl;
 				break;
 			}
-			case 'S': case 's': {
-				short number = getShort();
-				cout << endl << "Двоичное представление числа " << number << ":" << endl;
-				shortInterpretation(number);
+			else {
+				switch (option) {
 				cout << endl << "Инверcия всех битов:" << endl << endl;
-				shortInterpretation(~number);
-				break;
-			}
-			case 'U': case 'u': {
-				unsigned long number = getUnsigned();
-				cout << endl << "Двоичное представление числа " << number << ":" << endl;
-				unsignedInterpretation(number);
-				cout << endl << "Инверcия всех битов:" << endl << endl;
-				unsignedInterpretation(~number);
-				break;
-			}
-			case 'F': case 'f': {
-				float number = getFloat();
-				bool digits[32];
-				floatInterpretation(number, digits);
-				cout << endl << "Двоичное представление числа " << number << ":" << endl;
-				floatOutput(digits);
-				for (int i = 0; i < 32; ++i) {
-					if (digits[i] == 0)
-						digits[i] = 1;
-					else
-						digits[i] = 0;
+				case 'I': case 'i': {
+					inversion(digits, 31);
+					cout << endl;
+					Output(option, digits);
+					break;
 				}
-				cout << endl << "Инверсия всех битов:" << endl << endl;
-				floatOutput(digits);
-				break;
-			}
-			case 'D': case 'd': {
-				double number = getDouble();
-				bool *digits = 0;
-				int position = 64;
-				digits = new bool[position];
-				doubleInterpretation(number, digits, position);
-				cout << endl << "Двоичное представление числа " << number << ":" << endl << endl;
-				doubleOutput(digits);
-				for (int i = 0; i < 64; ++i) {
-					if (digits[i] == 0)
-						digits[i] = 1;
-					else
-						digits[i] = 0;
+				case 'S': case 's': {
+					inversion(digits, 15);
+					cout << endl;
+					Output(option, digits);
+					break;
 				}
-				cout << endl << "Инверсия всех битов:" << endl << endl;
-				doubleOutput(digits);
-			}
+				case 'U': case 'u': {
+					inversion(digits, 31);
+					cout << endl;
+					Output(option, digits);
+					break;
+				}
+				case 'F': case 'f': {
+					inversion(digits, 31);
+					cout << endl;
+					Output(option, digits);
+					break;
+				}
+				case 'D': case 'd': {
+					inversion(digits, 63);
+					cout << endl;
+					Output(option, digits);
+					break;
+				}
+				}
 			}
 			break;
 		}
@@ -126,6 +117,7 @@ int main() {
 		}
 
 	}
+	delete[] digits;
 	system("pause");
 	return 0;
 }
