@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Windows.h>
+#include <ctime>
 #undef min
 #undef max
 
@@ -114,28 +115,28 @@ int getMenuOption() {
 		if (cin.fail()) {
 			cin.clear();
 			cin.ignore(cin.rdbuf()->in_avail());
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 4): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 6): ";
 		}
-		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4) {
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6) {
 			cin.ignore(cin.rdbuf()->in_avail());
 			return userNumber;
 		}
 		else
-			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 4): ";
+			cout << endl << "Попробуйте ввести корректную опцию (от 0 до 6): ";
 	}
 }
 
 short getPositionNumber(char type, short needed) {
 	if (needed == 1) {
-		cout << endl << "Введите номер нужного бита: ";
+		cout << endl << "Введите номер бита: ";
 		while (true) {
 			short userNumber;
 			cin >> userNumber;
 			if (type == 'I' || type == 'i' || type == 'U' || type == 'u' || type == 'F' || type == 'f') {
-				if (cin.fail() || userNumber < 0 || userNumber > 31) {
+				if (cin.fail() || userNumber < 1 || userNumber > 32) {
 					cin.clear();
 					cin.ignore(cin.rdbuf()->in_avail());
-					cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 31): ";
+					cout << endl << "Попробуйте ввести корректный номер бита (от 1 до 32): ";
 				}
 				else {
 					cin.ignore(cin.rdbuf()->in_avail());
@@ -143,10 +144,10 @@ short getPositionNumber(char type, short needed) {
 				}
 			}
 			else if (type == 'S' || type == 's') {
-				if (cin.fail() || userNumber < 0 || userNumber > 15) {
+				if (cin.fail() || userNumber < 1 || userNumber > 16) {
 					cin.clear();
 					cin.ignore(cin.rdbuf()->in_avail());
-					cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 15): ";
+					cout << endl << "Попробуйте ввести корректный номер бита (от 1 до 16): ";
 				}
 				else {
 					cin.ignore(cin.rdbuf()->in_avail());
@@ -154,10 +155,10 @@ short getPositionNumber(char type, short needed) {
 				}
 			}
 			else {
-				if (cin.fail() || userNumber < 0 || userNumber > 63) {
+				if (cin.fail() || userNumber < 1 || userNumber > 64) {
 					cin.clear();
 					cin.ignore(cin.rdbuf()->in_avail());
-					cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 63): ";
+					cout << endl << "Попробуйте ввести корректный номер бита (от 1 до 64): ";
 				}
 				else {
 					cin.ignore(cin.rdbuf()->in_avail());
@@ -173,10 +174,10 @@ short getPositionNumber(char type, short needed) {
 				short userNumber;
 				cin >> userNumber;
 				if (type == 'I' || type == 'i' || type == 'U' || type == 'u' || type == 'F' || type == 'f') {
-					if (cin.fail() || userNumber < 0 || userNumber > 31) {
+					if (cin.fail() || userNumber < 1 || userNumber > 32) {
 						cin.clear();
 						cin.ignore(cin.rdbuf()->in_avail());
-						cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 31): ";
+						cout << endl << "Попробуйте ввести корректный номер бита (от 1 до 32): ";
 					}
 					else {
 						cin.ignore(cin.rdbuf()->in_avail());
@@ -184,10 +185,10 @@ short getPositionNumber(char type, short needed) {
 					}
 				}
 				else if (type == 'S' || type == 's') {
-					if (cin.fail() || userNumber < 0 || userNumber > 15) {
+					if (cin.fail() || userNumber < 1 || userNumber > 16) {
 						cin.clear();
 						cin.ignore(cin.rdbuf()->in_avail());
-						cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 15): ";
+						cout << endl << "Попробуйте ввести корректный номер бита (от 1 до 16): ";
 					}
 					else {
 						cin.ignore(cin.rdbuf()->in_avail());
@@ -195,10 +196,10 @@ short getPositionNumber(char type, short needed) {
 					}
 				}
 				else {
-					if (cin.fail() || userNumber < 0 || userNumber > 63) {
+					if (cin.fail() || userNumber < 1 || userNumber > 64) {
 						cin.clear();
 						cin.ignore(cin.rdbuf()->in_avail());
-						cout << endl << "Попробуйте ввести корректный номер бита (от 0 до 63): ";
+						cout << endl << "Попробуйте ввести корректный номер бита (от 1 до 64): ";
 					}
 					else {
 						cin.ignore(cin.rdbuf()->in_avail());
@@ -230,7 +231,7 @@ bool getByteValue() {
 void change(bool *A, char type, short needed) {
 	short position;
 	bool value;
-	position = getPositionNumber(type, needed);
+	position = getPositionNumber(type, needed) - 1;
 	value = getByteValue();
 	A[position] = value;
 }
@@ -238,10 +239,10 @@ void change(bool *A, char type, short needed) {
 void swap(bool *A, char type, short needed) {
 	short position1, position2;
 	while (true) {
-		position1 = getPositionNumber(type, needed);
-		position2 = getPositionNumber(type, needed);
+		position1 = getPositionNumber(type, needed) - 1;
+		position2 = getPositionNumber(type, needed) - 1;
 		if (position1 == position2)
-			cout << endl << "Необходимо ввести разные позиции битов." << endl << endl;
+			cout << endl << "Необходимо ввести разные позиции битов." << endl;
 		else {
 			bool tmp;
 			tmp = A[position1];
@@ -254,9 +255,25 @@ void swap(bool *A, char type, short needed) {
 }
 
 void inversion(bool *A, int count) {
-	cout << endl << "Инверcия всех битов:" << endl << endl;
+	cout << endl << "Инверcия всех битов:" << endl;
 	for (int i = count - 1; i >= 0; --i)
 		A[i] == 0 ? A[i] = 1 : A[i] = 0;
+}
+
+void inversionWithParameter(bool *A, char type, int count, short needed) {
+	short position;
+	position = getPositionNumber(type, needed) - 1;
+	cout << endl << "Инверcия всех битов, кроме " << position + 1 << " бита:" << endl;
+	for (int i = count - 1; i >= 0; --i)
+		if (i != position)
+			A[i] == 0 ? A[i] = 1 : A[i] = 0;
+}
+
+void randomBit(bool *A, char type, short needed) {
+	short position;
+	position = getPositionNumber(type, needed) - 1;
+	cout << endl << position + 1 << " бит, имеющий случайное значение:" << endl;
+	A[position] = rand() % 2;
 }
 
 void output(char type, bool *A){

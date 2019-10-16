@@ -2,6 +2,7 @@
 
 int main() {
 	setlocale(0, "");
+	srand((unsigned)time(NULL));
 	int menuOption, numberI, count;
 	short numberS;
 	unsigned numberU;
@@ -12,10 +13,12 @@ int main() {
 	while (condition) {
 		cout << "Выберите опцию . . ." << endl;
 		cout << "0. Отобразить двоичное представление числа в памяти ЭВМ" << endl;
-		cout << "1. Инвертировать все биты числа" << endl;
-		cout << "2. Поменять значение произвольного бита" << endl;
-		cout << "3. Поменять местами значения двух битов" << endl;
-		cout << "4. Выйти" << endl;
+		cout << "1. Поменять значение указанного бита" << endl;
+		cout << "2. Поменять местами значения двух битов" << endl;
+		cout << "3. Инвертировать все биты" << endl;
+		cout << "4. Инвертировать все биты, кроме указанного бита" << endl;
+		cout << "5. Изменить значение указанного бита на случайное" << endl;
+		cout << "6. Выйти" << endl;
 		cout << "Опция: ";
 		menuOption = getMenuOption();
 		switch (menuOption) {
@@ -77,7 +80,7 @@ int main() {
 			if (created == 0)
 				cout << endl << "Сначала необходимо ввести число." << endl << endl;
 			else {
-				inversion(digits, count);
+				change(digits, option, 1);
 				output(option, digits);
 			}
 			break;
@@ -86,7 +89,7 @@ int main() {
 			if (created == 0)
 				cout << endl << "Сначала необходимо ввести число." << endl << endl;
 			else {
-				change(digits, option, 1);
+				swap(digits, option, 2);
 				output(option, digits);
 			}
 			break;
@@ -95,12 +98,30 @@ int main() {
 			if (created == 0)
 				cout << endl << "Сначала необходимо ввести число." << endl << endl;
 			else {
-				swap(digits, option, 2);
+				inversion(digits, count);
 				output(option, digits);
 			}
 			break;
 		}
 		case 4: {
+			if (created == 0)
+				cout << endl << "Сначала необходимо ввести число." << endl << endl;
+			else {
+				inversionWithParameter(digits, option, count, 1);
+				output(option, digits);
+			}
+			break;
+		}
+		case 5: {
+			if (created == 0)
+				cout << endl << "Сначала необходимо ввести число." << endl << endl;
+			else {
+				randomBit(digits, option, 1);
+				output(option, digits);
+			}
+			break;
+		}
+		case 6: {
 			cout << endl;
 			condition = 0;
 			break;
