@@ -1,9 +1,7 @@
 #include <iostream>
 #include <string>
-#include <Windows.h>
 
 using namespace std;
-
 
 #ifndef FUNC_H
 #define FUNC_H
@@ -29,16 +27,14 @@ int getMenuOption() {
 string getSequence(int &length) {
 	string userInput;
 	while (true) {
-		int spaceCount = 0, wordCount = 0, wrongCharactersCount = 0, maxSymbols = 0, dots = 0, dotPosition = -1;
-		SetConsoleOutputCP(1251);
-		SetConsoleCP(1251);
+		int charactersCount = 0, wordCount = 0, wrongCharactersCount = 0, maxSymbols = 0, dots = 0, dotPosition = -1;
 		cout << endl << "Введите последовательность символов, содержащую от 1 до 50 слов." << endl << "Cлово - последовательность 1 до 10 символов." << endl << "Cимвол - латинские буквы, цифры и знаки препинания (,;)." << endl << "Последовательность должна заканчиваться точкой (.)." << endl << endl;
 		getline(cin, userInput);
 		length = userInput.length();
 		cout << endl;
 		for (int i = 0; i < length; ++i) {
-			if (userInput[i] == ' ')
-				++spaceCount;
+			if ((int(userInput[i]) > 47 && int(userInput[i]) < 58) || (int(userInput[i]) > 64 && int(userInput[i]) < 91) || (int(userInput[i]) > 96 && int(userInput[i]) < 123))
+				++charactersCount;
 			if (userInput[i] != ' ' && (userInput[i + 1] == ' ' || userInput[i + 1] == '\0'))
 				++wordCount;
 			if ((int(userInput[i]) < 48 || int(userInput[i]) > 57) && (int(userInput[i]) < 65 || int(userInput[i]) > 90) && (int(userInput[i]) < 97 || int(userInput[i]) > 122) && int(userInput[i]) != 32 && int(userInput[i]) != 44 && int(userInput[i]) != 46 && int(userInput[i]) != 59)
@@ -74,7 +70,7 @@ string getSequence(int &length) {
 					condition = 0;
 			}
 		}
-		if (spaceCount == length)
+		if (charactersCount == 0)
 			cout << "Последовательность не содержит слов." << endl;
 		else if (wrongCharactersCount > 0)
 			cout << "Последовательность содержит недопустимые символы." << endl;
