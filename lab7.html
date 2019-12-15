@@ -4,58 +4,56 @@
   <title>Лабораторная работа #7</title>
   <style type="text/css">
     .table {
-      display: table;
+      display: block;
+      margin:auto;
       width: 800px;
       height: 600px;
     }
 
     .row {
-      width: 800px;
+      width: 100%;
       height: 200px;
-      background: blue;
-      border: 1px solid gold;
     }
 
-    .row2 {
-      width: 800px;
-      height: 200px;
-      background: green;
-      border: 1px solid gold;
+    .first {
+      background: LightBlue;
     }
 
-    .row3 {
-      width: 800px;
-      height: 200px;
-      background: red;
-      border: 1px solid gold;
+    .second {
+      background: LightYellow;
+    }
+
+    .third {
+      background: Tomato;
+    }
+
+    .forth {
+      background: Aqua;
+    }
+
+    .fifth {
+      background: LightGreen;
     }
 
     .col {
+      width: 33.33%;
+      width: calc(100% / 3);
       float: left;
-      border: 1px solid gold;
-      width: 33.08%;
       height: 200px;
     }
   </style>
 </head>
 
 <body>
-  <center>
     <div class="table">
+      <div class="row first"></div>
       <div class="row">
+        <div class="col second"></div>
+        <div class="col third"></div>
+        <div class="col forth"></div>
       </div>
-      <div class="row2">
-        <div class="col">
-        </div>
-        <div class="col">
-        </div>
-        <div class="col">
-        </div>
-      </div>
-      <div class="row3">
-      </div>
+      <div class="row fifth"></div>
     </div>
-  </center>
 </body>
 
 </html>
