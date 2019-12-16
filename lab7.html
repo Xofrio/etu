@@ -4,15 +4,28 @@
   <title>Лабораторная работа #7</title>
   <style type="text/css">
     .table {
-      display: table;
+      display: flex;
+      flex-flow: row wrap;
       margin:auto;
       width: 800px;
       height: 600px;
     }
 
+    .table >* {
+      flex 1 100%;
+    }
+
     .row {
-      display: table-row;
+      border: 1px solid gold;
+      display: flex;
+      flex-flow: row wrap;
       height: 200px;
+      width: 800px;
+    }
+
+    .row:nth-child(2) {
+      border-bottom: none;
+      border-top: none;
     }
 
     .first {
@@ -20,10 +33,12 @@
     }
 
     .second {
+      border-right: 1px solid gold;
       background: LightYellow;
     }
 
     .third {
+      border-right: 1px solid gold;
       background: Tomato;
     }
 
@@ -36,25 +51,20 @@
     }
 
     .col {
-      display: table-column;
-      border-collapse: collapse;
-      width: 33.33%;
-      width: calc(100% / 3);
-      float: left;
-      height: 200px;
+      flex-grow: 1;
     }
   </style>
 </head>
 
 <body>
     <div class="table">
-      <div class="row first">123</div>
+      <div class="row first"></div>
       <div class="row">
         <div class="col second"></div>
         <div class="col third"></div>
         <div class="col fourth"></div>
       </div>
-      <div class="row fifth">456</div>
+      <div class="row fifth"></div>
     </div>
 </body>
 
