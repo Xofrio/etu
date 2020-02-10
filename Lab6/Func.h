@@ -48,6 +48,38 @@ int getMenuOption() {
 	}
 }/*Выбор в меню.*/
 
+std::string getPartOfTheName(short part) {
+	while (true) {
+		std::string userInput;
+		bool capital = 0, notAllowed = 0;
+		std::cin >> userInput;
+		for (int i = 0; i < userInput.length(); ++i) {
+			if ((int(userInput[0]) < -64 || int(userInput[0]) > -33) && int(userInput[0]) != -88) {
+				capital = 1;
+				break;
+			}
+			if (i != 0 && ((int(userInput[i]) < -32 || int(userInput[i]) > -1) && int(userInput[i]) != -72)) {
+				notAllowed = 1;
+				break;
+			}
+		}
+		if (std::cin.fail() || userInput.length() > 15 || capital == 1 || notAllowed == 1) {
+			std::cin.clear();
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			if (part == 2)
+				std::cout << std::endl << "Введите фамилию (только русские буквы, не более 14 символов, 1 - заглавная): ";
+			else if (part == 1)
+				std::cout << std::endl << "Введите имя (только русские буквы, не более 14 символов, 1 - заглавная): ";
+			else
+				std::cout << std::endl << "Введите отчество (только русские буквы, не более 14 символов, 1 - заглавная): ";
+		}
+		else {
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			return userInput;
+		}
+	}
+}/*Запись оценки.*/
+
 short getGrade() {
 	while (true) {
 		short userNumber;
@@ -220,41 +252,145 @@ student* addStudent(student* inmate, int amount) {
 
 void addData(student* inmate, int &amount, int &library) {
 	std::cout << std::endl;
+	++amount;
 	std::cout << "Введите фамилию студента: ";
-	std::cin >> inmate[amount].lastName;
+	inmate[amount - 1].lastName = getPartOfTheName(2);
 	std::cout << "Введите имя студента: ";
-	std::cin >> inmate[amount].name;
+	inmate[amount - 1].name = getPartOfTheName(1);
 	std::cout << "Введите отчество студента: ";
-	std::cin >> inmate[amount].patronymic;
+	inmate[amount - 1].patronymic = getPartOfTheName(0);
 	std::cout << "Введите пол студента (м - 1/ж - 0): ";
-	inmate[amount].sex = getSex();
+	inmate[amount - 1].sex = getSex();
 	std::cout << "Введите форму обучения студента (очная - 2/очно-заочная - 1/заочная - 0): ";
-	inmate[amount].formOfEducation = getForm();
+	inmate[amount - 1].formOfEducation = getForm();
 	std::cout << "Введите номер группы студента [0...9999]: ";
-	inmate[amount].group = getGroup(inmate, amount, amount);
+	inmate[amount - 1].group = getGroup(inmate, amount, amount - 1);
 	for (int i = 0; i < 8; ++i) {
 		if (i < 3) {
 			std::cout << "Введите оценку студента за " << i + 1 << " экзамен: ";
-			inmate[amount].grades[i] = getGrade();
+			inmate[amount - 1].grades[i] = getGrade();
 		}
 		else {
 			std::cout << "Введите оценку студента за " << i - 2 << " зачёт: ";
-			inmate[amount].grades[i] = getGrade();
+			inmate[amount - 1].grades[i] = getGrade();
 		}
 	}
 	char temp[80];
-
 	time_t now = time(NULL);
 	tm* localTime = localtime(&now);
 	strftime(temp, 17, "%H:%M %d.%m.%Y", localTime);
 	for (int i = 0; temp[i] != '\0' ; ++i)
-		inmate[amount].modTime.push_back(temp[i]);
-	inmate[amount].createdTime = inmate[amount].modTime;
-	inmate[amount].libraryCard = library;
-	++amount;
+		inmate[amount - 1].modTime.push_back(temp[i]);
+	inmate[amount - 1].createdTime = inmate[amount - 1].modTime;
+	inmate[amount - 1].libraryCard = library;
 	++library;
 	std::cout << std::endl;
 }/*Добавление данных о студенте*/
+
+void sort(student* inmate, int amount) {
+	if (amount > 1) {
+		bool match = 0;
+		for (int i = 0; i < amount - 1; ++i) {
+			if (inmate[i].group == inmate[amount - 1].group) {
+				match = 1;
+				break;
+			}
+		}
+		if (match == 0)
+			inmate[amount - 1].index = 1;
+		else {
+			int studentsAmount = 1;
+			for (int i = 0; i < amount - 1; ++i) {
+				if (inmate[i].group == inmate[amount - 1].group) {
+					++studentsAmount;
+				}
+			}
+			student* temp = new student[studentsAmount];
+			int j = 0;
+			for (int i = 0; i < amount; ++i) {
+				if (inmate[i].group == inmate[amount - 1].group) {
+					temp[j] = inmate[i];
+					++j;
+				}
+			}
+			for (int i = 0; i < studentsAmount; ++i)
+				temp[i].index = i + 1;
+			int p, d;
+			bool swapped, swapNotNeeded;
+			std::string templastName, tempName, tempPatronymic;
+			for (int i = 0; i < studentsAmount - 1; ++i) {
+				for (int j = 0; j < studentsAmount - i - 1; ++j) {
+					p = 0, d = 0;
+					/*
+					if (temp[j].lastName < temp[j + 1].lastName && temp[j].index > temp[j + 1].index) {
+					   
+
+					}
+					
+					*/
+					while (p != temp[j].lastName.length() || d != temp[j + 1].lastName.length()) {
+						swapped = 0, swapNotNeeded = 0;
+						if (int(temp[j].lastName[p]) > int(temp[j + 1].lastName[d]) && int(temp[j].lastName[p]) != 0 && int(temp[j].lastName[p]) != 0 && temp[j].index < temp[j + 1].index) {
+							templastName = temp[j].lastName;
+							tempName = temp[j].name;
+							tempPatronymic = temp[j].patronymic;
+							temp[j].lastName = temp[j + 1].lastName;
+							temp[j].name = temp[j + 1].name;
+							temp[j].patronymic = temp[j + 1].patronymic;
+							temp[j + 1].lastName = templastName;
+							temp[j + 1].name = tempName;
+							temp[j + 1].patronymic = tempPatronymic;
+							swapped = 1;
+						}
+						else if (int(temp[j].lastName[p]) == int(temp[j + 1].lastName[d])) {
+							++p;
+							++d;
+						}
+						else if (int(temp[j].lastName[p]) < int(temp[j + 1].lastName[d]))
+							swapNotNeeded = 1;
+						else if (int(temp[j].lastName[p]) == 0 && int(temp[j + 1].lastName[d] != 0) && temp[j].index < temp[j + 1].index)
+							swapNotNeeded = 1;
+						else if (int(temp[j].lastName[p]) == 0 && int(temp[j + 1].lastName[d] != 0) && temp[j].index > temp[j + 1].index) {
+							templastName = temp[j].lastName;
+							tempName = temp[j].name;
+							tempPatronymic = temp[j].patronymic;
+							temp[j].lastName = temp[j + 1].lastName;
+							temp[j].name = temp[j + 1].name;
+							temp[j].patronymic = temp[j + 1].patronymic;
+							temp[j + 1].lastName = templastName;
+							temp[j + 1].name = tempName;
+							temp[j + 1].patronymic = tempPatronymic;
+							swapped = 1;
+						}
+						else if (int(temp[j].lastName[p]) != 0 && int(temp[j + 1].lastName[d] == 0) && temp[j].index < temp[j + 1].index) {
+							templastName = temp[j + 1].lastName;
+							tempName = temp[j + 1].name;
+							tempPatronymic = temp[j + 1].patronymic;
+							temp[j + 1].lastName = temp[j].lastName;
+							temp[j + 1].name = temp[j].name;
+							temp[j + 1].patronymic = temp[j].patronymic;
+							temp[j].lastName = templastName;
+							temp[j].name = tempName;
+							temp[j].patronymic = tempPatronymic;
+							swapped = 1;
+						}
+						if (swapped == 1 || swapNotNeeded == 1)
+							break;
+					}
+				}
+			}
+			for (int i = 0; i < amount; ++i) {
+				if (inmate[i].group == temp[0].group) {
+					for (int k = 0; k < studentsAmount; ++k)
+						if (inmate[i].lastName == temp[k].lastName)
+							inmate[i].index = temp[k].index;
+				}
+			}
+		}
+	}
+	else
+		inmate[amount - 1].index = 1;
+}
 
 student* deleteData(student* inmate, int &amount) {
 	bool mustBeDeleted;
@@ -296,11 +432,11 @@ void editData(student* inmate, int amount)  {
 	}
 	else {
 		std::cout << "Введите фамилию " << number << " студента: ";
-		std::cin >> inmate[number - 1].lastName;
+		inmate[number - 1].lastName = getPartOfTheName(2);
 		std::cout << "Введите имя " << number << " студента: ";
-		std::cin >> inmate[number - 1].name;
+		inmate[number - 1].name = getPartOfTheName(1);;
 		std::cout << "Введите отчество " << number << " студента: ";
-		std::cin >> inmate[number - 1].patronymic;
+		inmate[number - 1].patronymic = getPartOfTheName(0);;
 		std::cout << "Введите пол " << number << " студента (м - 1/ж - 0): ";
 		inmate[number - 1].sex = getSex();
 		std::cout << "Введите форму обучения " << number << " студента (очная - 2/очно-заочная - 1/заочная - 0): ";
@@ -460,7 +596,6 @@ void showData(student* inmate, int number) {
 }/*Показать все данные о студенте*/
 
 void maleFemaleAmount(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::cout << std::endl;
 	int male = 0;
 	for (int i = 0; i < amount; ++i)
@@ -478,7 +613,6 @@ void maleFemaleAmount(student* inmate, int &amount) {
 }/*Показать количество студентов мужского и женского пола*/
 
 void gettingScholarshipAmount(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::cout << std::endl;
 	int scholarship = 0, goodGradesAmount;
 	for (int i = 0; i < amount; ++i) {
@@ -498,7 +632,6 @@ void gettingScholarshipAmount(student* inmate, int &amount) {
 }/*Показать количество студентов, которые будут получать стипендию*/
 
 void informationAboutSpecialStudents(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::cout << std::endl;
 	int noScholarship = 0, aAmount, bAmount, excellentAmount = 0, wellAmount = 0, goodAmount = 0;
 	std::cout << std::endl;
@@ -590,7 +723,6 @@ void informationAboutSpecialStudents(student* inmate, int &amount) {
 }/*Показать информацию о студентах, которые не получают стипендию, учатся только на «хор»; учатся на «хор» и «отл»; учатся только на «отл» */
 
 void informationAboutCertainGroup(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::cout << std::endl;
 	int studentsAmount = 0;
 	short group;
@@ -615,7 +747,6 @@ void informationAboutCertainGroup(student* inmate, int &amount) {
 }/*Показать информацию о студентах из N группы, N инициализируется пользователем*/
 
 void informationAboutTop(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::cout << std::endl;
 	int count = 0;
 	double sum = 0, avg;
@@ -648,7 +779,6 @@ void informationAboutTop(student* inmate, int &amount) {
 }/*Показать информацию о топе студентов*/
 
 void informationAboutCertainCreatedTimeStudents(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::cout << std::endl;
 	int studentsAmount = 0, comparison;
 	std::string date;
@@ -712,7 +842,6 @@ void informationAboutCertainCreatedTimeStudents(student* inmate, int &amount) {
 }/*Показать информацию о студентах, записи которых были сделаны определённого числа (до полудня/после полудня)*/
 
 void informationAboutCertainIndexStudents(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::cout << std::endl;
 	int studentsAmount = 0;
 	short index;
@@ -737,7 +866,6 @@ void informationAboutCertainIndexStudents(student* inmate, int &amount) {
 }/*Показать информацию о студентах, имеющих k номер в списке*/
 
 void outputToFile(student* inmate, int &amount) {
-	inmate = deleteData(inmate, amount);
 	std::ofstream out;          // поток для записи с именем out
 	out.open("C:\\students.txt"); // окрываем файл для записи
 	if (out.is_open()) {
@@ -855,7 +983,4 @@ void outputToFile(student* inmate, int &amount) {
 структуру, где будет храниться данные о книгах: автор, название, год издания, количество страниц, номер студенческого билета студента,
 который взял книгу. Если книга находится в библиотеке по умолчанию номер билета приравнивается к 0.
 Студент может взять несколько книг. Необходимо обеспечить возможность возврата книги и ее приобретения.*/
-
-//Сортировка в структуре (по группе), чтобы получить порядковый номер в списке.
-//проверка на корректность ввода строки??!
-//БИБЛИОТЕКА! KAK PROITI V BIBLIOTEKY???!
+//Нормальная сортировка строк через > < ==
