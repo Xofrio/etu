@@ -11,37 +11,46 @@
 HANDLE textColour = GetStdHandle(STD_OUTPUT_HANDLE);
 
 struct student {
-	std::string name;
-	std::string lastName;
-	std::string patronymic;
-	bool sex;
-	short group;
-	short index;
-	short grades[8];
-	short formOfEducation;
+	std::string name, lastName, patronymic, createdTime, modTime;
 	int libraryCard;
-	std::string createdTime;
-	std::string modTime;
+	short group, index, grades[8], formOfEducation;
+	bool sex;
 };/*Создание структуры student со всеми необходимыми полями.*/
 
 struct book {
-	std::string author;
-	std::string name;
-	short year;
-	short pages;
+	std::string author, name;
+	short year, pages;
 	int libraryCard;
 };/*Создание структуры book со всеми необходимыми полями*/
 
-int getMenuOption() {
+void showMenu() {
+	std::cout << "Выберите опцию . . ." << std::endl;
+	std::cout << "0. Добавить студента" << std::endl;
+	std::cout << "1. Редактировать данные о студенте" << std::endl;
+	std::cout << "2. Информация о студентах" << std::endl;
+	std::cout << "3. Информация о студентах из определённой группы" << std::endl;
+	std::cout << "4. Информация о студентах, средний балл которых выше среднего" << std::endl;
+	std::cout << "5. Количество студентов мужского и женского пола" << std::endl;
+	std::cout << "6. Количество студентов, которые будут получать стипендию" << std::endl;
+	std::cout << "7. Информация о студентах, которые не получают стипендию; учатся только на «хор»; учатся на «хор» и «отл»; учатся только на «отл»." << std::endl;
+	std::cout << "8. Информация о студентах, записи которых были сделаны в определённый день" << std::endl;
+	std::cout << "9. Информация о студентах, имеющих определённый порядковый номер в списке группы" << std::endl;
+	std::cout << "10. Вывести всю информацию о студентах в students.txt" << std::endl;
+	std::cout << "11. Пройти в библиотеку" << std::endl;
+	std::cout << "12. Выйти" << std::endl;
+	std::cout << "Опция: ";
+}/*Вывод меню*/
+
+short getMenuOption() {
 	while (true) {
-		int userNumber;
+		short userNumber;
 		std::cin >> userNumber;
 		if (std::cin.fail() || userNumber < 0 || userNumber > 12) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Введите опцию [0...12]: ";
 		}
-		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 12) {
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2 || userNumber == 3 || userNumber == 4 || userNumber == 5 || userNumber == 6 || userNumber == 7 || userNumber == 8 || userNumber == 9 || userNumber == 10 || userNumber == 11 || userNumber == 12) {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			return userNumber;
 		}
@@ -53,7 +62,7 @@ std::string getPartOfTheName(short part) {
 		std::string userInput;
 		bool capital = 0, notAllowed = 0;
 		std::cin >> userInput;
-		for (int i = 0; i < userInput.length(); ++i) {
+		for (unsigned int i = 0; i < userInput.length(); ++i) {
 			if ((int(userInput[0]) < -64 || int(userInput[0]) > -33) && int(userInput[0]) != -88) {
 				capital = 1;
 				break;
@@ -128,7 +137,7 @@ bool getSex() {
 	}
 }/*Запись пола.*/
 
-short getGroup(student* inmate, int amount, int position) {
+short getGroup(student* &inmate, int amount, int position) {
 	while (true) {
 		short userNumber;
 		std::cin >> userNumber;
@@ -186,7 +195,23 @@ short getGroup(student* inmate, int amount, int position) {
 			}
 		}
 	}
-}/*Запись группу.*/
+}/*Запись группы.*/
+
+short getGroupForSearch() {
+	while (true) {
+		short userNumber;
+		std::cin >> userNumber;
+		if (std::cin.fail() || userNumber < 0 || userNumber > 9999) {
+			std::cin.clear();
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			std::cout << std::endl << "Укажите группу [0...9999]: ";
+		}
+		else {
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			return userNumber;
+		}
+	}
+}
 
 int getID() {
 	while (true) {
@@ -220,24 +245,7 @@ short getIndex() {
 	}
 }/*Получить номер студента в списке*/
 
-void showMenu() {
-	std::cout << "Выберите опцию . . ." << std::endl;
-	std::cout << "0. Добавить студента" << std::endl;
-	std::cout << "1. Редактировать данные о студенте" << std::endl;
-	std::cout << "2. Информация о студентах" << std::endl;
-	std::cout << "3. Информация о студентах из определённой группы" << std::endl;
-	std::cout << "4. Информация о студентах, средний балл которых выше среднего" << std::endl;
-	std::cout << "5. Количество студентов мужского и женского пола" << std::endl;
-	std::cout << "6. Количество студентов, которые будут получать стипендию" << std::endl;
-	std::cout << "7. Информация о студентах, которые не получают стипендию; учатся только на «хор»; учатся на «хор» и «отл»; учатся только на «отл»." << std::endl;
-	std::cout << "8. Информация о студентах, записи которых были сделаны в определённый день" << std::endl;
-	std::cout << "9. Информация о студентах, имеющих определённый порядковый номер в списке группы" << std::endl;
-	std::cout << "10. Вывести всю информацию о студентах в students.txt" << std::endl;
-	std::cout << "12. Выйти" << std::endl;
-	std::cout << "Опция: ";
-}/*Вывод меню*/
-
-student* addStudent(student* inmate, int amount) {
+student* addStudent(student* &inmate, int &amount) {
 	if (amount == 0)
 		inmate = new student[amount + 1];
 	else {
@@ -250,7 +258,7 @@ student* addStudent(student* inmate, int amount) {
 	return inmate;
 }/*Создание динамического массива структур*/
 
-void addData(student* inmate, int &amount, int &library) {
+void addData(student* &inmate, int &amount, int &library) {
 	std::cout << std::endl;
 	++amount;
 	std::cout << "Введите фамилию студента: ";
@@ -287,7 +295,7 @@ void addData(student* inmate, int &amount, int &library) {
 	std::cout << std::endl;
 }/*Добавление данных о студенте*/
 
-void sort(student* inmate, int amount) {
+void sort(student* &inmate, int &amount) {
 	if (amount > 1) {
 		bool match = 0;
 		for (int i = 0; i < amount - 1; ++i) {
@@ -315,84 +323,128 @@ void sort(student* inmate, int amount) {
 			}
 			for (int i = 0; i < studentsAmount; ++i)
 				temp[i].index = i + 1;
-			int p, d;
-			bool swapped, swapNotNeeded;
-			std::string templastName, tempName, tempPatronymic;
+			std::string tempLastName, tempName, tempPatronymic, tempCreatedTime, tempModTime;
+			int tempCard;
+			short tempForm, tempGrades[8];
+			bool tempSex;
 			for (int i = 0; i < studentsAmount - 1; ++i) {
 				for (int j = 0; j < studentsAmount - i - 1; ++j) {
-					p = 0, d = 0;
-					/*
-					if (temp[j].lastName < temp[j + 1].lastName && temp[j].index > temp[j + 1].index) {
-					   
-
+					tempLastName.clear(), tempName.clear(), tempPatronymic.clear(), tempCreatedTime.clear(), tempModTime.clear();
+					tempCard = 0, tempForm = 0,  tempSex = 0;
+					for (int b = 0; b < 8; b++)
+						tempGrades[b] = 0;
+					if ((temp[j].lastName < temp[j + 1].lastName && temp[j].index > temp[j + 1].index) || (temp[j].lastName > temp[j + 1].lastName && temp[j].index < temp[j + 1].index)) {
+						tempLastName = temp[j].lastName;
+						tempName = temp[j].name;
+						tempPatronymic = temp[j].patronymic;
+						tempCreatedTime = temp[j].createdTime;
+						tempModTime = temp[j].modTime;
+						tempCard = temp[j].libraryCard;
+						tempForm = temp[j].formOfEducation;
+						tempSex = temp[j].sex;
+						for (int a = 0; a < 8; ++a)
+							tempGrades[a] = temp[j].grades[a];
+						temp[j].lastName = temp[j + 1].lastName;
+						temp[j].name = temp[j + 1].name;
+						temp[j].patronymic = temp[j + 1].patronymic;
+						temp[j].createdTime = temp[j + 1].createdTime;
+						temp[j].modTime = temp[j + 1].modTime;
+						temp[j].libraryCard = temp[j + 1].libraryCard;
+						temp[j].formOfEducation = temp[j + 1].formOfEducation;
+						temp[j].sex = temp[j + 1].sex;
+						for (int a = 0; a < 8; ++a)
+							temp[j].grades[a] = temp[j + 1].grades[a];
+						temp[j + 1].lastName = tempLastName;
+						temp[j + 1].name = tempName;
+						temp[j + 1].patronymic = tempPatronymic;
+						temp[j + 1].createdTime = tempCreatedTime;
+						temp[j + 1].modTime = tempModTime;
+						temp[j + 1].libraryCard = tempCard;
+						temp[j + 1].formOfEducation = tempForm;
+						temp[j + 1].sex = tempSex;
+						for (int a = 0; a < 8; ++a)
+							temp[j + 1].grades[a] = tempGrades[a];
 					}
-					
-					*/
-					while (p != temp[j].lastName.length() || d != temp[j + 1].lastName.length()) {
-						swapped = 0, swapNotNeeded = 0;
-						if (int(temp[j].lastName[p]) > int(temp[j + 1].lastName[d]) && int(temp[j].lastName[p]) != 0 && int(temp[j].lastName[p]) != 0 && temp[j].index < temp[j + 1].index) {
-							templastName = temp[j].lastName;
-							tempName = temp[j].name;
-							tempPatronymic = temp[j].patronymic;
-							temp[j].lastName = temp[j + 1].lastName;
-							temp[j].name = temp[j + 1].name;
-							temp[j].patronymic = temp[j + 1].patronymic;
-							temp[j + 1].lastName = templastName;
-							temp[j + 1].name = tempName;
-							temp[j + 1].patronymic = tempPatronymic;
-							swapped = 1;
-						}
-						else if (int(temp[j].lastName[p]) == int(temp[j + 1].lastName[d])) {
-							++p;
-							++d;
-						}
-						else if (int(temp[j].lastName[p]) < int(temp[j + 1].lastName[d]))
-							swapNotNeeded = 1;
-						else if (int(temp[j].lastName[p]) == 0 && int(temp[j + 1].lastName[d] != 0) && temp[j].index < temp[j + 1].index)
-							swapNotNeeded = 1;
-						else if (int(temp[j].lastName[p]) == 0 && int(temp[j + 1].lastName[d] != 0) && temp[j].index > temp[j + 1].index) {
-							templastName = temp[j].lastName;
-							tempName = temp[j].name;
-							tempPatronymic = temp[j].patronymic;
-							temp[j].lastName = temp[j + 1].lastName;
-							temp[j].name = temp[j + 1].name;
-							temp[j].patronymic = temp[j + 1].patronymic;
-							temp[j + 1].lastName = templastName;
-							temp[j + 1].name = tempName;
-							temp[j + 1].patronymic = tempPatronymic;
-							swapped = 1;
-						}
-						else if (int(temp[j].lastName[p]) != 0 && int(temp[j + 1].lastName[d] == 0) && temp[j].index < temp[j + 1].index) {
-							templastName = temp[j + 1].lastName;
-							tempName = temp[j + 1].name;
-							tempPatronymic = temp[j + 1].patronymic;
-							temp[j + 1].lastName = temp[j].lastName;
-							temp[j + 1].name = temp[j].name;
-							temp[j + 1].patronymic = temp[j].patronymic;
-							temp[j].lastName = templastName;
-							temp[j].name = tempName;
-							temp[j].patronymic = tempPatronymic;
-							swapped = 1;
-						}
-						if (swapped == 1 || swapNotNeeded == 1)
-							break;
+					else if ((temp[j].lastName == temp[j + 1].lastName && temp[j].name < temp[j + 1].name && temp[j].index > temp[j + 1].index) || (temp[j].lastName == temp[j + 1].lastName && temp[j].name > temp[j + 1].name && temp[j].index < temp[j + 1].index)) {
+						tempLastName = temp[j].lastName;
+						tempName = temp[j].name;
+						tempPatronymic = temp[j].patronymic;
+						tempCreatedTime = temp[j].createdTime;
+						tempModTime = temp[j].modTime;
+						tempCard = temp[j].libraryCard;
+						tempForm = temp[j].formOfEducation;
+						tempSex = temp[j].sex;
+						for (int a = 0; a < 8; ++a)
+							tempGrades[a] = temp[j].grades[a];
+						temp[j].lastName = temp[j + 1].lastName;
+						temp[j].name = temp[j + 1].name;
+						temp[j].patronymic = temp[j + 1].patronymic;
+						temp[j].createdTime = temp[j + 1].createdTime;
+						temp[j].modTime = temp[j + 1].modTime;
+						temp[j].libraryCard = temp[j + 1].libraryCard;
+						temp[j].formOfEducation = temp[j + 1].formOfEducation;
+						temp[j].sex = temp[j + 1].sex;
+						for (int a = 0; a < 8; ++a)
+							temp[j].grades[a] = temp[j + 1].grades[a];
+						temp[j + 1].lastName = tempLastName;
+						temp[j + 1].name = tempName;
+						temp[j + 1].patronymic = tempPatronymic;
+						temp[j + 1].createdTime = tempCreatedTime;
+						temp[j + 1].modTime = tempModTime;
+						temp[j + 1].libraryCard = tempCard;
+						temp[j + 1].formOfEducation = tempForm;
+						temp[j + 1].sex = tempSex;
+						for (int a = 0; a < 8; ++a)
+							temp[j + 1].grades[a] = tempGrades[a];
+					}
+					else if ((temp[j].lastName == temp[j + 1].lastName && temp[j].name == temp[j + 1].name && temp[j].patronymic < temp[j + 1].patronymic && temp[j].index > temp[j + 1].index) || (temp[j].lastName == temp[j + 1].lastName && temp[j].name == temp[j + 1].name && temp[j].patronymic > temp[j + 1].patronymic && temp[j].index < temp[j + 1].index)) {
+						tempLastName = temp[j].lastName;
+						tempName = temp[j].name;
+						tempPatronymic = temp[j].patronymic;
+						tempCreatedTime = temp[j].createdTime;
+						tempModTime = temp[j].modTime;
+						tempCard = temp[j].libraryCard;
+						tempForm = temp[j].formOfEducation;
+						tempSex = temp[j].sex;
+						for (int a = 0; a < 8; ++a)
+							tempGrades[a] = temp[j].grades[a];
+						temp[j].lastName = temp[j + 1].lastName;
+						temp[j].name = temp[j + 1].name;
+						temp[j].patronymic = temp[j + 1].patronymic;
+						temp[j].createdTime = temp[j + 1].createdTime;
+						temp[j].modTime = temp[j + 1].modTime;
+						temp[j].libraryCard = temp[j + 1].libraryCard;
+						temp[j].formOfEducation = temp[j + 1].formOfEducation;
+						temp[j].sex = temp[j + 1].sex;
+						for (int a = 0; a < 8; ++a)
+							temp[j].grades[a] = temp[j + 1].grades[a];
+						temp[j + 1].lastName = tempLastName;
+						temp[j + 1].name = tempName;
+						temp[j + 1].patronymic = tempPatronymic;
+						temp[j + 1].createdTime = tempCreatedTime;
+						temp[j + 1].modTime = tempModTime;
+						temp[j + 1].libraryCard = tempCard;
+						temp[j + 1].formOfEducation = tempForm;
+						temp[j + 1].sex = tempSex;
+						for (int a = 0; a < 8; ++a)
+							temp[j + 1].grades[a] = tempGrades[a];
 					}
 				}
 			}
 			for (int i = 0; i < amount; ++i) {
 				if (inmate[i].group == temp[0].group) {
 					for (int k = 0; k < studentsAmount; ++k)
-						if (inmate[i].lastName == temp[k].lastName)
+						if (inmate[i].libraryCard == temp[k].libraryCard)
 							inmate[i].index = temp[k].index;
 				}
 			}
 		}
 	}
-	else
+	else if (amount > 0)
 		inmate[amount - 1].index = 1;
-}
+}/*Индексация стунедтов в группе*/
 
-student* deleteData(student* inmate, int &amount) {
+student* deleteData(student* &inmate, int &amount) {
 	bool mustBeDeleted;
 	for (int i = 0; i < amount; ++i) {
 		mustBeDeleted = 0;
@@ -416,7 +468,7 @@ student* deleteData(student* inmate, int &amount) {
 	return inmate;
 }/*Удаление данных о студентах с 2*/
 
-void editData(student* inmate, int amount)  {
+void editData(student* &inmate, int &amount)  {
 	std::cout << std::endl;
 	std::cout << "Введите номер читательского билета студента, чьи данные необходимо изменить: ";
 	int number = getID();
@@ -507,7 +559,7 @@ void drawTable() {
 	SetConsoleTextAttribute(textColour, 7);
 }/*Вывод хедера таблицы*/
 
-void showData(student* inmate, int number) {
+void showData(student* &inmate, int number) {
 	std::cout.width(15);
 	std::cout << inmate[number].lastName << "|";
 	std::cout.width(15);
@@ -595,7 +647,7 @@ void showData(student* inmate, int number) {
 	std::cout << inmate[number].modTime << std::endl;
 }/*Показать все данные о студенте*/
 
-void maleFemaleAmount(student* inmate, int &amount) {
+void maleFemaleAmount(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int male = 0;
 	for (int i = 0; i < amount; ++i)
@@ -612,7 +664,7 @@ void maleFemaleAmount(student* inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать количество студентов мужского и женского пола*/
 
-void gettingScholarshipAmount(student* inmate, int &amount) {
+void gettingScholarshipAmount(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int scholarship = 0, goodGradesAmount;
 	for (int i = 0; i < amount; ++i) {
@@ -631,7 +683,7 @@ void gettingScholarshipAmount(student* inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать количество студентов, которые будут получать стипендию*/
 
-void informationAboutSpecialStudents(student* inmate, int &amount) {
+void informationAboutSpecialStudents(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int noScholarship = 0, aAmount, bAmount, excellentAmount = 0, wellAmount = 0, goodAmount = 0;
 	std::cout << std::endl;
@@ -722,12 +774,12 @@ void informationAboutSpecialStudents(student* inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать информацию о студентах, которые не получают стипендию, учатся только на «хор»; учатся на «хор» и «отл»; учатся только на «отл» */
 
-void informationAboutCertainGroup(student* inmate, int &amount) {
+void informationAboutCertainGroup(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int studentsAmount = 0;
 	short group;
 	std::cout << "Введите номер группы: ";
-	group = getGroup(inmate, amount, amount);
+	group = getGroupForSearch();
 	std::cout << std::endl;
 	for (int i = 0; i < amount; ++i) {
 		if (group == inmate[i].group)
@@ -746,7 +798,7 @@ void informationAboutCertainGroup(student* inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать информацию о студентах из N группы, N инициализируется пользователем*/
 
-void informationAboutTop(student* inmate, int &amount) {
+void informationAboutTop(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int count = 0;
 	double sum = 0, avg;
@@ -778,7 +830,7 @@ void informationAboutTop(student* inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать информацию о топе студентов*/
 
-void informationAboutCertainCreatedTimeStudents(student* inmate, int &amount) {
+void informationAboutCertainCreatedTimeStudents(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int studentsAmount = 0, comparison;
 	std::string date;
@@ -841,7 +893,7 @@ void informationAboutCertainCreatedTimeStudents(student* inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать информацию о студентах, записи которых были сделаны определённого числа (до полудня/после полудня)*/
 
-void informationAboutCertainIndexStudents(student* inmate, int &amount) {
+void informationAboutCertainIndexStudents(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int studentsAmount = 0;
 	short index;
@@ -865,9 +917,9 @@ void informationAboutCertainIndexStudents(student* inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать информацию о студентах, имеющих k номер в списке*/
 
-void outputToFile(student* inmate, int &amount) {
-	std::ofstream out;          // поток для записи с именем out
-	out.open("C:\\students.txt"); // окрываем файл для записи
+void outputToFile(student* &inmate, int &amount) {
+	std::ofstream out;          /*Поток для записи с именем out*/
+	out.open("C:\\students.txt"); /*Открытие файла*/
 	if (out.is_open()) {
 		out.width(16);
 		out << "Фамилия|";
@@ -972,15 +1024,138 @@ void outputToFile(student* inmate, int &amount) {
 			out << inmate[i].modTime << std::endl;
 		}
 	}
-	out.close();
+	out.close(); /*Закрытие файла*/
 	std::cout << std::endl << "Данные успешно записаны в С:\\students.txt." << std::endl;
 	std::cout << std::endl;
 } /*Запись данных в файл C:\students.txt*/
 
-#endif
+void showLibraryMenu() {
+	std::cout << std::endl;
+	std::cout << "Выберите опцию . . ." << std::endl;
+	std::cout << "0. Взять книгу" << std::endl;
+	std::cout << "1. Вернуть книгу" << std::endl;
+	std::cout << "2. Выйти" << std::endl;
+	std::cout << "Опция: ";
+}
 
-/*На территории университета действует библиотека. Каждому студенту нужно присвоить номер его читательского билета. Создайте новую
-структуру, где будет храниться данные о книгах: автор, название, год издания, количество страниц, номер студенческого билета студента,
-который взял книгу. Если книга находится в библиотеке по умолчанию номер билета приравнивается к 0.
-Студент может взять несколько книг. Необходимо обеспечить возможность возврата книги и ее приобретения.*/
-//Нормальная сортировка строк через > < ==
+short getLibraryMenuOption() {
+	while (true) {
+		short userNumber;
+		std::cin >> userNumber;
+		if (std::cin.fail() || userNumber < 0 || userNumber > 2) {
+			std::cin.clear();
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			std::cout << std::endl << "Введите опцию [0...2]: ";
+		}
+		else if (userNumber == 0 || userNumber == 1 || userNumber == 2) {
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			return userNumber;
+		}
+	}
+}
+
+void drawLibraryTable(book library[], const short &amount) {
+	std::cout << std::endl;
+	std::cout << "Если книга находится в библиотеке, № билета == 0" << std::endl;
+	SetConsoleTextAttribute(textColour, 240);
+	std::cout << std::endl;
+	std::cout.width(9);
+	std::cout << "№ книги|";
+	std::cout.width(23);
+	std::cout << " Автор|";
+	std::cout.fill(' ');
+	std::cout.width(26);
+	std::cout << " Название|";
+	std::cout.fill(' ');
+	std::cout.width(13);
+	std::cout << " Год издания|";
+	std::cout.fill(' ');
+	std::cout.width(9);
+	std::cout << " Страниц|";
+	std::cout.width(10);
+	std::cout << " № билета";
+	SetConsoleTextAttribute(textColour, 7);
+	std::cout << std::endl;
+	for (int i = 0; i < amount; ++ i) {
+		std::cout.width(8);
+		std::cout << i << "|";
+		std::cout.width(22);
+		std::cout << library[i].author << "|";
+		std::cout.fill(' ');
+		std::cout.width(25);
+		std::cout << library[i].name << "|";
+		std::cout.fill(' ');
+		std::cout.width(12);
+		std::cout << library[i].year << "|";
+		std::cout.fill(' ');
+		std::cout.width(8);
+		std::cout << library[i].pages << "|";
+		std::cout.width(10);
+		if (library[i].libraryCard == 0)
+			SetConsoleTextAttribute(textColour, 10);
+		else
+			SetConsoleTextAttribute(textColour, 13);
+		std::cout << library[i].libraryCard;
+		SetConsoleTextAttribute(textColour, 7);
+		std::cout << std::endl;
+	}
+}
+
+short getBook() {
+	while (true) {
+		short userNumber;
+		std::cin >> userNumber;
+		if (std::cin.fail() || userNumber < 0 || userNumber > 14) {
+			std::cin.clear();
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			std::cout << std::endl << "Введите № книги [0...14]: ";
+		}
+		else {
+			std::cin.ignore(std::cin.rdbuf()->in_avail());
+			return userNumber;
+		}
+	}
+}
+
+void libraryBooks(student* &inmate, book library[], int &amount, bool action) {
+	std::cout << std::endl;
+	int ID, position;
+	short number;
+	bool found = 0;
+	if (action) {
+		std::cout << "Введите № книги [0...14], которую вы хотите взять: ";
+		number = getBook();
+		if (library[number].libraryCard == 0) {
+			std::cout << "№ вашего читательского билета: ";
+			ID = getID();
+			for (int i = 0; i < amount; ++i) {
+				if (ID == inmate[i].libraryCard) {
+					found = 1;
+					ID = inmate[i].libraryCard;
+					position = i;
+					break;
+				}
+			}
+			if (found) {
+				library[number].libraryCard = inmate[position].libraryCard;
+				std::cout << inmate[position].name << " " << inmate[position].patronymic << ", теперь вы счастливый обладатель книги " << library[number].name << "!" << std::endl;
+			}
+			else
+				std::cout << "Нет студента с таким № читательского билета." << std::endl;
+		}
+		else
+			std::cout << "Книга №" << number << " у студента с читательским билетом №" << library[number].libraryCard << "." << std::endl;
+	}
+	else {
+		std::cout << "Введите № возвращаемой книги [0...14]: ";
+		number = getBook();
+		if (library[number].libraryCard != 0) {
+			library[number].libraryCard = 0;
+			std::cout << "Книга успешно возвращена в библиотеку." << std::endl;
+		}
+		else
+			std::cout << "Книга №" << number << " уже в библиотеке." << std::endl;
+	}
+}
+
+#endif]
