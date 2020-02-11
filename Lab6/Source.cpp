@@ -116,7 +116,7 @@ int main() {
 		}
 		case 11: {
 			if (amount == 0)
-				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
+				std::cout << std::endl << "Нет студентов. Библиотека закрыта." << std::endl << std::endl;
 			else {
 				bool libraryCondition = 1;
 				short librarymenuOption;
