@@ -63,11 +63,11 @@ std::string getPartOfTheName(short part) {
 		bool capital = 0, notAllowed = 0;
 		std::cin >> userInput;
 		for (unsigned int i = 0; i < userInput.length(); ++i) {
-			if ((int(userInput[0]) < -64 || int(userInput[0]) > -33) && int(userInput[0]) != -88) {
+			if (int(userInput[0]) < -64 || int(userInput[0]) > -33) {
 				capital = 1;
 				break;
 			}
-			if (i != 0 && ((int(userInput[i]) < -32 || int(userInput[i]) > -1) && int(userInput[i]) != -72)) {
+			if (i != 0 && (int(userInput[i]) < -32 || int(userInput[i]) > -1)) {
 				notAllowed = 1;
 				break;
 			}
@@ -76,11 +76,11 @@ std::string getPartOfTheName(short part) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			if (part == 2)
-				std::cout << std::endl << "Введите фамилию (только русские буквы, не более 15, 1 - заглавная): ";
+				std::cout << std::endl << "Введите фамилию (только русские буквы, не более 15, 1 - заглавная, вместо Ё/ё вводите Е/е): ";
 			else if (part == 1)
-				std::cout << std::endl << "Введите имя (только русские буквы, не более 15, 1 - заглавная): ";
+				std::cout << std::endl << "Введите имя (только русские буквы, не более 15, 1 - заглавная, вместо Ё/ё вводите Е/е): ";
 			else
-				std::cout << std::endl << "Введите отчество (только русские буквы, не более 15, 1 - заглавная): ";
+				std::cout << std::endl << "Введите отчество (только русские буквы, не более 15, 1 - заглавная, вместо Ё/ё вводите Е/е): ";
 		}
 		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
