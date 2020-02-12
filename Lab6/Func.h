@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS /*localtime is "unsafe"*/
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -76,11 +76,11 @@ std::string getPartOfTheName(short part) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			if (part == 2)
-				std::cout << std::endl << "Введите фамилию (только русские буквы, не более 14 символов, 1 - заглавная): ";
+				std::cout << std::endl << "Введите фамилию (только русские буквы, не более 15, 1 - заглавная): ";
 			else if (part == 1)
-				std::cout << std::endl << "Введите имя (только русские буквы, не более 14 символов, 1 - заглавная): ";
+				std::cout << std::endl << "Введите имя (только русские буквы, не более 15, 1 - заглавная): ";
 			else
-				std::cout << std::endl << "Введите отчество (только русские буквы, не более 14 символов, 1 - заглавная): ";
+				std::cout << std::endl << "Введите отчество (только русские буквы, не более 15, 1 - заглавная): ";
 		}
 		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
@@ -295,6 +295,39 @@ void addData(student* &inmate, int &amount, int &library) {
 	std::cout << std::endl;
 }/*Добавление данных о студенте*/
 
+void swap(student* &temp, std::string &tempLastName, std::string &tempName, std::string &tempPatronymic, std::string &tempCreatedTime, std::string &tempModTime, int &tempCard, short &tempForm, bool &tempSex, short tempGrades[], int j) {
+	tempLastName = temp[j].lastName;
+	tempName = temp[j].name;
+	tempPatronymic = temp[j].patronymic;
+	tempCreatedTime = temp[j].createdTime;
+	tempModTime = temp[j].modTime;
+	tempCard = temp[j].libraryCard;
+	tempForm = temp[j].formOfEducation;
+	tempSex = temp[j].sex;
+	for (int a = 0; a < 8; ++a)
+		tempGrades[a] = temp[j].grades[a];
+	temp[j].lastName = temp[j + 1].lastName;
+	temp[j].name = temp[j + 1].name;
+	temp[j].patronymic = temp[j + 1].patronymic;
+	temp[j].createdTime = temp[j + 1].createdTime;
+	temp[j].modTime = temp[j + 1].modTime;
+	temp[j].libraryCard = temp[j + 1].libraryCard;
+	temp[j].formOfEducation = temp[j + 1].formOfEducation;
+	temp[j].sex = temp[j + 1].sex;
+	for (int a = 0; a < 8; ++a)
+		temp[j].grades[a] = temp[j + 1].grades[a];
+	temp[j + 1].lastName = tempLastName;
+	temp[j + 1].name = tempName;
+	temp[j + 1].patronymic = tempPatronymic;
+	temp[j + 1].createdTime = tempCreatedTime;
+	temp[j + 1].modTime = tempModTime;
+	temp[j + 1].libraryCard = tempCard;
+	temp[j + 1].formOfEducation = tempForm;
+	temp[j + 1].sex = tempSex;
+	for (int a = 0; a < 8; ++a)
+		temp[j + 1].grades[a] = tempGrades[a];
+}
+
 void sort(student* &inmate, int &amount) {
 	if (amount > 1) {
 		bool match = 0;
@@ -334,100 +367,13 @@ void sort(student* &inmate, int &amount) {
 					for (int b = 0; b < 8; b++)
 						tempGrades[b] = 0;
 					if ((temp[j].lastName < temp[j + 1].lastName && temp[j].index > temp[j + 1].index) || (temp[j].lastName > temp[j + 1].lastName && temp[j].index < temp[j + 1].index)) {
-						tempLastName = temp[j].lastName;
-						tempName = temp[j].name;
-						tempPatronymic = temp[j].patronymic;
-						tempCreatedTime = temp[j].createdTime;
-						tempModTime = temp[j].modTime;
-						tempCard = temp[j].libraryCard;
-						tempForm = temp[j].formOfEducation;
-						tempSex = temp[j].sex;
-						for (int a = 0; a < 8; ++a)
-							tempGrades[a] = temp[j].grades[a];
-						temp[j].lastName = temp[j + 1].lastName;
-						temp[j].name = temp[j + 1].name;
-						temp[j].patronymic = temp[j + 1].patronymic;
-						temp[j].createdTime = temp[j + 1].createdTime;
-						temp[j].modTime = temp[j + 1].modTime;
-						temp[j].libraryCard = temp[j + 1].libraryCard;
-						temp[j].formOfEducation = temp[j + 1].formOfEducation;
-						temp[j].sex = temp[j + 1].sex;
-						for (int a = 0; a < 8; ++a)
-							temp[j].grades[a] = temp[j + 1].grades[a];
-						temp[j + 1].lastName = tempLastName;
-						temp[j + 1].name = tempName;
-						temp[j + 1].patronymic = tempPatronymic;
-						temp[j + 1].createdTime = tempCreatedTime;
-						temp[j + 1].modTime = tempModTime;
-						temp[j + 1].libraryCard = tempCard;
-						temp[j + 1].formOfEducation = tempForm;
-						temp[j + 1].sex = tempSex;
-						for (int a = 0; a < 8; ++a)
-							temp[j + 1].grades[a] = tempGrades[a];
+						swap(temp, tempLastName, tempName, tempPatronymic, tempCreatedTime, tempModTime, tempCard, tempForm, tempSex, tempGrades, j);
 					}
 					else if ((temp[j].lastName == temp[j + 1].lastName && temp[j].name < temp[j + 1].name && temp[j].index > temp[j + 1].index) || (temp[j].lastName == temp[j + 1].lastName && temp[j].name > temp[j + 1].name && temp[j].index < temp[j + 1].index)) {
-						tempLastName = temp[j].lastName;
-						tempName = temp[j].name;
-						tempPatronymic = temp[j].patronymic;
-						tempCreatedTime = temp[j].createdTime;
-						tempModTime = temp[j].modTime;
-						tempCard = temp[j].libraryCard;
-						tempForm = temp[j].formOfEducation;
-						tempSex = temp[j].sex;
-						for (int a = 0; a < 8; ++a)
-							tempGrades[a] = temp[j].grades[a];
-						temp[j].lastName = temp[j + 1].lastName;
-						temp[j].name = temp[j + 1].name;
-						temp[j].patronymic = temp[j + 1].patronymic;
-						temp[j].createdTime = temp[j + 1].createdTime;
-						temp[j].modTime = temp[j + 1].modTime;
-						temp[j].libraryCard = temp[j + 1].libraryCard;
-						temp[j].formOfEducation = temp[j + 1].formOfEducation;
-						temp[j].sex = temp[j + 1].sex;
-						for (int a = 0; a < 8; ++a)
-							temp[j].grades[a] = temp[j + 1].grades[a];
-						temp[j + 1].lastName = tempLastName;
-						temp[j + 1].name = tempName;
-						temp[j + 1].patronymic = tempPatronymic;
-						temp[j + 1].createdTime = tempCreatedTime;
-						temp[j + 1].modTime = tempModTime;
-						temp[j + 1].libraryCard = tempCard;
-						temp[j + 1].formOfEducation = tempForm;
-						temp[j + 1].sex = tempSex;
-						for (int a = 0; a < 8; ++a)
-							temp[j + 1].grades[a] = tempGrades[a];
+						swap(temp, tempLastName, tempName, tempPatronymic, tempCreatedTime, tempModTime, tempCard, tempForm, tempSex, tempGrades, j);
 					}
 					else if ((temp[j].lastName == temp[j + 1].lastName && temp[j].name == temp[j + 1].name && temp[j].patronymic < temp[j + 1].patronymic && temp[j].index > temp[j + 1].index) || (temp[j].lastName == temp[j + 1].lastName && temp[j].name == temp[j + 1].name && temp[j].patronymic > temp[j + 1].patronymic && temp[j].index < temp[j + 1].index)) {
-						tempLastName = temp[j].lastName;
-						tempName = temp[j].name;
-						tempPatronymic = temp[j].patronymic;
-						tempCreatedTime = temp[j].createdTime;
-						tempModTime = temp[j].modTime;
-						tempCard = temp[j].libraryCard;
-						tempForm = temp[j].formOfEducation;
-						tempSex = temp[j].sex;
-						for (int a = 0; a < 8; ++a)
-							tempGrades[a] = temp[j].grades[a];
-						temp[j].lastName = temp[j + 1].lastName;
-						temp[j].name = temp[j + 1].name;
-						temp[j].patronymic = temp[j + 1].patronymic;
-						temp[j].createdTime = temp[j + 1].createdTime;
-						temp[j].modTime = temp[j + 1].modTime;
-						temp[j].libraryCard = temp[j + 1].libraryCard;
-						temp[j].formOfEducation = temp[j + 1].formOfEducation;
-						temp[j].sex = temp[j + 1].sex;
-						for (int a = 0; a < 8; ++a)
-							temp[j].grades[a] = temp[j + 1].grades[a];
-						temp[j + 1].lastName = tempLastName;
-						temp[j + 1].name = tempName;
-						temp[j + 1].patronymic = tempPatronymic;
-						temp[j + 1].createdTime = tempCreatedTime;
-						temp[j + 1].modTime = tempModTime;
-						temp[j + 1].libraryCard = tempCard;
-						temp[j + 1].formOfEducation = tempForm;
-						temp[j + 1].sex = tempSex;
-						for (int a = 0; a < 8; ++a)
-							temp[j + 1].grades[a] = tempGrades[a];
+						swap(temp, tempLastName, tempName, tempPatronymic, tempCreatedTime, tempModTime, tempCard, tempForm, tempSex, tempGrades, j);
 					}
 				}
 			}
@@ -483,25 +429,25 @@ void editData(student* &inmate, int &amount)  {
 		std::cout << "Нет такого студента." << std::endl;
 	}
 	else {
-		std::cout << "Введите фамилию " << number << " студента: ";
+		std::cout << "Введите фамилию студента: ";
 		inmate[number - 1].lastName = getPartOfTheName(2);
-		std::cout << "Введите имя " << number << " студента: ";
+		std::cout << "Введите имя студента: ";
 		inmate[number - 1].name = getPartOfTheName(1);;
-		std::cout << "Введите отчество " << number << " студента: ";
+		std::cout << "Введите отчество студента: ";
 		inmate[number - 1].patronymic = getPartOfTheName(0);;
-		std::cout << "Введите пол " << number << " студента (м - 1/ж - 0): ";
+		std::cout << "Введите пол студента (м - 1/ж - 0): ";
 		inmate[number - 1].sex = getSex();
-		std::cout << "Введите форму обучения " << number << " студента (очная - 2/очно-заочная - 1/заочная - 0): ";
+		std::cout << "Введите форму обучения студента (очная - 2/очно-заочная - 1/заочная - 0): ";
 		inmate[number - 1].formOfEducation = getForm();
-		std::cout << "Введите номер группы " << number << " студента [0...9999]: ";
+		std::cout << "Введите номер группы студента [0...9999]: ";
 		inmate[number - 1].group = getGroup(inmate, amount, number - 1);
 		for (int i = 0; i < 8; ++i) {
 			if (i < 3) {
-				std::cout << "Введите оценку " << number << " студента за " << i + 1 << " экзамен: ";
+				std::cout << "Введите оценку студента за " << i + 1 << " экзамен: ";
 				inmate[number - 1].grades[i] = getGrade();
 			}
 			else {
-				std::cout << "Введите оценку " << number << " студента за " << i - 2 << " зачёт: ";
+				std::cout << "Введите оценку студента за " << i - 2 << " зачёт: ";
 				inmate[number - 1].grades[i] = getGrade();
 			}
 		}
@@ -686,7 +632,6 @@ void gettingScholarshipAmount(student* &inmate, int &amount) {
 void informationAboutSpecialStudents(student* &inmate, int &amount) {
 	std::cout << std::endl;
 	int noScholarship = 0, aAmount, bAmount, excellentAmount = 0, wellAmount = 0, goodAmount = 0;
-	std::cout << std::endl;
 	for (int i = 0; i < amount; ++i) {
 		aAmount = 0, bAmount = 0;
 		for (int j = 0; j < 8; ++j) {
@@ -790,9 +735,17 @@ void informationAboutCertainGroup(student* &inmate, int &amount) {
 	else {
 		std::cout << "Информация о студентах, которые учатся в " << group << " группе:" << std::endl;
 		drawTable();
-		for (int i = 0; i < amount; ++i) {
-			if (group == inmate[i].group)
-				showData(inmate, i);
+		bool must = 1;
+		int counter = 1;
+		while(must) {
+			for (int i = 0; i < amount; ++i) {
+				if (group == inmate[i].group && counter == inmate[i].index) {
+					showData(inmate, i);
+					++counter;
+				}
+				if (counter > studentsAmount)
+					must = 0;
+			}
 		}
 	}
 	std::cout << std::endl;
@@ -1158,4 +1111,4 @@ void libraryBooks(student* &inmate, book library[], int &amount, bool action) {
 	}
 }
 
-#endif]
+#endif

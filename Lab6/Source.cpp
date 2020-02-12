@@ -6,7 +6,7 @@ int main() {
 	SetConsoleOutputCP(1251);
 	student* students = 0;
 	const short amountOfBooks = 15;
-	book books[amountOfBooks] = { 
+	book books[amountOfBooks] = {
 		{"Достоевский Ф. М.", "Преступление и наказание", 2001, 583, 0}, 
 	    {"Булгаков М. А.", "Мастер и Маргарита", 2003, 367, 0},
 		{"Булгаков М. А.", "Собачье сердце", 1989, 93, 0},
@@ -62,7 +62,7 @@ int main() {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-					informationAboutCertainGroup(students, amount);
+				informationAboutCertainGroup(students, amount);
 			break;
 		}
 		case 4: {
@@ -136,6 +136,7 @@ int main() {
 					}
 					case 2: {
 						libraryCondition = 0;
+						std::cout << std::endl;
 						break;
 					}
 					}
