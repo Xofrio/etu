@@ -5,8 +5,8 @@ int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	student* students = 0;
-	const short amountOfBooks = 15;
-	book books[amountOfBooks] = {
+	const short booksAmount = 15;
+	book books[booksAmount] = {
 		{"Достоевский Ф. М.", "Преступление и наказание", 2001, 583, 0}, 
 	    {"Булгаков М. А.", "Мастер и Маргарита", 2003, 367, 0},
 		{"Булгаков М. А.", "Собачье сердце", 1989, 93, 0},
@@ -27,7 +27,7 @@ int main() {
 	short menuOption;
 	bool condition = 1;
 	while (condition) {
-		showMenu();
+		menu();
 		menuOption = getMenuOption();
 		switch(menuOption) {
 		case 0: {
@@ -62,14 +62,14 @@ int main() {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-				informationAboutCertainGroup(students, amount);
+				groupStudents(students, amount);
 			break;
 		}
 		case 4: {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-				informationAboutTop(students, amount);
+				topStudents(students, amount);
 			break;
 		}
 		case 5: {
@@ -83,35 +83,35 @@ int main() {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-				gettingScholarshipAmount(students, amount);
+				scholarshipAmount(students, amount);
 			break;
 		}
 		case 7: {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-				informationAboutSpecialStudents(students, amount);
+				specialStudents(students, amount);
 			break;
 		}
 		case 8: {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-				informationAboutCertainCreatedTimeStudents(students, amount);
+				timeStudents(students, amount);
 			break;
 		}
 		case 9: {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-				informationAboutCertainIndexStudents(students, amount);
+				indexStudents(students, amount);
 			break;
 		}
 		case 10: {
 			if (amount == 0)
 				std::cout << std::endl << "Нет записей." << std::endl << std::endl;
 			else
-				outputToFile(students, amount);
+				output(students, amount);
 			break;
 		}
 		case 11: {
@@ -119,18 +119,18 @@ int main() {
 				std::cout << std::endl << "Нет студентов. Библиотека закрыта." << std::endl << std::endl;
 			else {
 				bool libraryCondition = 1;
-				short librarymenuOption;
+				short libraryMenuOption;
 				while (libraryCondition) {
-					showLibraryMenu();
-					librarymenuOption = getLibraryMenuOption();
-					switch(librarymenuOption) {
+					libraryMenu();
+					libraryMenuOption = libraryOption();
+					switch(libraryMenuOption) {
 					case 0: {
-						drawLibraryTable(books, amountOfBooks);
+						drawLibrary(books, booksAmount);
 						libraryBooks(students, books, amount, 1);
 						break;
 					}
 					case 1: {
-						drawLibraryTable(books, amountOfBooks);
+						drawLibrary(books, booksAmount);
 						libraryBooks(students, books, amount, 0);
 						break;
 					}
