@@ -39,7 +39,7 @@ void menu() {
 	std::cout << "11. Пройти в библиотеку" << std::endl;
 	std::cout << "12. Выйти" << std::endl;
 	std::cout << "Опция: ";
-}/*Вывод меню*/
+}/*Меню*/
 
 short getMenuOption() {
 	while (true) {
@@ -91,16 +91,22 @@ std::string getNamePart(short part) {
 
 short getGrade() {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
 		std::cin >> input;
-		if (std::cin.fail() || input < 2 || input > 5) {
+		bool bad = 0;
+		if (input.length() == 1) {
+			if (int(input[0]) < 50 || int(input[0]) > 53)
+				bad = 1;
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 1) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Введите оценку [2...5]: ";
 		}
-		else if (input == 2 || input == 3 || input == 4 || input == 5) {
+		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Запись оценки.*/
@@ -136,36 +142,48 @@ std::string getDate() {
 			return input;
 		}
 	}
-}
+}/*Получение даты*/
 
 short getForm() {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0 || input > 2) {
+		bool bad = 0;
+		if (input.length() == 1) {
+			if (int(input[0]) < 48 || int(input[0]) > 50)
+				bad = 1;
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 1) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Укажите форму образования (очная - 2/очно-заочная - 1/заочная - 0): ";
 		}
-		else if (input == 0 || input == 1 || input == 2) {
+		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Запись формы обучения.*/
 
 bool getSex() {
 	while (true) {
-		bool input;
+		std::string input;
+		bool output;
 		std::cin >> input;
-		if (std::cin.fail() && (input != 0 || input != 1)) {
+		bool bad = 0;
+		if (input.length() == 1) {
+			if (int(input[0]) < 48 || int(input[0]) > 49)
+				bad = 1;
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 1) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Укажите пол (м - 1/ж - 0): ";
 		}
-		else if (input == 0 || input == 1) {
+		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Запись пола.*/
@@ -244,7 +262,7 @@ short getGroupForSearch() {
 			return input;
 		}
 	}
-}
+}/*Получение группы*/
 
 int getID() {
 	while (true) {
@@ -336,7 +354,7 @@ void swap(student* &temp, int j) {
 	temp[j + 1] = tempo[0];
 	temp[j + 1].index  = temp[j].index;
 	temp[j].index = tempIndex1;
-}
+}/*Функция для замены студентов местами*/
 
 void sort(student* &inmate, int &amount) {
 	if (amount > 1) {
@@ -987,7 +1005,7 @@ void libraryMenu() {
 	std::cout << "1. Вернуть книгу" << std::endl;
 	std::cout << "2. Выйти" << std::endl;
 	std::cout << "Опция: ";
-}
+}/*Меню библиотеки*/
 
 short libraryOption() {
 	while (true) {
@@ -1003,7 +1021,7 @@ short libraryOption() {
 			return input;
 		}
 	}
-}
+}/*Опции в библиотеке*/
 
 void drawLibrary(book library[], const short &amount) {
 	std::cout << std::endl << "Если книга находится в библиотеке, № билета == 0" << std::endl;
@@ -1049,7 +1067,7 @@ void drawLibrary(book library[], const short &amount) {
 		SetConsoleTextAttribute(textColour, 7);
 		std::cout << std::endl;
 	}
-}
+}/*Прорисовка хедера таблицы для библиотеки*/
 
 short getBook() {
 	while (true) {
@@ -1065,7 +1083,7 @@ short getBook() {
 			return input;
 		}
 	}
-}
+}/*Получение № книги*/
 
 void libraryBooks(student* &inmate, book library[], int &amount, bool action) {
 	std::cout << std::endl;
@@ -1110,6 +1128,6 @@ void libraryBooks(student* &inmate, book library[], int &amount, bool action) {
 		else
 			std::cout << "Книга №" << number << " уже в библиотеке." << std::endl;
 	}
-}
+}/*Получение/возвращение книги*/
 
 #endif
