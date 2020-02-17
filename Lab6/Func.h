@@ -43,19 +43,32 @@ void menu() {
 
 short getMenuOption() {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
+		bool bad = 0;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0 || input > 12) {
+		if (input.length() < 3) {
+			if (input.length() == 1) {
+				if (int(input[0]) < 48 || int(input[0] > 57))
+					bad = 1;
+			}
+			else {
+				if ((int(input[0]) < 48 || int(input[0] > 57)) || (int(input[1]) < 48 || int(input[1] > 50)))
+					bad = 1;
+			}
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 2) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Введите опцию [0...12]: ";
 		}
-		else if (input == 0 || input == 1 || input == 2 || input == 3 || input == 4 || input == 5 || input == 6 || input == 7 || input == 8 || input == 9 || input == 10 || input == 11 || input == 12) {
+		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Выбор в меню.*/
+
 
 std::string getNamePart(short part) {
 	while (true) {
@@ -93,8 +106,8 @@ short getGrade() {
 	while (true) {
 		std::string input;
 		short output;
-		std::cin >> input;
 		bool bad = 0;
+		std::cin >> input;
 		if (input.length() == 1) {
 			if (int(input[0]) < 50 || int(input[0]) > 53)
 				bad = 1;
@@ -114,8 +127,8 @@ short getGrade() {
 std::string getDate() {
 	while (true) {
 		std::string input;
-		std::cin >> input;
 		bool nAN = 0, nAD = 0;
+		std::cin >> input;
 		if (input.length() == 10) {
 			for (unsigned int i = 0; i < 10; ++i) {
 				if (i != 2 && i != 5) {
@@ -148,8 +161,8 @@ short getForm() {
 	while (true) {
 		std::string input;
 		short output;
-		std::cin >> input;
 		bool bad = 0;
+		std::cin >> input;
 		if (input.length() == 1) {
 			if (int(input[0]) < 48 || int(input[0]) > 50)
 				bad = 1;
@@ -170,8 +183,8 @@ bool getSex() {
 	while (true) {
 		std::string input;
 		bool output;
-		std::cin >> input;
 		bool bad = 0;
+		std::cin >> input;
 		if (input.length() == 1) {
 			if (int(input[0]) < 48 || int(input[0]) > 49)
 				bad = 1;
@@ -190,41 +203,52 @@ bool getSex() {
 
 short getGroup(student* &inmate, int amount, int position) {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
+		bool bad = 0;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0 || input > 9999) {
+		if (input.length() < 5) {
+			for (unsigned int i = 0; i < input.length(); ++i) {
+				if (int(input[i]) < 48 || int(input[i]) > 57) {
+					bad = 1;
+					break;
+				}
+			}
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 4) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Укажите группу [0...9999]: ";
 		}
 		else {
+			output = stoi(input);
 			if (amount > 0) {
 				int p = -1;
 				if (position == 0) {
 					for (int j = position + 1; j < amount; ++j) {
-						if (inmate[j].group == input && inmate[j].form != inmate[position].form)
+						if (inmate[j].group == output && inmate[j].form != inmate[position].form)
 							p = j;
 					}
 				}
 				else if (position == amount - 1) {
 					for (int j = 0; j < position; ++j) {
-						if (inmate[j].group == input && inmate[j].form != inmate[position].form)
+						if (inmate[j].group == output && inmate[j].form != inmate[position].form)
 							p = j;
 					}
 				}
 				else {
 					for (int j = 0; j < position; ++j) {
-						if (inmate[j].group == input && inmate[j].form != inmate[position].form)
+						if (inmate[j].group == output && inmate[j].form != inmate[position].form)
 							p = j;
 					}
 					for (int j = position + 1; j < amount; ++j) {
-						if (inmate[j].group == input && inmate[j].form != inmate[position].form)
+						if (inmate[j].group == output && inmate[j].form != inmate[position].form)
 							p = j;
 					}
 				}
 				if (p == -1) {
 					std::cin.ignore(std::cin.rdbuf()->in_avail());
-					return input;
+					return output;
 				}
 				else {
 					std::cout << std::endl << "В группе " << input << " другая форма обучения (";
@@ -242,7 +266,7 @@ short getGroup(student* &inmate, int amount, int position) {
 			}
 			else {
 				std::cin.ignore(std::cin.rdbuf()->in_avail());
-				return input;
+				return output;
 			}
 		}
 	}
@@ -250,48 +274,78 @@ short getGroup(student* &inmate, int amount, int position) {
 
 short getGroupForSearch() {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
+		bool bad = 0;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0 || input > 9999) {
+		if (input.length() < 5) {
+			for (unsigned int i = 0; i < input.length(); ++i) {
+				if (int(input[i]) < 48 || int(input[i]) > 57) {
+					bad = 1;
+					break;
+				}
+			}
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 4) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Укажите группу [0...9999]: ";
 		}
 		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Получение группы*/
 
 int getID() {
 	while (true) {
-		int input;
+		std::string input;
+		int output;
+		bool bad = 0;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0) {
+		if (input.length() < 11) {
+			for (unsigned int i = 0; i < input.length(); ++i) {
+				if (int(input[i]) < 48 || int(input[i]) > 57) {
+					bad = 1;
+					break;
+				}
+			}
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 10) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Укажите номер читательского билета: ";
 		}
 		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Получить номер студента (номер читательского билета - ID)*/
 
 short getIndex() {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
+		bool bad = 0;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0) {
+		if (input.length() < 6) {
+			for (unsigned int i = 0; i < input.length(); ++i) {
+				if (int(input[i]) < 48 || int(input[i]) > 57) {
+					bad = 1;
+					break;
+				}
+			}
+		}
+		if (std::cin.fail() || bad == 1 || input.length() > 5) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Укажите номер студента в списке: ";
 		}
 		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Получить номер студента в списке*/
@@ -1003,22 +1057,28 @@ void libraryMenu() {
 	std::cout << std::endl << "Выберите опцию . . ." << std::endl;
 	std::cout << "0. Взять книгу" << std::endl;
 	std::cout << "1. Вернуть книгу" << std::endl;
-	std::cout << "2. Выйти" << std::endl;
+	std::cout << "2. Покинуть библиотеку" << std::endl;
 	std::cout << "Опция: ";
 }/*Меню библиотеки*/
 
 short libraryOption() {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0 || input > 2) {
+		bool bad = 0;
+		if (input.length() == 1) {
+			if (int(input[0]) < 48 || int(input[0]) > 50)
+				bad = 1;
+		}
+		if (std::cin.fail() || input.length() > 1 || bad == 1) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Введите опцию [0...2]: ";
 		}
-		else if (input == 0 || input == 1 || input == 2) {
+		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Опции в библиотеке*/
@@ -1071,16 +1131,28 @@ void drawLibrary(book library[], const short &amount) {
 
 short getBook() {
 	while (true) {
-		short input;
+		std::string input;
+		short output;
+		bool bad = 0;
 		std::cin >> input;
-		if (std::cin.fail() || input < 0 || input > 14) {
+		if (input.length() < 3) {
+			if (input.length() == 1) {
+				if (int(input[0]) < 48 || int(input[0]) > 57)
+					bad = 1;
+			}
+			else {
+				if ((int(input[0]) < 48 || int(input[0]) > 57) || (int(input[1]) < 48 || int(input[1]) > 52))
+					bad = 1;
+			}
+		}
+		if (std::cin.fail() || input.length() > 2 || bad == 1) {
 			std::cin.clear();
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
 			std::cout << std::endl << "Введите № книги [0...14]: ";
 		}
 		else {
 			std::cin.ignore(std::cin.rdbuf()->in_avail());
-			return input;
+			return output = stoi(input);
 		}
 	}
 }/*Получение № книги*/
@@ -1093,30 +1165,49 @@ void libraryBooks(student* &inmate, book library[], int &amount, bool action) {
 	if (action) {
 		std::cout << "Введите № книги [0...14], которую вы хотите взять: ";
 		number = getBook();
-		if (library[number].card == 0) {
-			std::cout << "№ вашего читательского билета: ";
-			ID = getID();
+		if (library[number].card != 0) {
+			std::cout << "Книга №" << number << " у студента с читательским билетом №" << library[number].card << "." << std::endl;
 			for (int i = 0; i < amount; ++i) {
-				if (ID == inmate[i].card) {
-					found = 1;
-					position = i;
-					break;
+				if (library[number].card == inmate[i].card) {
+					if (inmate[i].sex)
+						std::cout << "Его";
+					else
+						std::cout << "Её";
+					std::cout << " зовут " << inmate[i].lastName << " " << inmate[i].name << " " << inmate[i].patronymic << ". ";
+					if (inmate[i].sex)
+						std::cout << "Он";
+					else
+						std::cout << "Она";
+					std::cout << " учится в " << inmate[i].group << " группе." << std::endl;
 				}
 			}
-			if (found) {
-				library[number].card = inmate[position].card;
-				std::cout << inmate[position].name << " " << inmate[position].patronymic << ", теперь вы ";
-				if (inmate[position].sex)
-					std::cout << "счастливый обладатель";
-				else
-					std::cout << "счастливая обладательница";
-				std::cout << " книги " << library[number].name << "!" << std::endl;
-			}
-			else
-				std::cout << "Нет студента с таким № читательского билета." << std::endl;
 		}
-		else
-			std::cout << "Книга №" << number << " у студента с читательским билетом №" << library[number].card << "." << std::endl;
+		else {
+			std::cout << "№ вашего читательского билета: ";
+			ID = getID();
+			if (library[number].card == 0) {
+				for (int i = 0; i < amount; ++i) {
+					if (ID == inmate[i].card) {
+						found = 1;
+						position = i;
+						break;
+					}
+				}
+				if (found) {
+					library[number].card = inmate[position].card;
+					std::cout << inmate[position].name << " " << inmate[position].patronymic << ", теперь вы ";
+					if (inmate[position].sex)
+						std::cout << "счастливый обладатель";
+					else
+						std::cout << "счастливая обладательница";
+					std::cout << " книги " << library[number].name << "!" << std::endl;
+				}
+				else
+					std::cout << "Нет студента с таким № читательского билета." << std::endl;
+			}
+			else if (ID == library[number].card)
+				std::cout << "Книга у вас на руках." << std::endl;
+		}
 	}
 	else {
 		std::cout << "Введите № возвращаемой книги [0...14]: ";
