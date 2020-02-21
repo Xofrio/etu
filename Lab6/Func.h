@@ -80,7 +80,7 @@ std::string getNamePart(short part) {
 				capital = 1;
 				break;
 			}
-			if (i != 0 && ((int(input[i]) < -32 || int(input[i]) > -1) || int(input[i] == 32))) {
+			if (i != 0 && (int(input[i]) < -32 || int(input[i]) > -1)) {
 				notAllowed = 1;
 				break;
 			}
