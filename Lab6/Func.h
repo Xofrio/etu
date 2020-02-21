@@ -46,7 +46,7 @@ short getMenuOption() {
 		std::string input;
 		short output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() < 3) {
 			if (input.length() == 1) {
 				if (int(input[0]) < 48 || int(input[0] > 57))
@@ -74,13 +74,13 @@ std::string getNamePart(short part) {
 	while (true) {
 		std::string input;
 		bool capital = 0, notAllowed = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		for (unsigned int i = 0; i < input.length(); ++i) {
 			if (int(input[0]) < -64 || int(input[0]) > -33) {
 				capital = 1;
 				break;
 			}
-			if (i != 0 && (int(input[i]) < -32 || int(input[i]) > -1)) {
+			if (i != 0 && ((int(input[i]) < -32 || int(input[i]) > -1) || int(input[i] == 32))) {
 				notAllowed = 1;
 				break;
 			}
@@ -107,7 +107,7 @@ short getGrade() {
 		std::string input;
 		short output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() == 1) {
 			if (int(input[0]) < 50 || int(input[0]) > 53)
 				bad = 1;
@@ -128,7 +128,7 @@ std::string getDate() {
 	while (true) {
 		std::string input;
 		bool nAN = 0, nAD = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() == 10) {
 			for (unsigned int i = 0; i < 10; ++i) {
 				if (i != 2 && i != 5) {
@@ -162,7 +162,7 @@ short getForm() {
 		std::string input;
 		short output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() == 1) {
 			if (int(input[0]) < 48 || int(input[0]) > 50)
 				bad = 1;
@@ -184,7 +184,7 @@ bool getSex() {
 		std::string input;
 		bool output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() == 1) {
 			if (int(input[0]) < 48 || int(input[0]) > 49)
 				bad = 1;
@@ -206,7 +206,7 @@ short getGroup(student* &inmate, int amount, int position) {
 		std::string input;
 		short output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() < 5) {
 			for (unsigned int i = 0; i < input.length(); ++i) {
 				if (int(input[i]) < 48 || int(input[i]) > 57) {
@@ -277,7 +277,7 @@ short getGroupForSearch() {
 		std::string input;
 		short output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() < 5) {
 			for (unsigned int i = 0; i < input.length(); ++i) {
 				if (int(input[i]) < 48 || int(input[i]) > 57) {
@@ -303,7 +303,7 @@ int getID() {
 		std::string input;
 		int output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() < 11) {
 			for (unsigned int i = 0; i < input.length(); ++i) {
 				if (int(input[i]) < 48 || int(input[i]) > 57) {
@@ -329,7 +329,7 @@ short getIndex() {
 		std::string input;
 		short output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() < 6) {
 			for (unsigned int i = 0; i < input.length(); ++i) {
 				if (int(input[i]) < 48 || int(input[i]) > 57) {
@@ -940,7 +940,6 @@ void indexStudents(student* &inmate, int &amount) {
 	std::cout << std::endl;
 }/*Показать информацию о студентах, имеющих k номер в списке*/
 
-
 void output(student* &inmate, int &amount) {
 	std::ofstream out;          /*Поток для записи с именем out*/
 	out.open("C:\\students.txt"); /*Открытие файла*/
@@ -1065,7 +1064,7 @@ short libraryOption() {
 	while (true) {
 		std::string input;
 		short output;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		bool bad = 0;
 		if (input.length() == 1) {
 			if (int(input[0]) < 48 || int(input[0]) > 50)
@@ -1134,7 +1133,7 @@ short getBook() {
 		std::string input;
 		short output;
 		bool bad = 0;
-		std::cin >> input;
+		std::getline(std::cin, input);
 		if (input.length() < 3) {
 			if (input.length() == 1) {
 				if (int(input[0]) < 48 || int(input[0]) > 57)
