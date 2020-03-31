@@ -203,7 +203,7 @@ short findEraseMenu(bool type) {
 	return key;
 } /*Меню для поиска/удаления элемента, управление - стрелки вверх и вниз, а также клавиши w и s*/
 
-void fallBack() {
+void fallBack/*Roger that! 8)*/() {
 	cout << endl;
 	draw(">Назад");
 	int code = 0;
@@ -309,7 +309,7 @@ void check(string &input, bool &bad, bool purpose) {
 			bad = 1;
 		}
 	}
-}/*Проверка корректности строки на значения целого типа*/
+} /*Проверка корректности строки на значения целого типа*/
 
 int getElement(string &input, bool &bad, short type) {
 	while (true) {
@@ -357,9 +357,9 @@ int*& createArray(int *&array, int &amount, long int &speed, short &method, int 
 		amountCreated = amount;
 		break;
 		}
-	case 1: {
+	case 1: { /*Создание массива из N значений, N определяется исходя из количества введённых элементов*/
 		system("cls");
-		cout << "Введите через пробел значения целочисленного динамического массива:" << endl;
+		cout << "Введите через пробел значения целочисленного динамического массива, после последнего введённого значения нажмите Enter::" << endl;
 		string input;
 		bool bad = 0;
 		showConsoleCursor(true);
@@ -397,7 +397,7 @@ int*& createArray(int *&array, int &amount, long int &speed, short &method, int 
 			cout << "Динамический массив не был создан." << endl;
 		break;
 	}
-	case 2: {
+	case 2: { /*Создание массива из N значений, N определяется исходя из количества элементов, находящихся в файле*/
 		system("cls");
 		amount = 0;
 		ifstream file("input.txt");
@@ -438,9 +438,8 @@ int*& createArray(int *&array, int &amount, long int &speed, short &method, int 
 			else
 				cout << "Динамический массив не был создан. Проверьте содержание файла 'input.txt'.";
 		}
-		else {
+		else
 			cout << "Файл с именем 'input.txt' не найден." << endl << endl;
-		}
 		break;
 	}
 	case 3: {
@@ -496,12 +495,11 @@ int* arrayAddFindErase(int *array, int &amount, long int &addingSpeed, long int 
 	switch (option) {
 	case 0: { /*Добавление элемента*/
 		system("cls");
-		if (array == 0) { /*Проверяем массив на созданность, а не на количество элементов в нём*/
+		if (array == 0) /*Проверяем массив на созданность, а не на количество элементов в нём*/
 			cout << "Нет массива." << endl;
-		}
 		else {
 			if (amount != 0) {
-				cout << "Ваш массив:" << endl;
+				cout << "Ваш динамический массив:" << endl;
 				for (int i = 0; i < amount; ++i)
 					cout << i << ". " << array[i] << endl;
 			}
@@ -551,14 +549,12 @@ int* arrayAddFindErase(int *array, int &amount, long int &addingSpeed, long int 
 		switch (findOption) {
 		case 0: { /*Поиск по индексу*/
 			system("cls");
-			if (array == 0) {
+			if (array == 0)
 				cout << "Нет массива." << endl;
-			}
-			else if (amount == 0) {
+			else if (amount == 0)
 				cout << "В массиве нет элементов." << endl;
-			}
 			else {
-				cout << "Ваш массив:" << endl;
+				cout << "Ваш динамический массив:" << endl;
 				for (int i = 0; i < amount; ++i)
 					cout << i << ". " << array[i] << endl;
 				cout << "Введите индекс искомого элемента (от 0 до " << amount - 1 << "): ";
@@ -590,20 +586,18 @@ int* arrayAddFindErase(int *array, int &amount, long int &addingSpeed, long int 
 		}
 		case 1: { /*Поиск по значению*/
 			system("cls");
-			if (array == 0) {
+			if (array == 0)
 				cout << "Нет массива." << endl;
-			}
-			else if (amount == 0) {
+			else if (amount == 0)
 				cout << "В массиве нет элементов, нечего искать." << endl;
-			}
 			else {
-				cout << "Ваш массив:" << endl;
+				cout << "Ваш динамический массив:" << endl;
 				for (int i = 0; i < amount; ++i)
 					cout << i << ". " << array[i] << endl;
 				string input;
 				showConsoleCursor(true);
 				bool bad = 0;
-				int element = getElement(input, bad, 0);
+				int element = getElement(input, bad, 1);
 				showConsoleCursor(false);
 				int count = 0;
 				auto begin = chrono::steady_clock::now(); /*Начало отсчёта - сравнение с первым элементом массива*/
@@ -636,7 +630,7 @@ int* arrayAddFindErase(int *array, int &amount, long int &addingSpeed, long int 
 						}
 						else
 							cout << i << ". " << array[i] << endl;
-						if (i > positions[j])
+						if (i >= positions[j])
 							++j;
 					}
 					fallBack();
@@ -662,7 +656,7 @@ int* arrayAddFindErase(int *array, int &amount, long int &addingSpeed, long int 
 			else if (amount == 0)
 				cout << "В массиве нет элементов, нечего удалять." << endl;
 			else {
-				cout << "Ваш массив:" << endl;
+				cout << "Ваш динамический массив:" << endl;
 				for (int i = 0; i < amount; ++i)
 					cout << i << ". " << array[i] << endl;
 				cout << "Введите индекс удаляемого элемента (от 0 до " << amount - 1 << "): ";
@@ -710,7 +704,7 @@ int* arrayAddFindErase(int *array, int &amount, long int &addingSpeed, long int 
 			else if (amount == 0)
 				cout << "В массиве нет элементов." << endl;
 			else {
-				cout << "Ваш массив:" << endl;
+				cout << "Ваш динамический массив:" << endl;
 				for (int i = 0; i < amount; ++i)
 					cout << i << ". " << array[i] << endl;
 				int *temp = 0;
@@ -797,12 +791,10 @@ int* arrayAddFindErase(int *array, int &amount, long int &addingSpeed, long int 
 
 void addFindEraseSpeed(int *&array, dLL *& list, long int &addingArraySpeed, long int &searchArraySpeed, long int &erasingArraySpeed, long int &addingListSpeed, long int &searchListSpeed, long int &erasingListSpeed, bool type) {
 	if (type == 0) {
-		if (array == 0) {
+		if (array == 0)
 			cout << "Нет массива." << endl;
-		}
-		else if (addingArraySpeed == -1 && searchArraySpeed == -1 && erasingArraySpeed == -1) {
+		else if (addingArraySpeed == -1 && searchArraySpeed == -1 && erasingArraySpeed == -1)
 			cout << "В массив не добавлялся элемент. \nВ массиве не удалялся элемент. \nПоиск элемента не производился." << endl;
-		}
 		else {
 			if (addingArraySpeed == -1)
 				cout << "В массив не добавлялся элемент." << endl;
@@ -819,12 +811,10 @@ void addFindEraseSpeed(int *&array, dLL *& list, long int &addingArraySpeed, lon
 		}
 	}
 	else {
-		if (list == 0) {
+		if (list == 0)
 			cout << "Нет списка." << endl;
-		}
-		else if (addingListSpeed == -1 && searchListSpeed == -1 && erasingListSpeed == -1) {
+		else if (addingListSpeed == -1 && searchListSpeed == -1 && erasingListSpeed == -1)
 			cout << "В список не добавлялся элемент. \nВ списке не удалялся элемент. \nПоиск элемента не производился." << endl;
-		}
 		else {
 			if (addingListSpeed == -1)
 				cout << "В список не добавлялся элемент." << endl;
@@ -887,9 +877,9 @@ dLL*& initializeList(dLL *&list, int value, bool parameter) {
 	list->next = 0;
 	list->prev = 0;
 	return list;
-} /*Создание первого узла двусвязного списка*/
+} /*Создание узла двусвязного списка*/
 
-void deleteList(dLL **head, dLL *item, int &amount) {
+void deleteNode(dLL **head, dLL *item, int &amount) {
 	if (*head == 0 || item == 0)
 		return;
 	if (*head == item)
@@ -901,20 +891,7 @@ void deleteList(dLL **head, dLL *item, int &amount) {
 	free(item);
 	--amount;
 	return;
-} /*Удаление двусвязного списка*/
-
-void addAtEnd(dLL **head, int value, short parameter) {
-	dLL *temp = initializeList(temp, value, parameter);
-	if (*head == 0) {
-		*head = temp;
-		return;
-	}
-	dLL *travel = *head;
-	while (travel->next != 0)
-		travel = travel->next;
-	travel->next = temp;
-	temp->prev = travel;
-} /*Добавление узла в конец двусвязного списка*/
+} /*Удаление узла списка*/
 
 void addAtFront(dLL **head, int value, short parameter) {
 	dLL *temp = initializeList(temp, value, parameter);
@@ -927,6 +904,7 @@ void addAtFront(dLL **head, int value, short parameter) {
 	travel->prev = temp;
 	*head = temp;
 } /*Добавление узла в начало двусвязного списка*/
+  /*Работает быстрее, нежели добавление в конец: после 8 тестов на списке из 100 элементов среднее время было меньше на ~15000 наносекунд (84811 - 69853.625 = 14957.375)*/
 
 void displayList(dLL *head, int &amount, int index) {
 	if (amount == 0) {
@@ -950,8 +928,8 @@ void displayList(dLL *head, int &amount, int index) {
 void createList(dLL *&list, int &amount, long int &speed, short &method, int &amountCreated) {
 	short listOption = listMenu();
 	switch (listOption) {
-	case 0: {
-		deleteList(&list, list, amount);
+	case 0: { /*Генерация списка из N значений; N задаёт пользователь, значения заполняются автоматически от 0 до 99*/
+		deleteNode(&list, list, amount);
 		system("cls");
 		cout << "Введите размерность двусвязного списка: ";
 		showConsoleCursor(true);
@@ -960,7 +938,7 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 		auto begin = chrono::steady_clock::now();
 		list = initializeList(list, 0, 0);
 		for (int i = 1; i < amount; ++i)
-			addAtEnd(&list, 0, 0);
+			addAtFront(&list, 0, 0);
 		auto end = chrono::steady_clock::now();
 		speed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count());
 		method = 0;
@@ -968,16 +946,16 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 		displayList(list, amount, 0);
 		break;
 	}
-	case 1: {
+	case 1: { /*Создание списка из N значений, N определяется исходя из количества введённых элементов*/
 		system("cls");
-		cout << "Введите через пробел значения целочисленного двусвязного списка:" << endl;
+		cout << "Введите через пробел значения целочисленного двусвязного списка, после последнего введённого значения нажмите Enter:" << endl;
 		string input;
 		bool bad = 0;
 		showConsoleCursor(true);
 		getline(cin, input);
 		check(input, bad, 0);
 		if (bad == 0) {
-			deleteList(&list, list, amount);
+			deleteNode(&list, list, amount);
 			amount = 0;
 			unsigned int i = 0;
 			while (int(input[i]) != 0) {
@@ -988,14 +966,23 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 					break;
 				++i;
 			}
-			
+			string result;
+			size_t space = input.rfind(' ');
+			int j = amount - 1;
+			while (j >= 0) {
+				result.append(input.substr(space + 1, string::npos));
+				result.append(" ");
+				input = input.substr(0, space);
+				space = input.rfind(' ');
+				--j;
+			}
 			string::size_type size;
 			auto begin = chrono::steady_clock::now();
-			list = initializeList(list, stoi(input, &size), 1);
-			input = input.substr(size);
-			for (int i = 1; i < amount; ++i) {
-				addAtFront(&list, stoi(input, &size), 1);
-				input = input.substr(size);
+			list = initializeList(list, stoi(result, &size), 1);
+			result = result.substr(size);
+			for (int k = 1; k < amount; ++k) {
+				addAtFront(&list, stoi(result, &size), 1);
+				result = result.substr(size);
 			}
 			auto end = chrono::steady_clock::now();
 			speed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count());
@@ -1007,7 +994,7 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 			cout << "Двусвязный список не был создан." << endl;
 		break;
 	}
-	case 2: {
+	case 2: { /*Создание списка из N значений, N определяется исходя из количества элементов, находящихся в файле*/
 		system("cls");
 		amount = 0;
 		ifstream file("input.txt");
@@ -1019,7 +1006,7 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 			if (input.length() == 0)
 				bad = 1;
 			if (bad == 0) {
-				deleteList(&list, list, amount);
+				deleteNode(&list, list, amount);
 				file.seekg(0, ios::beg);
 				file.clear();
 				int temp;
@@ -1027,21 +1014,26 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 					file >> temp;
 					++amount;
 				}
-				file.seekg(0, ios::beg);
-				file.clear();
-				int i = 0, value;
-				auto begin = chrono::steady_clock::now();
-				while (i != 1) {
-					file >> value;
-					++i;
+				file.close();
+				string result;
+				size_t space = input.rfind(' ');
+				int j = amount - 1;
+				while (j >= 0) {
+					result.append(input.substr(space + 1, string::npos));
+					result.append(" ");
+					input = input.substr(0, space);
+					space = input.rfind(' ');
+					--j;
 				}
-				list = initializeList(list, value, 1);
-				while (!file.eof()) {
-					file >> value;
-					addAtEnd(&list, value, 1);
+				string::size_type size;
+				auto begin = chrono::steady_clock::now();
+				list = initializeList(list, stoi(result, &size), 1);
+				result = result.substr(size);
+				for (int k = 1; k < amount; ++k) {
+					addAtFront(&list, stoi(result, &size), 1);
+					result = result.substr(size);
 				}
 				auto end = chrono::steady_clock::now();
-				file.close();
 				speed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count());
 				amountCreated = amount;
 				method = 2;
@@ -1050,9 +1042,8 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 			else
 				cout << "Двусвязный список не был создан. Проверьте содержание файла input.txt.";
 		}
-		else {
+		else
 			cout << "Файл с именем 'input.txt' не найден." << endl << endl;
-		}
 		break;
 	}
 	case 3: {
@@ -1064,13 +1055,362 @@ void createList(dLL *&list, int &amount, long int &speed, short &method, int &am
 	return;
 } /*Создание двусвязного списка*/
 
+void insertAtPosition(dLL **list, int value, int index) {
+	dLL *temp = initializeList(temp, value, 1);
+	dLL *travel = *list;
+	int i = 0;
+	while (i != index) {
+		travel = travel->next;
+		++i;
+	}
+	if (travel != *list) {
+		temp->next = travel;
+		temp->prev = travel->prev;
+		travel->prev->next = temp;
+		travel->prev = temp;
+		return;
+	}
+	else {
+		travel->prev = temp;
+		temp->next = travel;
+		*list = temp;
+		return;
+	}
+} /*Вставка элемента в список на определённую позицию*/
+
+void listAddFindErase(dLL *&list, int &amount, long int &addingSpeed, long int &searchSpeed, long int &erasingSpeed) {
+	short option = valuesManipulationMenu();
+	switch (option) {
+	case 0: { /*Добавление элемента*/
+		system("cls");
+		if (list == 0) /*Проверяем список на созданность, а не на количество элементов в нём*/
+			cout << "Нет списка." << endl;
+		else {
+			if (amount != 0)
+				displayList(list, amount, 0);
+			string input;
+			bool bad = 0;
+			showConsoleCursor(true);
+			int element = getElement(input, bad, 2), index;
+			if (amount != 0) {
+				cout << "Введите индекс для нового элемента (от 0 до " << amount - 1 << "): ";
+				index = getIndex(amount);
+			}
+			else
+				index = 0;
+			showConsoleCursor(false);
+			++amount;
+			auto begin = chrono::steady_clock::now(); /*Начало отсчёта - создание элемента*/
+			insertAtPosition(&list, element, index);
+			auto end = chrono::steady_clock::now(); /*Конец отсчёта - установка в правильном порядке всех указателей*/
+			addingSpeed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count()); /*Скорость - время, затраченное на добавление элемента*/
+			cout << "Ваш двусвязный список:" << endl;
+			for (int i = 0; i < amount; ++i) {
+				if (i == index) {
+					SetConsoleTextAttribute(textColour, 10);
+					cout << i << ". " << list->data << endl;
+					SetConsoleTextAttribute(textColour, 7);
+				}
+				else
+					cout << i << ". " << list->data << endl;
+				if (list->next == 0)
+					break;
+				list = list->next;
+			}
+			int i = amount - 1;
+			while (i != 0) {
+				list = list->prev;
+				--i;
+			}
+			fallBack();
+			return;
+		}
+		break;
+	}
+	case 1: { /*Поиск элемента*/
+		short findOption = findEraseMenu(0);
+		switch (findOption) {
+		case 0: { /*Поиск элемента по индексу*/
+			system("cls");
+			if (list == 0) /*Проверяем список на созданность, а не на количество элементов в нём*/
+				cout << "Нет списка." << endl;
+			else if (amount == 0) /*Проверяем список на количество элементов*/
+				cout << "В списке нет элементов." << endl;
+			else {
+				displayList(list, amount, 0);
+				cout << "Введите индекс искомого элемента (от 0 до " << amount - 1 << "): ";
+				showConsoleCursor(true);
+				int index = getIndex(amount);
+				showConsoleCursor(false);
+				cout << "Ваш элемент: ";
+				SetConsoleTextAttribute(textColour, 11);
+				auto begin = chrono::steady_clock::now();
+				for (int i = 0; i < amount; ++i) {
+					if (i == index) {
+						cout << list->data << endl;
+						break;
+					}
+					list = list->next;
+				}
+				auto end = chrono::steady_clock::now();
+				SetConsoleTextAttribute(textColour, 7);
+				cout << endl;
+				while (list->prev != 0)
+					list = list->prev;
+				cout << "Ваш двусвязный список:" << endl;
+				for (int i = 0; i < amount; ++i) {
+					if (i == index) {
+						SetConsoleTextAttribute(textColour, 11);
+						cout << i << ". " << list->data << endl;
+						SetConsoleTextAttribute(textColour, 7);
+					}
+					else
+						cout << i << ". " << list->data << endl;
+					if (list->next == 0)
+						break;
+					list = list->next;
+				}
+				searchSpeed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count());
+				while (list->prev != 0)
+					list = list->prev;
+				fallBack();
+				return;
+			}
+			break;
+		}
+		case 1: { /*Поиск элемента по значению*/
+			system("cls");
+			if (list == 0) /*Проверяем список на созданность, а не на количество элементов в нём*/
+				cout << "Нет списка." << endl;
+			else if (amount == 0) /*Проверяем список на количество элементов*/
+				cout << "В списке нет элементов." << endl;
+			else {
+				displayList(list, amount, 0);
+				string input;
+				showConsoleCursor(true);
+				bool bad = 0;
+				int element = getElement(input, bad, 1);
+				showConsoleCursor(false);
+				int count = 0;
+				auto begin = chrono::steady_clock::now();
+				for (int i = 0; i < amount; ++i) {
+					if (list->data == element)
+						++count;
+					if (list->next == 0)
+						break;
+					list = list->next;
+				}
+				auto end = chrono::steady_clock::now();
+				searchSpeed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count());
+				while (list->prev != 0)
+					list = list->prev;
+				if (count == 0) {
+					cout << "В списке нет таких элементов." << endl;
+					fallBack();
+					return;
+				}
+				else {
+					int *positions = 0;
+					positions = new int[count];
+					for (int i = 0, j = 0; i < amount; ++i) {
+						if (list->data == element) {
+							positions[j] = i;
+							++j;
+						}
+						if (list->next == 0)
+							break;
+						list = list->next;
+					}
+					while (list->prev != 0)
+						list = list->prev;
+					cout << "Ваш двусвязный список:" << endl;
+					for (int i = 0, j = 0; i < amount; ++i) {
+						if (i == positions[j]) {
+							SetConsoleTextAttribute(textColour, 11);
+							cout << i << ". " << list->data << endl;
+							SetConsoleTextAttribute(textColour, 7);
+						}
+						else
+							cout << i << ". " << list->data << endl;
+						if (i >= positions[j])
+							++j;
+						if (list->next == 0)
+							break;
+						list = list->next;
+					}
+					while (list->prev != 0)
+						list = list->prev;
+				}
+				fallBack();
+				return;
+			}
+			break;
+		}
+		case 2: {
+			return;
+			break;
+		}
+		}
+		break;
+	}
+	case 2: { /*Удаление элемента*/
+		short eraseOption = findEraseMenu(1);
+		switch (eraseOption) {
+		case 0: { /*Удаление элемента по индексу*/
+			system("cls");
+			if (list == 0) /*Проверяем список на созданность, а не на количество элементов в нём*/
+				cout << "Нет списка." << endl;
+			else if (amount == 0) /*Проверяем список на количество элементов*/
+				cout << "В списке нет элементов." << endl;
+			else {
+				displayList(list, amount, 0);
+				cout << "Введите индекс удаляемого элемента (от 0 до " << amount - 1 << "): ";
+				showConsoleCursor(true);
+				int index = getIndex(amount);
+				showConsoleCursor(false);
+				auto begin = chrono::steady_clock::now();
+				for (int i = 0; i < amount; ++i) {
+					if (i == index) {
+						deleteNode(&list, list, amount);
+						break;
+					}
+					if (list->next == 0)
+						break;
+					list = list->next;
+				}
+				auto end = chrono::steady_clock::now();
+				erasingSpeed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count());
+				while (list->prev != 0)
+					list = list->prev;
+				if (amount == 0)
+					cout << "В списке не осталось элементов.";
+				else {
+					cout << "Ваш двусвязный список:" << endl;
+					for (int i = 0; i < amount; ++i) {
+						if (i == index || i == index - 1) {
+							SetConsoleTextAttribute(textColour, 12);
+							cout << i << ". " << list->data << endl;
+							SetConsoleTextAttribute(textColour, 7);
+						}
+						else
+							cout << i << ". " << list->data << endl;
+						if (list->next == 0)
+							break;
+						list = list->next;
+					}
+				}
+				while (list->prev != 0)
+					list = list->prev;
+				fallBack();
+				return;
+			}
+			break;
+		}
+		case 1: { /*Поиск элемента по значению*/
+			system("cls");
+			if (list == 0)/*Проверяем список на созданность, а не на количество элементов в нём*/
+				cout << "Нет списка." << endl;
+			else if (amount == 0)/*Проверяем список на количество элементов*/
+				cout << "В списке нет элементов." << endl;
+			else {
+				displayList(list, amount, 0);
+				string input;
+				showConsoleCursor(true);
+				bool bad = 0;
+				int element = getElement(input, bad, 0);
+				showConsoleCursor(false);
+				int count = 0;
+				for (int i = 0; i < amount; ++i) {
+					if (list->data == element)
+						++count;
+					if (list->next == 0)
+						break;
+					list = list->next;
+				}
+				while (list->prev != 0)
+					list = list->prev;
+				if (count == 0) {
+					cout << "В списке нет таких элементов." << endl;
+					fallBack();
+					return;
+				}
+				else {
+					int *positions = 0;
+					positions = new int[count];
+					for (int i = 0, j = 0; i < amount; ++i) {
+						if (list->data == element) {
+							positions[j] = i;
+							++j;
+						}
+						if (list->next == 0)
+							break;
+						list = list->next;
+					}
+					while (list->prev != 0)
+						list = list->prev;
+					auto begin = chrono::steady_clock::now();
+					for (int i = 0; i < amount; ++i) {
+						if (list->data == element) {
+							deleteNode(&list, list, amount);
+							list = list->prev;
+						}
+						if (list->next == 0)
+							break;
+						list = list->next;
+					}
+					auto end = chrono::steady_clock::now();
+					erasingSpeed = static_cast<long int>(chrono::duration_cast<chrono::nanoseconds>(end - begin).count());
+					while (list->prev != 0)
+						list = list->prev;
+					if (amount == 0)
+						cout << "В массиве не осталось элементов.";
+					else {
+						cout << endl << "Ваш двусвязный список:" << endl;
+						for (int d = 0, j = 0; d < amount; ++d) {
+							if (d == positions[j] || d == positions[j] - 1) {
+								SetConsoleTextAttribute(textColour, 12);
+								cout << d << ". " << list->data << endl;
+								SetConsoleTextAttribute(textColour, 7);
+							}
+							else
+								cout << d << ". " << list->data << endl;
+							if (d > positions[j])
+								++j;
+							if (list->next == 0)
+								break;
+							list = list->next;
+						}
+					}
+					while (list->prev != 0)
+						list = list->prev;
+				}
+				fallBack();
+				return;
+			}
+			break;
+		}
+		case 2: {
+			return;
+			break;
+		}	
+        }
+		break;
+    }
+    case 3: {
+		return;
+		break;
+	}
+	}
+	fallBack();
+}
+
 void oddEven(int *array, dLL *list, int &arrayAmount, int &listAmount) {
 	if (array == 0)
 		cout << "Нужно создать динамический массив.";
 	else if (list == 0)
 		cout << "Нужно создать двусвязный список.";
-	else if (arrayAmount != listAmount)
-		cout << "Нужно, чтобы количество элементов в двусвязном списке и динамическом массиве совпадали.";
+	else if (arrayAmount != listAmount || arrayAmount == 0)
+		cout << "Нужно, чтобы количество элементов в двусвязном списке и динамическом массиве совпадали, и не были равны нулю.";
 	else {
 		int amountOddArray = 0, amountEvenArray = 0, amountOddList = 0, amountEvenList = 0;
 		long int speedArray, speedList;

@@ -36,7 +36,7 @@ int main() {
 			break;
 		}
 		case 6: {
-			/*add/search/delete*/
+			listAddFindErase(list, amountList, addListSpeed, searchListSpeed, eraseListSpeed);
 			break;
 		}
 		case 7: {
@@ -54,11 +54,6 @@ int main() {
 		}
 	}
 	delete[] array;
+	deleteNode(&list, list, amountList);
 	return 0;
 }
-
-/*
-6) Создание списка (вручную, с файла)!! (Почему так долго?)
-7) Вставка, удаление и получение элемента двусвязного списка. Удаление и получение элемента необходимо реализовать по индексу и по значению.
-9) Почему массив быстрее?
-*/
