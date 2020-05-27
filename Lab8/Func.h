@@ -1131,7 +1131,7 @@ void evaluate(stack <double> resultStack, vector <double> resultVector,  string 
 			if (isdigit(input[i])) { //Добавление чисел в стек
 				int number = 0, power = 0;
 				while (isdigit(input[i])) {
-					number = number + static_cast<int>((input[i] - '0')) * pow(10, power);
+					number += (input[i] - '0') * pow(10, power);
 					++power;
 					--i;
 				}
@@ -1159,7 +1159,7 @@ void evaluate(stack <double> resultStack, vector <double> resultVector,  string 
 			if (isdigit(input[i])) { //Добавление чисел в стек
 				int number = 0, power = 0;
 				while (isdigit(input[i])) {
-					number = number + static_cast<int>((input[i] - '0')) * pow(10, power);
+					number += (input[i] - '0') * pow(10, power);
 					++power;
 					--i;
 				}
@@ -1226,7 +1226,7 @@ void evaluate(stack <double> resultStack, vector <double> resultVector,  string 
 			if (isdigit(input[i])) { //Добавление чисел в стек
 				int number = 0;
 				while (isdigit(input[i])) {
-					number = number * 10 + (int)(input[i] - '0');
+					number = number * 10 + (input[i] - '0');
 					++i;
 				}
 				--i;
@@ -1236,7 +1236,7 @@ void evaluate(stack <double> resultStack, vector <double> resultVector,  string 
 				++i;
 				int number = 0;
 				while (isdigit(input[i])) {
-					number = number * 10 + (int)(input[i] - '0');
+					number = number * 10 + (input[i] - '0');
 					++i;
 				}
 				--i;
