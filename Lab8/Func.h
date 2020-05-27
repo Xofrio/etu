@@ -1129,9 +1129,10 @@ void evaluate(stack <double> resultStack, vector <double> resultVector,  string 
 		auto begin = chrono::steady_clock::now();
 		for (unsigned int i = input.length() - 1; i >= 0; --i) { //Вычисление с помощью стека
 			if (isdigit(input[i])) { //Добавление чисел в стек
-				int number = 0;
+				int number = 0, power = 0;
 				while (isdigit(input[i])) {
-					number = number * 10 + (int)(input[i] - '0');
+					number = number + static_cast<int>((input[i] - '0')) * pow(10, power);
+					++power;
 					--i;
 				}
 				if (input[i] == '-') { //Добавление отрицательных чисел в стек
@@ -1156,9 +1157,10 @@ void evaluate(stack <double> resultStack, vector <double> resultVector,  string 
 		auto start = chrono::steady_clock::now();
 		for (unsigned int i = input.length() - 1; i >= 0; --i) { //Вычисление с помощью массива
 			if (isdigit(input[i])) { //Добавление чисел в стек
-				int number = 0;
+				int number = 0, power = 0;
 				while (isdigit(input[i])) {
-					number = number * 10 + (int)(input[i] - '0');
+					number = number + static_cast<int>((input[i] - '0')) * pow(10, power);
+					++power;
 					--i;
 				}
 				if (input[i] == '-') { //Добавление отрицательных чисел в стек
